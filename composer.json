@@ -1,7 +1,7 @@
 {
-    "name": "samwilson/archive-index-gen",
-    "description": "A thing.",
-    "license": "MIT",
+    "name": "samwilson/hardy",
+    "description": "A static site generator.",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "App\\": "src/"
