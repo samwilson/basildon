@@ -1,0 +1,5 @@
+---
+title: News feed
+description: Latest news from this site.
+template: rss
+---

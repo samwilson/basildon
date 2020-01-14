@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.title }}</title>
+    <link rel="stylesheet" href="{{ page.link('/assets/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ page.link('/assets/style.css') }}" />
+</head>
+<body>
+    <header class="container">
+        <h1>{{ site.title }}</h1>
+        <nav>
+            <a href="{{ page.link('index', 'html') }}">Home</a>
+        </nav>
+    </header>
+    <main class="container">
+        {% block main %}
+            <h2>{% if page.title is defined %}{{ page.title }}{% else %}Untitled{% endif %}</h2>
+            <dl class="">
+                {% for key, value in page.metadata %}
+                    <dt>{{ key }}</dt>
+                    <dd>{{ value }}</dd>
+                {% endfor %}
+            </dl>
+            {{ page.body }}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>
+            This page in other formats:
+            <a href="{{ page.link(page.id~'.tex') }}">LaTeX</a>
+            <a href="{{ page.link(page.id~'.pdf') }}">PDF</a>
+        </p>
+    </footer>
+    <script src="{{ page.link('/assets/bootstrap.min.js') }}"></script>
+</body>
+</html>

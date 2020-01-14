@@ -1,0 +1,6 @@
+---
+title: The title
+tags: one, two
+---
+
+The body text.
