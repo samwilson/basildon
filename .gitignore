@@ -1,4 +1,5 @@
 vendor/
+example/output/
 .idea/
 .phpunit.result.cache
 

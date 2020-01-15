@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use FilesystemIterator;
@@ -10,16 +12,18 @@ use Symfony\Component\Finder\Finder;
 class Site
 {
 
+    /** @var string */
     protected $dir;
 
+    /** @var Page[] */
     protected $pages;
 
-    public function __construct($dir)
+    public function __construct(string $dir)
     {
         $this->dir = $dir;
     }
 
-    public function getDir()
+    public function getDir(): string
     {
         return $this->dir;
     }
@@ -27,12 +31,12 @@ class Site
     /**
      * @return Page[]
      */
-    public function getPages()
+    public function getPages(): array
     {
         if ($this->pages) {
             return $this->pages;
         }
-        $finder = new Finder();
+        $finder = new Finder;
         $finder->files()
             ->in($this->getDir() . '/content')
             ->name('*.txt');
@@ -46,27 +50,28 @@ class Site
         return $this->pages;
     }
 
-    public function getTemplate($name)
+    public function getTemplate(string $name): Template
     {
         return new Template($this, $name);
     }
 
-    protected function getConfig()
+    protected function getConfig(): object
     {
-        $config = json_decode(file_get_contents($this->dir . '/config.json'));
-        return $config;
+        return json_decode(file_get_contents($this->dir . '/config.json'));
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         $config = $this->getConfig();
         return $config->title;
     }
 
     /**
+     * Delete the output directory.
+     *
      * @link https://stackoverflow.com/a/7288067/99667
      */
-    public function cleanOutput()
+    public function cleanOutput(): void
     {
         $outDir = $this->getDir() . '/output';
         if (!is_dir($outDir)) {

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="App">
+    <rule ref="./vendor/roslov/psr12ext/PSR12Ext/ruleset.xml">
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceBetweenOpenTagAndDeclare" />
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectStrictTypesFormat" />
+    </rule>
+    <file>.</file>
+    <exclude-pattern>.phpunit/</exclude-pattern>
+    <exclude-pattern>vendor/</exclude-pattern>
+    <exclude-pattern>*.min.*</exclude-pattern>
+</ruleset>

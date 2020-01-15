@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+declare(strict_types=1);
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Process\Process;
+namespace App;
 
 class Page
 {
@@ -25,28 +24,31 @@ class Page
 
     /**
      * Get the Site to which this Page belongs.
+     *
      * @return Site
      */
-    public function getSite()
+    public function getSite(): Site
     {
         return $this->site;
     }
 
     /**
      * Page ID. Always starts with a slash.
+     *
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * Get a relative link from this page to another.
+     *
      * @param string $targetId The ID of the target page.
      * @return string
      */
-    public function getLink(string $targetId)
+    public function getLink(string $targetId): string
     {
         // Make sure the target starts with a slash.
         if (substr($targetId, 0, 1) !== '/') {
@@ -70,53 +72,16 @@ class Page
     }
 
     /**
-     * @return string[]
-     */
-//  public function getFormats() {
-//      $finder = new Finder();
-//      $finder->files()
-//          ->in($this->site->getDir().'/templates')
-//          ->name( $this->getTemplate().'*.twig' );
-//      $formats = [];
-//      foreach ( $finder as $file ) {
-//          preg_match('/^.*\.(.*)\.twig$/', $file->getFilename(), $matches);
-//          $formats[] = $matches[1];
-//      }
-//      return $formats;
-//  }
-
-    /**
      * Get the template's name, without format name or twig file extension.
+     *
      * @return string
      */
-    public function getTemplateName()
+    public function getTemplateName(): string
     {
-//      $metadata = $this->getMetadata();
-//      $template = new Template($this->getSite(), $metadata['template']);
-//      return $template;
         return $this->getMetadata()['template'];
-        //return pathinfo($this->getTemplate(), PATHINFO_EXTENSION);
     }
 
-//  public function render() {
-//      $renderedTemplate = $twig->render($page->getTemplate().".$format.twig", [
-//          'database' => $db,
-//          'site' => $site,
-//          'page' => $page,
-//      ]);
-//      $outFile = $dir.'/output/'.$page->getId().'.'.$format;
-//      if (!is_dir(dirname($outFile))) {
-//          mkdir(dirname($outFile), 0755, true);
-//      }
-//      file_put_contents($outFile, $renderedTemplate);
-//
-//      // Post-process tex files to PDF.
-//      if ($format === 'tex') {
-//          $process = new Process( [  ] );
-//      }
-//  }
-
-    protected function getContents()
+    protected function getContents(): string
     {
         if ($this->contents) {
             return $this->contents;
@@ -127,9 +92,10 @@ class Page
 
     /**
      * Get a file's metadata.
+     *
      * @return string[]
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         $contents = $this->getContents();
         preg_match("/---\n(.*)\n---/ms", $contents, $matches);
@@ -147,7 +113,7 @@ class Page
         return $metadata;
     }
 
-    public function getBody()
+    public function getBody(): string
     {
         $contents = $this->getContents();
         preg_match("/---\n.*\n---\n(.*)/ms", $contents, $matches);

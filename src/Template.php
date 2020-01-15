@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Symfony\Component\Finder\Finder;
@@ -26,18 +28,26 @@ class Template
         $this->name = $name;
     }
 
-    protected function getTwig()
+    /**
+     * Get the Twig Environment.
+     *
+     * @return Environment
+     */
+    protected function getTwig(): Environment
     {
-        $loader = new FilesystemLoader();
+        $loader = new FilesystemLoader;
         $loader->addPath($this->site->getDir() . '/templates');
         $twig = new Environment($loader, ['debug' => true, 'strict_variables' => true]);
-        $twig->addExtension(new DebugExtension());
+        $twig->addExtension(new DebugExtension);
         return $twig;
     }
 
-    public function getFormats()
+    /**
+     * @return string[]
+     */
+    public function getFormats(): array
     {
-        $finder = new Finder();
+        $finder = new Finder;
         $finder->files()
             ->in($this->site->getDir() . '/templates')
             ->name($this->name . '*.twig');
@@ -49,7 +59,7 @@ class Template
         return $formats;
     }
 
-    public function render(Page $page, Database $db)
+    public function render(Page $page, Database $db): void
     {
         foreach ($this->getFormats() as $format) {
             $renderedTemplate = $this->getTwig()->render($this->name . ".$format.twig", [
@@ -62,11 +72,6 @@ class Template
                 mkdir(dirname($outFile), 0755, true);
             }
             file_put_contents($outFile, $renderedTemplate);
-
-            // Post-process tex files to PDF.
-            if ($format === 'tex') {
-                $process = new Process([  ]);
-            }
         }
     }
 }

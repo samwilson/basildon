@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Symfony\Component\Console\Command\Command;
@@ -11,7 +13,7 @@ use Symfony\Component\Finder\Finder;
 class Build extends Command
 {
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this->setName('build');
@@ -31,7 +33,7 @@ class Build extends Command
         $site->cleanOutput();
 
         // First gather all data.
-        $db = new Database();
+        $db = new Database;
         $db->processSite($site);
 
         // Render all pages.
@@ -41,7 +43,7 @@ class Build extends Command
         }
 
         // Copy all assets.
-        $assets = new Finder();
+        $assets = new Finder;
         $assets->files()
             ->in($dir . '/assets')
             ->name('/.*\.(css|js|jpg|png|gif)/');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Test;
 
 use App\Page;
@@ -9,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class PageTest extends TestCase
 {
 
-    public function testGetMetadata()
+    public function testGetMetadata(): void
     {
         $site = new Site(__DIR__ . '/test_site');
         $file = new Page($site, '/simple');
@@ -18,7 +20,7 @@ class PageTest extends TestCase
         static::assertEquals('The body text.', $file->getBody());
     }
 
-    public function testGetLink()
+    public function testGetLink(): void
     {
         $site = new Site(__DIR__ . '/test_site');
 

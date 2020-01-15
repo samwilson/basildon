@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use PDO;
@@ -17,7 +19,7 @@ class Database
         self::$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }
 
-    public function processSite(Site $site)
+    public function processSite(Site $site): void
     {
         // Get the metadata key names.
         $keys = [ 'id', 'body' ];
@@ -49,7 +51,10 @@ class Database
         }
     }
 
-    public function query($sql)
+    /**
+     * @return mixed[]
+     */
+    public function query(string $sql): array
     {
         return self::$pdo->query($sql)->fetchAll();
     }

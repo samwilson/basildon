@@ -31,7 +31,7 @@
         "test": [
             "composer validate",
             "parallel-lint . --exclude node_modules --exclude vendor",
-            "phpcs --extensions=php --standard=PSR12 src/ bin/ tests/",
+            "phpcs -s",
             "phpunit"
         ]
     }
