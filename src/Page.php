@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use Symfony\Component\Yaml\Yaml;
+
 class Page
 {
 
@@ -99,18 +101,12 @@ class Page
     {
         $contents = $this->getContents();
         preg_match("/---\n(.*)\n---/ms", $contents, $matches);
-        $metadata = [];
+        $defaultMetadata = ['template' => 'index'];
         if (!isset($matches[1])) {
-            return $metadata;
+            return $defaultMetadata;
         }
-        foreach (explode("\n", $matches[1]) as $line) {
-            $datum = array_map('trim', array_filter(explode(':', $line)));
-            $metadata[$datum[0]] = $datum[1];
-        }
-        if (!isset($metadata['template'])) {
-            $metadata['template'] = 'index';
-        }
-        return $metadata;
+        $parsedMetadata = Yaml::parse($matches[1], Yaml::PARSE_DATETIME);
+        return array_merge($defaultMetadata, $parsedMetadata);
     }
 
     public function getBody(): string

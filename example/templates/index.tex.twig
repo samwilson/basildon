@@ -1,7 +1,20 @@
 \documentclass[a4paper]{article}
 
-\title{ {{ page.metadata.title }} }
-\date{ {{ page.metadata.date }} }
+\title{ {% if page.metadata.title is defined %}{{ page.metadata.title }}{% else %}Untitled{% endif %} }
+
+{% if page.metadata.date is defined %}
+\date{
+    {% if instanceof(page.metadata.date, 'DateTime') %}
+        {{ page.metadata.date.format('c') }}
+    {% else %}
+        {{ page.metadata.date }}
+    {% endif %}
+}
+{% endif %}
+
+{% if page.metadata.author is defined %}
+\date{ {{ page.metadata.author }} }
+{% endif %}
 
 \begin{document}
     \maketitle

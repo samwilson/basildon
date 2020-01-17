@@ -20,7 +20,19 @@
             <dl class="">
                 {% for key, value in page.metadata %}
                     <dt>{{ key }}</dt>
-                    <dd>{{ value }}</dd>
+                    <dd>
+                        {% if instanceof(value, 'DateTime') %}
+                            {{ value.format('c') }}
+                        {% elseif value is iterable %}
+                            <ul>
+                                {% for v in value %}
+                                    <li>{{ v }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </dd>
                 {% endfor %}
             </dl>
             {{ page.body }}

@@ -9,6 +9,7 @@ use Symfony\Component\Process\Process;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFunction;
 
 /**
  * A Template belongs to a Site and can be used to render Pages to various formats.
@@ -39,6 +40,9 @@ class Template
         $loader->addPath($this->site->getDir() . '/templates');
         $twig = new Environment($loader, ['debug' => true, 'strict_variables' => true]);
         $twig->addExtension(new DebugExtension);
+        $twig->addFunction(new TwigFunction('instanceof', static function ($a, $b) {
+            return $a instanceof $b;
+        }));
         return $twig;
     }
 
