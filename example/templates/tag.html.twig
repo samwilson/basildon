@@ -1,0 +1,15 @@
+{% extends 'index.html.twig' %}
+
+{% block main %}
+
+    <h2>{{ page.metadata.title }}</h2>
+
+    {{ page.body }}
+
+    <ol>
+        {% for p in database.query('SELECT * FROM pages WHERE id LIKE "'~page.id~'"') %}
+            <li><a href="{{ page.link(p.id) }}.html">{{ p.title }}</a></li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

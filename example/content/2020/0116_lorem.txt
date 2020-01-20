@@ -1,0 +1,10 @@
+---
+title: Lorem
+date: 2020-01-17 12:34:56
+tags:
+  - ipsum
+  - lorem-ipsum
+  - goats
+---
+
+This is a second post in January.

@@ -1,0 +1,7 @@
+---
+title: Goats
+wikidata: Q123456789
+template: tag
+---
+
+Goats are a good example animal.

@@ -7,9 +7,9 @@
     {{ page.body }}
 
     <ol>
-    {% for p in database.query('select * from pages order by date desc limit 10') %}
+    {% for p in database.query('SELECT * FROM pages WHERE date IS NOT NULL ORDER BY date DESC LIMIT 10') %}
         <li>
-            <h3><a href="{{ page.link(p.id) }}">{{ p.title }}</a> {{ p.date }}</h3>
+            <h3><a href="{{ page.link(p.id) }}.html">{{ p.title }}</a> {{ p.date|date('D J M') }}</h3>
             {{ p.body }}
         </li>
     {% endfor %}

@@ -1,0 +1,15 @@
+{% extends 'index.html.twig' %}
+
+{% block main %}
+
+    <h2>{{ page.metadata.title }}</h2>
+
+    {{ page.body }}
+
+    <ol>
+        {% for p in database.query('SELECT * FROM pages WHERE id IN (SELECT "/tags/"||j.value FROM pages p, json_each(p.tags) j)') %}
+            <li><a href="{{ page.link(p.id) }}.html">{{ p.title }}</a></li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

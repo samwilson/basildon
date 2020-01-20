@@ -1,0 +1,8 @@
+---
+title: NYE 2020, a new decade?
+date: 2020-01-01 00:00:01
+tags:
+  - New Years' Eve
+---
+
+This is the first post in January.
