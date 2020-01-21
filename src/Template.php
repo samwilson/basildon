@@ -71,11 +71,31 @@ class Template
                 'site' => $page->getSite(),
                 'page' => $page,
             ]);
-            $outFile = $page->getSite()->getDir() . '/output' . $page->getId() . '.' . $format;
-            if (!is_dir(dirname($outFile))) {
-                mkdir(dirname($outFile), 0755, true);
+            $outFileBase = $page->getSite()->getDir() . '/output' . $page->getId();
+
+            if ($format === 'tex') {
+                // Save tex source file.
+                $texOutFile = $page->getSite()->getDir() . '/tex' . $page->getId();
+                $this->mkdir(dirname($texOutFile));
+                file_put_contents($texOutFile, $renderedTemplate);
+                // Generate PDF.
+                $process = new Process(['pdflatex', '-output-directory', dirname($texOutFile), $texOutFile]);
+                $process->mustRun();
+                // Copy PDF to output directory.
+                copy($page->getSite()->getDir() . '/tmp' . $page->getId() . '.pdf', $outFileBase . '.pdf');
+            } else {
+                // Save rendered template to output directory.
+                $outFile = $outFileBase . '.' . $format;
+                $this->mkdir(dirname($outFile));
+                file_put_contents($outFile, $renderedTemplate);
             }
-            file_put_contents($outFile, $renderedTemplate);
+        }
+    }
+
+    protected function mkdir(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
         }
     }
 }
