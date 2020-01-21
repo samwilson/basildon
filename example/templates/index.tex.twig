@@ -5,7 +5,7 @@
 {% if page.metadata.date is defined %}
 \date{
     {% if instanceof(page.metadata.date, 'DateTime') %}
-        {{ page.metadata.date.format('c') }}
+        {{ page.metadata.date.format('j F Y') }}
     {% else %}
         {{ page.metadata.date }}
     {% endif %}
@@ -13,12 +13,12 @@
 {% endif %}
 
 {% if page.metadata.author is defined %}
-\date{ {{ page.metadata.author }} }
+\author{ {{ page.metadata.author }} }
 {% endif %}
 
 \begin{document}
     \maketitle
 
-    {{ page.body }}
+    {{ page.body|md2latex }}
 
 \end{document}

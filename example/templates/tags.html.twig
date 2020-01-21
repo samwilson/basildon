@@ -4,7 +4,7 @@
 
     <h2>{{ page.metadata.title }}</h2>
 
-    {{ page.body }}
+    {{ page.body|md2html|raw }}
 
     <ol>
         {% for p in database.query('SELECT * FROM pages WHERE id IN (SELECT "/tags/"||j.value FROM pages p, json_each(p.tags) j)') %}

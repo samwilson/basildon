@@ -7,3 +7,5 @@ tags:
 ---
 
 This is a third post in January.
+
+It has *some emphasised* text.

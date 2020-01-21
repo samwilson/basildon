@@ -33,7 +33,8 @@ class Build extends Command
         $site = new Site($dir);
 
         // Clean output.
-        $site->cleanOutput();
+        Util::rmdir($site->getDir() . '/output');
+        Util::rmdir($site->getDir() . '/tex');
 
         // First gather all data.
         $db = new Database;
@@ -58,9 +59,7 @@ class Build extends Command
                 ->in($dir . '/assets')
                 ->name('/.*\.(css|js|jpg|png|gif)/');
             $assetsOutputDir = $dir . '/output/assets';
-            if (!is_dir($assetsOutputDir)) {
-                mkdir($assetsOutputDir);
-            }
+            Util::mkdir($assetsOutputDir);
             foreach ($assets as $asset) {
                 $output->writeln('Asset: ' . $asset->getFilename());
                 copy($asset->getRealPath(), $assetsOutputDir . '/' . $asset->getFilename());

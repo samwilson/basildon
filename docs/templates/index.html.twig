@@ -12,7 +12,7 @@
     <p>{{page.metadata.subtitle}}</p>
 </header>
 <main>
-    {{ page.body }}
+    {{page.body|md2html|raw}}
 </main>
 <footer>
     <ul>

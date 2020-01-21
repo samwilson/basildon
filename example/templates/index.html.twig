@@ -38,7 +38,7 @@
                     </dd>
                 {% endfor %}
             </dl>
-            {{ page.body }}
+            {{ page.body|md2html|raw }}
         {% endblock %}
     </main>
     <footer>

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App;
 
+use cebe\markdown\latex\Markdown as LatexMarkdown;
 use Exception;
+use Parsedown;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
@@ -43,6 +46,12 @@ class Template
         $twig->addExtension(new DebugExtension);
         $twig->addFunction(new TwigFunction('instanceof', static function ($a, $b) {
             return $a instanceof $b;
+        }));
+        $twig->addFilter(new TwigFilter('md2html', static function ($in) {
+            return (new Parsedown)->text($in);
+        }));
+        $twig->addFilter(new TwigFilter('md2latex', static function ($in) {
+            return (new LatexMarkdown)->parse($in);
         }));
         return $twig;
     }
@@ -88,7 +97,7 @@ class Template
                 // Save tex source file.
                 $texOutFileBase = $page->getSite()->getDir() . '/tex' . $page->getId();
                 $texOutFile = $texOutFileBase . '.tex';
-                $this->mkdir(dirname($texOutFile));
+                Util::mkdir(dirname($texOutFile));
                 file_put_contents($texOutFile, $renderedTemplate);
                 // Generate PDF.
                 $process = new Process(['pdflatex', '-output-directory', dirname($texOutFile), $texOutFile]);
@@ -98,16 +107,9 @@ class Template
             } else {
                 // Save rendered template to output directory.
                 $outFile = $outFileBase . '.' . $format;
-                $this->mkdir(dirname($outFile));
+                Util::mkdir(dirname($outFile));
                 file_put_contents($outFile, $renderedTemplate);
             }
-        }
-    }
-
-    protected function mkdir(string $dir): void
-    {
-        if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
         }
     }
 }

@@ -78,41 +78,23 @@ class Site
     }
 
     /**
-     * Get the filename extension used for content pages, as defined in the site config key 'ext'.
+     * Get the filename extension used for content pages (inlcuding leading dot).
+     * Will use what's defined in the site config key 'ext', or default to '.md'.
      *
      * @return string
      */
     public function getExt(): string
     {
-        return $this->getConfig()->ext ?? '.md';
+        $ext = $this->getConfig()->ext;
+        if (!$ext) {
+            return 'md';
+        }
+        return '.' . ltrim($ext, '.');
     }
 
     public function getTitle(): string
     {
         $config = $this->getConfig();
         return $config->title;
-    }
-
-    /**
-     * Delete the output directory.
-     *
-     * @link https://stackoverflow.com/a/7288067/99667
-     */
-    public function cleanOutput(): void
-    {
-        $outDir = $this->getDir() . '/output';
-        if (!is_dir($outDir)) {
-            return;
-        }
-        $rdi = new RecursiveDirectoryIterator($outDir, FilesystemIterator::SKIP_DOTS);
-        $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($rii as $file) {
-            if ($file->isDir()) {
-                rmdir($file->getPathname());
-            } else {
-                unlink($file->getPathname());
-            }
-        }
-        rmdir($outDir);
     }
 }
