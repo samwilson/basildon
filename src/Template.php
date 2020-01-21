@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Twig\Environment;
@@ -51,14 +52,24 @@ class Template
      */
     public function getFormats(): array
     {
+        $templatesDir = $this->site->getDir() . '/templates';
+        if (!is_dir($templatesDir)) {
+            throw new Exception('Templates directory does not exist: ' . $templatesDir);
+        }
         $finder = new Finder;
         $finder->files()
-            ->in($this->site->getDir() . '/templates')
+            ->in($templatesDir)
             ->name($this->name . '*.twig');
         $formats = [];
         foreach ($finder as $file) {
             preg_match('/^.*\.(.*)\.twig$/', $file->getFilename(), $matches);
             $formats[] = $matches[1];
+        }
+        if (empty($formats)) {
+            throw new Exception(
+                'No formats found for template: ' . $this->name . "\n"
+                . '(e.g. for HTML, create ' . $templatesDir . '/' . $this->name . '.html.twig)'
+            );
         }
         return $formats;
     }
@@ -75,14 +86,15 @@ class Template
 
             if ($format === 'tex') {
                 // Save tex source file.
-                $texOutFile = $page->getSite()->getDir() . '/tex' . $page->getId();
+                $texOutFileBase = $page->getSite()->getDir() . '/tex' . $page->getId();
+                $texOutFile = $texOutFileBase . '.tex';
                 $this->mkdir(dirname($texOutFile));
                 file_put_contents($texOutFile, $renderedTemplate);
                 // Generate PDF.
                 $process = new Process(['pdflatex', '-output-directory', dirname($texOutFile), $texOutFile]);
                 $process->mustRun();
                 // Copy PDF to output directory.
-                copy($page->getSite()->getDir() . '/tmp' . $page->getId() . '.pdf', $outFileBase . '.pdf');
+                copy($texOutFileBase . '.pdf', $outFileBase . '.pdf');
             } else {
                 // Save rendered template to output directory.
                 $outFile = $outFileBase . '.' . $format;

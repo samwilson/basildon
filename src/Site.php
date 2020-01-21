@@ -7,13 +7,18 @@ namespace App;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use stdClass;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
 
 class Site
 {
 
     /** @var string */
     protected $dir;
+
+    /** @var stdClass Runtime cache for the site config. */
+    protected $config;
 
     /** @var Page[] */
     protected $pages;
@@ -39,10 +44,10 @@ class Site
         $finder = new Finder;
         $finder->files()
             ->in($this->getDir() . '/content')
-            ->name('*.txt');
+            ->name('*' . $this->getExt());
         $pages = [];
         foreach ($finder as $file) {
-            $id = substr($file->getPathname(), strlen($this->getDir() . '/content'), -4);
+            $id = substr($file->getPathname(), strlen($this->getDir() . '/content'), -strlen($this->getExt()));
             $page = new Page($this, $id);
             $pages[$page->getId()] = $page;
         }
@@ -57,7 +62,29 @@ class Site
 
     protected function getConfig(): object
     {
-        return json_decode(file_get_contents($this->dir . '/config.json'));
+        if (is_object($this->config)) {
+            return $this->config;
+        }
+        $configFile = $this->getDir() . '/config.yaml';
+        if (!file_exists($configFile)) {
+            $this->config = new stdClass;
+            return $this->config;
+        }
+        $this->config = Yaml::parseFile($configFile, Yaml::PARSE_OBJECT_FOR_MAP);
+        if ($this->config === null) {
+            $this->config = new stdClass;
+        }
+        return $this->config;
+    }
+
+    /**
+     * Get the filename extension used for content pages, as defined in the site config key 'ext'.
+     *
+     * @return string
+     */
+    public function getExt(): string
+    {
+        return $this->getConfig()->ext ?? '.md';
     }
 
     public function getTitle(): string

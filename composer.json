@@ -1,9 +1,9 @@
 {
-    "name": "samwilson/hardy",
+    "name": "samwilson/basildon",
     "description": "A static site generator.",
     "license": "GPL-3.0-or-later",
     "bin": [
-        "bin/hardy"
+        "bin/basildon"
     ],
     "autoload": {
         "psr-4": {

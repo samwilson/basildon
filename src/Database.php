@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use Cassandra\Date;
 use DateTime;
 use PDO;
 

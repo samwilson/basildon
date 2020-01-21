@@ -51,17 +51,20 @@ class Build extends Command
         }
 
         // Copy all assets.
-        $assets = new Finder;
-        $assets->files()
-            ->in($dir . '/assets')
-            ->name('/.*\.(css|js|jpg|png|gif)/');
-        $assetsOutputDir = $dir . '/output/assets';
-        if (!is_dir($assetsOutputDir)) {
-            mkdir($assetsOutputDir);
-        }
-        foreach ($assets as $asset) {
-            $output->writeln('Asset: ' . $asset->getFilename());
-            copy($asset->getRealPath(), $assetsOutputDir . '/' . $asset->getFilename());
+        $assetsDir = $site->getDir() . '/assets';
+        if (is_dir($assetsDir)) {
+            $assets = new Finder;
+            $assets->files()
+                ->in($dir . '/assets')
+                ->name('/.*\.(css|js|jpg|png|gif)/');
+            $assetsOutputDir = $dir . '/output/assets';
+            if (!is_dir($assetsOutputDir)) {
+                mkdir($assetsOutputDir);
+            }
+            foreach ($assets as $asset) {
+                $output->writeln('Asset: ' . $asset->getFilename());
+                copy($asset->getRealPath(), $assetsOutputDir . '/' . $asset->getFilename());
+            }
         }
 
         $io->success([

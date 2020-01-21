@@ -6,7 +6,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use App\Build;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Hardy', '0.1.0');
+$app = new Application('Basildon', '0.1.0');
 $app->add(new Build() );
 $app->setDefaultCommand('build', true);
 $app->run();

@@ -88,7 +88,8 @@ class Page
         if ($this->contents) {
             return $this->contents;
         }
-        $this->contents = file_get_contents($this->site->getDir() . '/content' . $this->getId() . '.txt');
+        $filename = $this->site->getDir() . '/content' . $this->getId() . $this->site->getExt();
+        $this->contents = file_get_contents($filename);
         return $this->contents;
     }
 

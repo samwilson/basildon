@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page.metadata.title}}: {{page.metadata.subtitle}}</title>
+    <link rel="stylesheet" href="{{ page.link('/assets/style.css') }}" />
+</head>
+<body>
+<header>
+    <h1>{{page.metadata.title}}</h1>
+    <p>{{page.metadata.subtitle}}</p>
+</header>
+<main>
+    {{ page.body }}
+</main>
+<footer>
+    <ul>
+        <li><a href="https://github.com/samwilson/basildon/edit/master/docs/content{{ page.id }}{{ site.ext }}">Edit this page</a></li>
+        <li><a href="{{ page.link(page.id~'.pdf') }}">Printable version</a></li>
+    </ul>
+</footer>
+</body>
+</html>
