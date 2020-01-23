@@ -4,6 +4,6 @@ template: tags
 ---
 
 These are the tags defined in this site.
-Hardy doesn't actually know what a tag is;
+Basildon doesn't actually know what a 'tag' is;
 this page is has just got the title 'Tags',
 and lists tags defined in all pages.

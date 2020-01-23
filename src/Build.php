@@ -49,6 +49,7 @@ class Build extends Command
         foreach ($site->getPages() as $page) {
             $output->writeln('Page: ' . $page->getId());
             $site->getTemplate($page->getTemplateName())->render($page, $db);
+            // https://github.com/GetDKAN/lunr.php
         }
 
         // Copy all assets.

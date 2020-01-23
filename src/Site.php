@@ -85,9 +85,9 @@ class Site
      */
     public function getExt(): string
     {
-        $ext = $this->getConfig()->ext;
+        $ext = $this->getConfig()->ext ?? false;
         if (!$ext) {
-            return 'md';
+            return '.md';
         }
         return '.' . ltrim($ext, '.');
     }

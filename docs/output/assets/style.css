@@ -3,6 +3,7 @@ body {
     max-width: 42em;
     padding: 0 0.62em;
     font: 1.2em/1.62 sans-serif;
+    color: #222;
 }
 h1,
 h2,
@@ -15,6 +16,12 @@ a {
 }
 a:hover {
     text-decoration: underline;
+}
+code,
+pre {
+    background-color: #eee;
+    color: #000;
+    padding: 0 3px;
 }
 
 @media print {

@@ -6,6 +6,7 @@ namespace App;
 
 use DateTime;
 use PDO;
+use PDOStatement;
 
 class Database
 {
@@ -55,16 +56,6 @@ class Database
         // Save the data.
         foreach ($site->getPages() as $page) {
             $metadata = $page->getMetadata();
-//            $columnNames = [];
-//            $columnPlaceholders = [];
-//            foreach ($keys as $key) {
-//                $value = $metadata[$key] ?? null;
-//                $columnNames[] = $key;
-//                if ($value instanceof DateTime) {
-//                    $columnNames[] = ''$key;
-//                }
-//                $columnPlaceholders[] = $key;
-//            }
             $sql = 'INSERT INTO "pages" ("' . join('", "', $keys) . '") VALUES (:' . join(', :', $keys) . ')';
             $stmt = self::$pdo->prepare($sql);
             foreach ($keys as $key) {
@@ -84,11 +75,8 @@ class Database
         }
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function query(string $sql): array
+    public function query(string $sql): PDOStatement
     {
-        return self::$pdo->query($sql)->fetchAll();
+        return self::$pdo->query($sql);
     }
 }

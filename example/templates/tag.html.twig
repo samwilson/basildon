@@ -4,10 +4,10 @@
 
     <h2>{{ page.metadata.title }}</h2>
 
-    {{ page.body }}
+    {{ page.body|md2html|raw }}
 
     <ol>
-        {% for p in database.query('SELECT * FROM pages WHERE id LIKE "'~page.id~'"') %}
+        {% for p in database.query('SELECT p.* FROM pages p, json_each(p.tags) j WHERE "/tags/"||j.value LIKE "'~page.id~'"') %}
             <li><a href="{{ page.link(p.id) }}.html">{{ p.title }}</a></li>
         {% endfor %}
     </ol>

@@ -2,3 +2,5 @@
 title: Lorem ipsum
 template: tag
 ---
+
+Things tagged 'lorem ipsum' are probably test items.

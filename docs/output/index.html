@@ -14,12 +14,42 @@
 <main>
     <p><strong>Basildon</strong> is a simple static website generator
 written in PHP and supporting Markdown content, Twig templates,
-and outputs to HTML and PDF (via LaTeX).</p>
-    <pre>\textbf{Basildon} is a simple static website generator
-written in PHP and supporting Markdown content, Twig templates,
-and outputs to HTML and PDF (via LaTeX).
-
-</pre>
+SQLite, and outputs of HTML and PDF (via LaTeX).</p>
+<h2>Quick start</h2>
+<ol>
+<li><code>mkdir mysite</code></li>
+<li><code>cd mysite</code></li>
+<li><code>composer require samwilson/basildon</code></li>
+<li>Add content and create templates (see below)</li>
+<li><code>./vendor/bin/basildon .</code></li>
+</ol>
+<h2>Content</h2>
+<p>Content goes in the <code>content/</code> directory, in whatever structure is required.
+Each file comprises two parts:</p>
+<ul>
+<li>a frontmatter block of Yaml-formatted metadata; and</li>
+<li>and a text body after the frontmatter, in any format
+(the file's extension should match this, e.g. the default <code>.md</code> for Markdown).</li>
+</ul>
+<h2>Templates</h2>
+<p>Templates are written in the Twig language, and can output to any format required.</p>
+<p>There are a few variables available to templates:</p>
+<ol>
+<li><code>page</code> - An object representing the current page being rendered.
+It has the following members:
+<ul>
+<li><code>page.body</code>: The unmodified body text,
+good for piping through filters such as <code>md2html</code> and <code>md2latex</code>.</li>
+<li><code>page.metadata</code>: All the metadata defined in the page's frontmatter.</li>
+<li><code>page.link(target)</code>: Creates a relative URL to another page.</li>
+</ul></li>
+<li><code>database</code> - The database,
+the most useful attribute of which is <code>database.query(sql)</code>.</li>
+<li><code>site</code> - The site configuration.</li>
+</ol>
+<h2>Assets (stylesheets and scripts)</h2>
+<p>Every stylesheet and script in the <code>assets/</code> directory
+will be copied to <code>output/assets/</code>.</p>
 </main>
 <footer>
     <ul>
