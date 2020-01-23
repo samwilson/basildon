@@ -60,7 +60,7 @@ class Site
         return new Template($this, $name);
     }
 
-    protected function getConfig(): object
+    public function getConfig(): object
     {
         if (is_object($this->config)) {
             return $this->config;
