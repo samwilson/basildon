@@ -111,5 +111,7 @@ class Template
                 file_put_contents($outFile, $renderedTemplate);
             }
         }
+        // Also output a JSON representation of the page.
+        file_put_contents($outFileBase . '.json', json_encode($page->getMetadata()));
     }
 }

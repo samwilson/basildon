@@ -7,5 +7,5 @@
     <file>.</file>
     <exclude-pattern>.phpunit/</exclude-pattern>
     <exclude-pattern>vendor/</exclude-pattern>
-    <exclude-pattern>*.min.*</exclude-pattern>
+    <exclude-pattern>example/output/</exclude-pattern>
 </ruleset>
