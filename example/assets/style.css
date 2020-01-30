@@ -15,6 +15,14 @@ h3 {
     }
 }
 
+header nav ul {
+    list-style-type: none;
+}
+header nav ul li {
+    display: inline-block;
+    margin-right: 1em;
+}
+
 footer {
     font-size: smaller;
     text-align: right;

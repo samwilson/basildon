@@ -17,6 +17,10 @@ class Database
     /** @var string[] */
     protected $keys;
 
+    public const COL_NAME_ID = 'id';
+
+    public const COL_NAME_BODY = 'body';
+
     public function __construct()
     {
         self::$pdo = new PDO('sqlite::memory:');
@@ -34,12 +38,12 @@ class Database
         if ($this->keys) {
             return $this->keys;
         }
-        $keys = [ 'id', 'body' ];
+        $keys = [self::COL_NAME_ID, self::COL_NAME_BODY];
         foreach ($site->getPages() as $page) {
             $keys = array_merge($keys, array_keys($page->getMetadata()));
         }
         asort($keys);
-        $keys = array_unique(array_filter(array_map('strtolower', $keys)));
+        $keys = array_values(array_unique(array_filter(array_map('strtolower', $keys))));
         $this->keys = $keys;
         return $this->keys;
     }

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App;
 
+use LunrPHP\BuildLunrIndex;
+use PDO;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
@@ -19,6 +22,7 @@ class Build extends Command
         parent::configure();
         $this->setName('build');
         $this->addArgument('dir', InputArgument::REQUIRED);
+        $this->addOption('lunr', 'l', InputOption::VALUE_NONE, 'Build Lunr index?');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,9 +51,32 @@ class Build extends Command
 
         // Render all pages.
         foreach ($site->getPages() as $page) {
-            $output->writeln('Page: ' . $page->getId());
+            $io->writeln('Page: ' . $page->getId());
             $site->getTemplate($page->getTemplateName())->render($page, $db);
-            // https://github.com/GetDKAN/lunr.php
+        }
+
+        // Build Lunr index as search.json.
+        if ($input->getOption('lunr')) {
+            $io->writeln('Building search index...');
+            $lunrBuilder = new BuildLunrIndex;
+            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::trimmer');
+            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stop_word_filter');
+            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stemmer');
+            $lunrBuilder->ref(Database::COL_NAME_ID);
+            foreach ($db->getColumns($site) as $column) {
+                $lunrBuilder->field($column);
+            }
+            $rows = $db->query('SELECT * from pages')->fetchAll(PDO::FETCH_ASSOC);
+            $processBar = $io->createProgressBar(count($rows));
+            foreach ($rows as $row) {
+                $processBar->advance();
+                $lunrBuilder->add($row);
+            }
+            $processBar->finish();
+            $io->writeln('');
+            $lunrIndexFilename = $site->getDir() . '/output/lunr.json';
+            file_put_contents($lunrIndexFilename, json_encode($lunrBuilder->output()));
+            $io->writeln('...index built: /lunr.json (' . round(filesize($lunrIndexFilename) / 1024) . 'KB)');
         }
 
         // Copy all assets.
@@ -62,13 +89,13 @@ class Build extends Command
             $assetsOutputDir = $dir . '/output/assets';
             Util::mkdir($assetsOutputDir);
             foreach ($assets as $asset) {
-                $output->writeln('Asset: ' . $asset->getFilename());
+                $output->writeln('Asset: /assets/' . $asset->getFilename());
                 copy($asset->getRealPath(), $assetsOutputDir . '/' . $asset->getFilename());
             }
         }
 
         $io->success([
-            'Site created in ' . $site->getDir(),
+            'Site output to ' . $site->getDir() . '/output/',
             'Total time: ' . round(microtime(true) - $timeStart, 1) . ' seconds.',
         ]);
         return 0;
