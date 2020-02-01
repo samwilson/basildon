@@ -95,6 +95,6 @@ class Site
     public function getTitle(): string
     {
         $config = $this->getConfig();
-        return $config->title;
+        return $config->title ?? 'Untitled site';
     }
 }
