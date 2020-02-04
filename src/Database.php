@@ -6,6 +6,7 @@ namespace App;
 
 use DateTime;
 use PDO;
+use PDOException;
 use PDOStatement;
 
 class Database
@@ -79,8 +80,40 @@ class Database
         }
     }
 
-    public function query(string $sql): PDOStatement
+    /**
+     * @param string $sql
+     * @param string[] $params
+     * @return PDOStatement
+     */
+    public function query(string $sql, array $params = []): PDOStatement
     {
-        return self::$pdo->query($sql);
+        //return self::$pdo->query($sql);
+        if (is_array($params) && count($params) > 0) {
+            $stmt = self::$pdo->prepare($sql);
+            foreach ($params as $placeholder => $value) {
+                if (is_bool($value)) {
+                    $type = PDO::PARAM_BOOL;
+                } elseif (is_null($value)) {
+                    $type = PDO::PARAM_NULL;
+                } elseif (is_int($value)) {
+                    $type = PDO::PARAM_INT;
+                } else {
+                    $type = PDO::PARAM_STR;
+                }
+                $stmt->bindValue($placeholder, $value, $type);
+            }
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $result = $stmt->execute();
+            if (!$result) {
+                throw new PDOException('Unable to execute parameterised SQL: <code>' . $sql . '</code>');
+            }
+        } else {
+            try {
+                $stmt = self::$pdo->query($sql);
+            } catch (PDOException $e) {
+                throw new PDOException($e->getMessage() . ' -- Unable to execute SQL: <code>' . $sql . '</code>');
+            }
+        }
+        return $stmt;
     }
 }
