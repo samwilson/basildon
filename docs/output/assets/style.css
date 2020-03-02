@@ -37,6 +37,14 @@ header {
     margin-bottom: 2em;
 }
 
+figure {
+    font-size: smaller;
+    font-variant: small-caps;
+}
+figure img {
+    max-width: 100%;
+}
+
 footer {
     margin-top: 2em;
     font-size: smaller;

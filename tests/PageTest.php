@@ -20,6 +20,13 @@ class PageTest extends TestCase
         static::assertEquals('The body text.', $file->getBody());
     }
 
+    public function testGetBody(): void
+    {
+        $site = new Site(__DIR__ . '/test_site');
+        $page = new Page($site, '/simple');
+        static::assertSame('The body text.', $page->getBody());
+    }
+
     public function testGetLink(): void
     {
         $site = new Site(__DIR__ . '/test_site');

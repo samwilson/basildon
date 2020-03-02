@@ -14,6 +14,6 @@ class SiteTest extends TestCase
     public function testBasics(): void
     {
         $site = new Site(__DIR__ . '/test_site');
-        static::assertCount(3, $site->getPages());
+        static::assertCount(4, $site->getPages());
     }
 }

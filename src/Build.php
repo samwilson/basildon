@@ -38,7 +38,7 @@ class Build extends Command
 
         // Clean output.
         Util::rmdir($site->getDir() . '/output');
-        Util::rmdir($site->getDir() . '/tex');
+        //Util::rmdir($site->getDir() . '/tex');
 
         // First gather all data.
         $db = new Database;
@@ -85,7 +85,7 @@ class Build extends Command
             $assets = new Finder;
             $assets->files()
                 ->in($dir . '/assets')
-                ->name('/.*\.(css|js|jpg|png|gif)/');
+                ->name('/.*\.(css|js|jpg|png|gif|svg)/');
             $assetsOutputDir = $dir . '/output/assets';
             Util::mkdir($assetsOutputDir);
             foreach ($assets as $asset) {

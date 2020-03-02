@@ -8,4 +8,5 @@
     <exclude-pattern>.phpunit/</exclude-pattern>
     <exclude-pattern>vendor/</exclude-pattern>
     <exclude-pattern>example/output/</exclude-pattern>
+    <exclude-pattern>/cache/</exclude-pattern>
 </ruleset>

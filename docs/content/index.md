@@ -24,6 +24,8 @@ Each file comprises two parts:
 * and a text body after the frontmatter, in any format
   (the file's extension should match this, e.g. the default `.md` for Markdown).
 
+*[Read more about Content.](content.html)*
+
 ## Templates
 
 Templates are written in the Twig language, and can output to any format required.

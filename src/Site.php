@@ -34,7 +34,7 @@ class Site
     }
 
     /**
-     * @return Page[]
+     * @return Page[] Array of Pages indexed by page ID.
      */
     public function getPages(): array
     {
@@ -96,5 +96,14 @@ class Site
     {
         $config = $this->getConfig();
         return $config->title ?? 'Untitled site';
+    }
+
+    /**
+     * @return string The language code, or 'en' if none is specified in the site config.
+     */
+    public function getLang(): string
+    {
+        $config = $this->getConfig();
+        return $config->lang ?? 'en';
     }
 }

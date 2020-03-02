@@ -1,0 +1,9 @@
+{% autoescape 'tex' %}
+{% set commons = commons(embed.matches.1) %}
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=\linewidth]{{ '{' }}{{ tex_url( commons.imageinfo.0.thumburl )|raw }}{{ '}' }}
+    \caption{ {{ commons.labels.en.value }} }
+  \end{center}
+\end{figure}
+{% endautoescape %}
