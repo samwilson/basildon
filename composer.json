@@ -24,9 +24,11 @@
         "symfony/process": "^5.0",
         "roslov/psr12ext": "^2.2",
         "symfony/yaml": "^5.0",
-        "erusev/parsedown": "^1.7",
         "cebe/markdown-latex": "^1.1",
-        "getdkan/lunr.php": "^1.0"
+        "getdkan/lunr.php": "^1.0",
+        "tedivm/stash": "^0.15",
+        "guzzlehttp/guzzle": "^6.5",
+        "addwiki/mediawiki-api-base": "^2.5"
     },
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "1.0.0",

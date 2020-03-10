@@ -1,0 +1,11 @@
+{% autoescape 'tex' %}
+
+\documentclass{article}
+
+\begin{document}
+
+{{ page.body|md2latex|raw }}
+
+\end{document}
+
+{% endautoescape %}

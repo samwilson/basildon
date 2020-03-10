@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App;
 
-use cebe\markdown\latex\Markdown as LatexMarkdown;
 use Exception;
-use Parsedown;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
+use Twig\Extension\EscaperExtension;
 use Twig\Loader\FilesystemLoader;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 /**
  * A Template belongs to a Site and can be used to render Pages to various formats.
@@ -38,21 +35,19 @@ class Template
      *
      * @return Environment
      */
-    protected function getTwig(): Environment
+    protected function getTwig(Page $page): Environment
     {
         $loader = new FilesystemLoader;
         $loader->addPath($this->site->getDir() . '/templates');
-        $twig = new Environment($loader, ['debug' => true, 'strict_variables' => true]);
+        $twig = new Environment($loader, [
+            'debug' => true,
+            'strict_variables' => true,
+        ]);
         $twig->addExtension(new DebugExtension);
-        $twig->addFunction(new TwigFunction('instanceof', static function ($a, $b) {
-            return $a instanceof $b;
-        }));
-        $twig->addFilter(new TwigFilter('md2html', static function ($in) {
-            return (new Parsedown)->text($in);
-        }));
-        $twig->addFilter(new TwigFilter('md2latex', static function ($in) {
-            return (new LatexMarkdown)->parse($in);
-        }));
+        $twigExtension = new Twig($this->site, $page);
+        $twig->addExtension($twigExtension);
+        $twig->getExtension(EscaperExtension::class)
+            ->setEscaper('tex', [$twigExtension, 'escapeTex']);
         return $twig;
     }
 
@@ -83,10 +78,23 @@ class Template
         return $formats;
     }
 
+    /**
+     * Render a simple template that doesn't need the database.
+     *
+     * @param string $format The format to render.
+     * @param mixed[]|null $params The parameters to pass to the template.
+     * @return string
+     */
+    public function renderSimple(string $format, Page $page, ?array $params = null): string
+    {
+        $params['page'] = $page;
+        return $this->getTwig($page)->render($this->name . ".$format.twig", $params);
+    }
+
     public function render(Page $page, Database $db): void
     {
         foreach ($this->getFormats() as $format) {
-            $renderedTemplate = $this->getTwig()->render($this->name . ".$format.twig", [
+            $renderedTemplate = $this->getTwig($page)->render($this->name . ".$format.twig", [
                 'database' => $db,
                 'site' => $page->getSite(),
                 'page' => $page,
@@ -103,6 +111,7 @@ class Template
                 $process = new Process(['pdflatex', '-output-directory', dirname($texOutFile), $texOutFile]);
                 $process->mustRun();
                 // Copy PDF to output directory.
+                Util::mkdir(dirname($outFileBase));
                 copy($texOutFileBase . '.pdf', $outFileBase . '.pdf');
             } else {
                 // Save rendered template to output directory.

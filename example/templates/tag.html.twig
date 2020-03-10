@@ -6,6 +6,14 @@
 
     {{ page.body|md2html|raw }}
 
+    {% if page.metadata.wikidata is defined %}
+        {% set wditem = wikidata( page.metadata.wikidata ) %}
+        <p>
+          <a href="{{ wditem.id }}">{{ wditem.labels.en.value }} ({{ wditem.id }})</a>:
+            {{ wditem.descriptions.en.value }}
+        </p>
+    {% endif %}
+
     <ol>
         {% for p in database.query('SELECT p.* FROM pages p, json_each(p.tags) j WHERE "/tags/"||j.value LIKE "'~page.id~'"') %}
             <li><a href="{{ page.link(p.id) }}.html">{{ p.title }}</a></li>

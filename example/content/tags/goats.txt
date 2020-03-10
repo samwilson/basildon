@@ -1,6 +1,6 @@
 ---
 title: Goats
-wikidata: Q123456789
+wikidata: Q2934
 template: tag
 ---
 

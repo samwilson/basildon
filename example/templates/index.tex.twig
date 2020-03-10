@@ -1,4 +1,7 @@
+{% autoescape 'tex' %}
 \documentclass[a4paper]{article}
+
+\usepackage{graphicx}
 
 \title{ {% if page.metadata.title is defined %}{{ page.metadata.title }}{% else %}Untitled{% endif %} }
 
@@ -19,6 +22,7 @@
 \begin{document}
     \maketitle
 
-    {{ page.body|md2latex }}
+    {{ page.body|md2latex|raw }}
 
 \end{document}
+{% endautoescape %}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +9,16 @@
 <body>
 <header>
     <h1>{{page.metadata.title}}</h1>
-    <p>{{page.metadata.subtitle}}</p>
+    {% if page.id != '/index' %}
+        <p><a href="{{ page.link('/index') }}.html">Home</a> &gt; {{page.metadata.subtitle}}</p>
+    {% endif %}
 </header>
 <main>
     {{page.body|md2html|raw}}
 </main>
 <footer>
     <ul>
+        <li><a href="https://github.com/samwilson/basildon/issues">Report an issue</a></li>
         <li><a href="https://github.com/samwilson/basildon/edit/master/docs/content{{ page.id }}{{ site.ext }}">Edit this page</a></li>
     </ul>
 </footer>

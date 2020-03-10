@@ -83,6 +83,11 @@ class Page
         return $this->getMetadata()['template'];
     }
 
+    /**
+     * The 'contents' is the full original file, both metadata and body.
+     *
+     * @return string
+     */
     protected function getContents(): string
     {
         if ($this->contents) {
@@ -114,6 +119,6 @@ class Page
     {
         $contents = $this->getContents();
         preg_match("/---\n.*\n---\n(.*)/ms", $contents, $matches);
-        return isset($matches[1]) ? trim($matches[1]) : '';
+        return isset($matches[1]) ? trim($matches[1]) : $contents;
     }
 }

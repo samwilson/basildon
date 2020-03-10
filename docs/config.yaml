@@ -1,4 +1,3 @@
-title: An Example Site
-ext: txt
+title: Basildon
 embeds:
   commons: "|https://commons.wikimedia.org/wiki/File:(.*)|"
