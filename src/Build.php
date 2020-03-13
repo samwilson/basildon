@@ -85,7 +85,7 @@ class Build extends Command
             $assets = new Finder;
             $assets->files()
                 ->in($dir . '/assets')
-                ->name('/.*\.(css|js|jpg|png|gif|svg)/');
+                ->name('/.*\.(css|js|jpg|png|gif|svg|pdf)/');
             $assetsOutputDir = $dir . '/output/assets';
             Util::mkdir($assetsOutputDir);
             foreach ($assets as $asset) {

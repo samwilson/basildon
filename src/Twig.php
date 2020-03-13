@@ -49,6 +49,8 @@ class Twig extends AbstractExtension
     {
         return [
             new TwigFunction('instanceof', [$this, 'functionInstanceof']),
+            new TwigFunction('date', 'date'),
+            new TwigFunction('strtotime', 'strtotime'),
             new TwigFunction('tex_url', [$this, 'functionTexUrl']),
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
@@ -137,7 +139,7 @@ class Twig extends AbstractExtension
         return array_merge($fileInfo, $mediaInfo);
     }
 
-    public function escapeTex(Environment $env, string $string, string $charset): string
+    public function escapeTex(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
     {
         $pat = [
             '/\\\(\s)/',
