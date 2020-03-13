@@ -37,11 +37,12 @@ class Build extends Command
         $site = new Site($dir);
 
         // Clean output.
-        Util::rmdir($site->getDir() . '/output');
-        //Util::rmdir($site->getDir() . '/tex');
+        Util::cleanDir($site->getDir() . '/output');
 
         // First gather all data.
-        $db = new Database;
+        $dbFile = $site->getDir() . '/cache/database/db.sqlite3';
+        Util::mkdir(dirname($dbFile));
+        $db = new Database($dbFile);
         $attrList = [];
         foreach ($db->getColumns($site) as $column) {
             $attrList[] = [ $column ];

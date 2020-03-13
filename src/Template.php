@@ -103,7 +103,7 @@ class Template
 
             if ($format === 'tex') {
                 // Save tex source file.
-                $texOutFileBase = $page->getSite()->getDir() . '/tex' . $page->getId();
+                $texOutFileBase = $page->getSite()->getDir() . '/cache/tex' . $page->getId();
                 $texOutFile = $texOutFileBase . '.tex';
                 Util::mkdir(dirname($texOutFile));
                 file_put_contents($texOutFile, $renderedTemplate);
