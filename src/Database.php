@@ -22,9 +22,12 @@ class Database
 
     public const COL_NAME_BODY = 'body';
 
-    public function __construct()
+    /**
+     * @param string $dsn A valid SQLite DSN. Usually the full filesystem path to the database file.
+     */
+    public function __construct(string $dsn = ':memory:')
     {
-        self::$pdo = new PDO('sqlite::memory:');
+        self::$pdo = new PDO("sqlite:$dsn");
         self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         self::$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }
@@ -55,6 +58,7 @@ class Database
         $keys = $this->getColumns($site);
 
         // Create the table.
+        self::$pdo->query('DROP TABLE IF EXISTS "pages"');
         $createTableSql = 'CREATE TABLE "pages" ("' . join('" TEXT, "', $keys) . '" TEXT)';
         self::$pdo->query($createTableSql);
 

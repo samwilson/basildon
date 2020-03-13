@@ -1,9 +1,9 @@
 vendor/
 example/cache/
 example/output/
-example/tex/
-.idea/
-.phpunit.result.cache
 docs/cache/
 docs/output/
+tests/test_site/cache/
+.idea/
+.phpunit.result.cache
 

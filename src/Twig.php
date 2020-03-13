@@ -9,7 +9,6 @@ use App\Markdown\MarkdownToLatex;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Mediawiki\Api\FluentRequest;
-use Mediawiki\Api\MediawikiApi;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -92,7 +91,7 @@ class Twig extends AbstractExtension
     {
         // Set up file and directory names.
         $filename = md5($url) . '.' . pathinfo($url, PATHINFO_EXTENSION);
-        $outputFilepath = $this->site->getDir() . '/tex/_urls/' . $filename;
+        $outputFilepath = $this->site->getDir() . '/cache/tex/_urls/' . $filename;
         Util::mkdir(dirname($outputFilepath));
 
         // Download to a local directory if it's not already there.
@@ -109,7 +108,7 @@ class Twig extends AbstractExtension
      */
     public function functionWikidata(string $wikidataId): array
     {
-        $api = MediawikiApi::newFromApiEndpoint('https://www.wikidata.org/w/api.php');
+        $api = $this->site->getMediawikiApi('https://www.wikidata.org/w/api.php');
         $request = FluentRequest::factory()
             ->setAction('wbgetentities')
             ->setParam('ids', $wikidataId);
@@ -122,7 +121,7 @@ class Twig extends AbstractExtension
      */
     public function functionCommons(string $filename): array
     {
-        $api = MediawikiApi::newFromApiEndpoint('https://commons.wikimedia.org/w/api.php');
+        $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
         $fileInfoResponse = $api->getRequest(FluentRequest::factory()
             ->setAction('query')
             ->addParams([

@@ -5,6 +5,14 @@ declare(strict_types=1);
 namespace App;
 
 use FilesystemIterator;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
+use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
+use League\Flysystem\Adapter\Local;
+use Mediawiki\Api\MediawikiApi;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use stdClass;
@@ -105,5 +113,27 @@ class Site
     {
         $config = $this->getConfig();
         return $config->lang ?? 'en';
+    }
+
+    /**
+     * @param string $apiUrl The URL to api.php for a MediaWiki wiki.
+     * @param int $ttl The cache TTL in seconds.
+     * @return MediawikiApi
+     */
+    public function getMediawikiApi(string $apiUrl, int $ttl = 60): MediawikiApi
+    {
+        $stack = HandlerStack::create();
+        $stack->push(
+            new CacheMiddleware(
+                new GreedyCacheStrategy(
+                    new FlysystemStorage(
+                        new Local($this->getDir() . '/cache/mediawikiapi')
+                    ),
+                    $ttl
+                )
+            ),
+            'mediawiki-api-cache'
+        );
+        return new MediawikiApi($apiUrl, new Client(['handler' => $stack]));
     }
 }
