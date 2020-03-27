@@ -23,6 +23,7 @@ class Build extends Command
         $this->setName('build');
         $this->addArgument('dir', InputArgument::REQUIRED);
         $this->addOption('lunr', 'l', InputOption::VALUE_NONE, 'Build Lunr index?');
+        $this->addOption('ttl', 't', InputOption::VALUE_REQUIRED, 'Set the cache TTL in seconds.', 60 * 5);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -34,7 +35,7 @@ class Build extends Command
             $output->writeln('bad directory');
             return 1;
         }
-        $site = new Site($dir);
+        $site = new Site($dir, (int) $input->getOption('ttl'));
 
         // Clean output.
         Util::cleanDir($site->getDir() . '/output');
