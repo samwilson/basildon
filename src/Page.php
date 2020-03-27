@@ -80,7 +80,8 @@ class Page
      */
     public function getTemplateName(): string
     {
-        return $this->getMetadata()['template'];
+        // Cast to string in order to handle numeric template names such as '404'.
+        return (string) $this->getMetadata()['template'];
     }
 
     /**
@@ -106,7 +107,7 @@ class Page
     public function getMetadata(): array
     {
         $contents = $this->getContents();
-        preg_match("/---\n(.*)\n---/ms", $contents, $matches);
+        preg_match("/---+\n(.*)\n---+/ms", $contents, $matches);
         $defaultMetadata = ['template' => 'index'];
         if (!isset($matches[1])) {
             return $defaultMetadata;
@@ -118,7 +119,7 @@ class Page
     public function getBody(): string
     {
         $contents = $this->getContents();
-        preg_match("/---\n.*\n---\n(.*)/ms", $contents, $matches);
+        preg_match("/---+\n.*\n---+\n?(.*)/ms", $contents, $matches);
         return isset($matches[1]) ? trim($matches[1]) : $contents;
     }
 }

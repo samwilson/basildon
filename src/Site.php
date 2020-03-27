@@ -31,14 +31,23 @@ class Site
     /** @var Page[] */
     protected $pages;
 
-    public function __construct(string $dir)
+    /** @var int Cache TTL in seconds. */
+    protected $ttl;
+
+    public function __construct(string $dir, int $cacheTtl = 60)
     {
         $this->dir = $dir;
+        $this->ttl = $cacheTtl;
     }
 
     public function getDir(): string
     {
         return $this->dir;
+    }
+
+    public function getTtl(): int
+    {
+        return $this->ttl;
     }
 
     /**
@@ -117,10 +126,9 @@ class Site
 
     /**
      * @param string $apiUrl The URL to api.php for a MediaWiki wiki.
-     * @param int $ttl The cache TTL in seconds.
      * @return MediawikiApi
      */
-    public function getMediawikiApi(string $apiUrl, int $ttl = 60): MediawikiApi
+    public function getMediawikiApi(string $apiUrl): MediawikiApi
     {
         $stack = HandlerStack::create();
         $stack->push(
@@ -129,7 +137,7 @@ class Site
                     new FlysystemStorage(
                         new Local($this->getDir() . '/cache/mediawikiapi')
                     ),
-                    $ttl
+                    $this->ttl
                 )
             ),
             'mediawiki-api-cache'

@@ -6,6 +6,8 @@ namespace App;
 
 use App\Markdown\MarkdownToHtml;
 use App\Markdown\MarkdownToLatex;
+use DateTime;
+use DateTimeZone;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Mediawiki\Api\FluentRequest;
@@ -49,6 +51,7 @@ class Twig extends AbstractExtension
         return [
             new TwigFunction('instanceof', [$this, 'functionInstanceof']),
             new TwigFunction('date', 'date'),
+            new TwigFunction('date_create', [$this, 'functionDateCreate']),
             new TwigFunction('strtotime', 'strtotime'),
             new TwigFunction('tex_url', [$this, 'functionTexUrl']),
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
@@ -74,6 +77,23 @@ class Twig extends AbstractExtension
     }
 
     /**
+     * @param string|DateTime $dateTime
+     * @param string|DateTimeZone $timezone
+     * @return DateTime
+     */
+    public function functionDateCreate($dateTime, $timezone = 'Z'): DateTime
+    {
+        if (!$timezone instanceof DateTimeZone) {
+            $timezone = new DateTimeZone((string) $timezone);
+        }
+        if (!$dateTime instanceof DateTime) {
+            $dateTime = date_create($dateTime);
+        }
+        $dateTime->setTimezone($timezone);
+        return $dateTime;
+    }
+
+    /**
      * @param mixed $a
      * @return bool
      */
@@ -92,6 +112,13 @@ class Twig extends AbstractExtension
         // Set up file and directory names.
         $filename = md5($url) . '.' . pathinfo($url, PATHINFO_EXTENSION);
         $outputFilepath = $this->site->getDir() . '/cache/tex/_urls/' . $filename;
+
+        // Check cache and return if the file exists and was modified within the permitted time-frame.
+        $minCacheTime = time() - $this->site->getTtl();
+        if (file_exists($outputFilepath) && filemtime($outputFilepath) >= $minCacheTime) {
+            return $outputFilepath;
+        }
+
         Util::mkdir(dirname($outputFilepath));
 
         // Download to a local directory if it's not already there.
