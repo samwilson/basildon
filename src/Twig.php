@@ -10,7 +10,12 @@ use DateTime;
 use DateTimeZone;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
 use Mediawiki\Api\FluentRequest;
+use Samwilson\PhpFlickr\PhotosApi;
+use Samwilson\PhpFlickr\PhpFlickr;
+use Stash\Driver\FileSystem;
+use Stash\Pool;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -141,6 +146,31 @@ class Twig extends AbstractExtension
             ->setParam('ids', $wikidataId);
         $result = $api->getRequest($request);
         return $result['entities'][$wikidataId];
+    }
+
+    /**
+     * @param string $photoId
+     * @return string[]
+     */
+    public function functionFlickr(string $photoId): array
+    {
+        $config = $this->site->getConfig()->flickr;
+        $flickr = new PhpFlickr($config->api_key, $config->api_secret);
+        $pool = new Pool(new FileSystem(['path' => $this->site->getDir() . '/cache/flickr']));
+        $flickr->setCache($pool);
+        $info = $flickr->photos()->getInfo($photoId);
+        return [
+            'title' => $info['title'],
+            'description' => $info['description'],
+            'urls' => [
+                'photopage' => $info['urls']['url'][0]['_content'],
+                'short' => $flickr->urls()->getShortUrl($photoId),
+                'medium_image' => $flickr->urls()->getImageUrl($info, PhotosApi::SIZE_MEDIUM_800),
+            ],
+            'dates' => $info['dates'],
+            'owner' => $info['owner'],
+            'license' => $flickr->photosLicenses()->getInfo()[$info['license']],
+        ];
     }
 
     /**

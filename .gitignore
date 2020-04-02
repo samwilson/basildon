@@ -6,4 +6,4 @@ docs/output/
 tests/test_site/cache/
 .idea/
 .phpunit.result.cache
-
+*config.local.yaml
