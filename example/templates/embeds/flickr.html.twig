@@ -1,0 +1,11 @@
+{% set flickr = flickr(embed.matches.1) %}
+
+<figure itemscope itemtype="http://schema.org/ImageObject">
+    <a href="{{ flickr.urls.photopage }}"><img src="{{ flickr.urls.medium_image }}" /></a>
+    <figcaption>
+        <strong itemprop="name">{{ flickr.title }}</strong>
+        <span itemprop="description">{{ flickr.description }}</span>
+        (photo by {{ flickr.owner.username }} via <a href="{{ flickr.urls.photopage }}">Flickr</a>,
+        <a href="{{ flickr.license.url }}" rel="license">{{ flickr.license.name }}</a>)
+    </figcaption>
+</figure>

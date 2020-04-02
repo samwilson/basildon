@@ -4,8 +4,6 @@
 
     <h2>{{ page.metadata.title }}</h2>
 
-    {{ page.body|md2html|raw }}
-
     {% if page.metadata.wikidata is defined %}
         {% set wditem = wikidata( page.metadata.wikidata ) %}
         <p>
@@ -13,6 +11,8 @@
             {{ wditem.descriptions.en.value }}
         </p>
     {% endif %}
+
+    {{ page.body|md2html|raw }}
 
     <ol>
         {% for p in database.query('SELECT p.* FROM pages p, json_each(p.tags) j WHERE "/tags/"||j.value LIKE "'~page.id~'"') %}

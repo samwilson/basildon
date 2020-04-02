@@ -29,7 +29,8 @@
         "tedivm/stash": "^0.15",
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "addwiki/mediawiki-api-base": "^2.5",
-        "league/flysystem": "^1.0"
+        "league/flysystem": "^1.0",
+        "samwilson/phpflickr": "^4.13"
     },
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "1.0.0",

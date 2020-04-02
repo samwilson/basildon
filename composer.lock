@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "432afdb16f3d201a9adb1a0e58fe4c0f",
+    "content-hash": "24182bacf7034dea140b12757cb98844",
     "packages": [
         {
             "name": "addwiki/mediawiki-api-base",
@@ -561,6 +561,73 @@
             "time": "2020-03-08T18:53:20+00:00"
         },
         {
+            "name": "lusitanian/oauth",
+            "version": "v0.8.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Lusitanian/PHPoAuthLib.git",
+                "reference": "fc11a53db4b66da555a6a11fce294f574a8374f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Lusitanian/PHPoAuthLib/zipball/fc11a53db4b66da555a6a11fce294f574a8374f9",
+                "reference": "fc11a53db4b66da555a6a11fce294f574a8374f9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "predis/predis": "0.8.*@dev",
+                "squizlabs/php_codesniffer": "2.*",
+                "symfony/http-foundation": "~2.1"
+            },
+            "suggest": {
+                "ext-openssl": "Allows for usage of secure connections with the stream-based HTTP client.",
+                "predis/predis": "Allows using the Redis storage backend.",
+                "symfony/http-foundation": "Allows using the Symfony Session storage backend."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "OAuth": "src",
+                    "OAuth\\Unit": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Desberg",
+                    "email": "david@daviddesberg.com"
+                },
+                {
+                    "name": "Elliot Chance",
+                    "email": "elliotchance@gmail.com"
+                },
+                {
+                    "name": "Pieter Hordijk",
+                    "email": "info@pieterhordijk.com"
+                }
+            ],
+            "description": "PHP 5.3+ oAuth 1/2 Library",
+            "keywords": [
+                "Authentication",
+                "authorization",
+                "oauth",
+                "security"
+            ],
+            "time": "2018-02-14T22:37:14+00:00"
+        },
+        {
             "name": "markfullmer/porter2",
             "version": "1.0",
             "source": {
@@ -953,6 +1020,49 @@
                 "psr12"
             ],
             "time": "2019-06-20T12:36:00+00:00"
+        },
+        {
+            "name": "samwilson/phpflickr",
+            "version": "4.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/samwilson/phpflickr.git",
+                "reference": "1f58e311f6569f160972196c017b6cf5632d277e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/samwilson/phpflickr/zipball/1f58e311f6569f160972196c017b6cf5632d277e",
+                "reference": "1f58e311f6569f160972196c017b6cf5632d277e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-simplexml": "*",
+                "lusitanian/oauth": "^0.8",
+                "php": ">=5.6",
+                "psr/cache": "^1.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "1.0.0",
+                "mediawiki/minus-x": "^0.3",
+                "phpunit/phpunit": "^5.0",
+                "squizlabs/php_codesniffer": "^3.0",
+                "tedivm/stash": "^0.14"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Samwilson\\PhpFlickr\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "A PHP wrapper for the Flickr API, including Oauth.",
+            "time": "2020-01-25T00:50:10+00:00"
         },
         {
             "name": "slevomat/coding-standard",

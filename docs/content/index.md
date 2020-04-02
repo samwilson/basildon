@@ -28,19 +28,14 @@ Each file comprises two parts:
 
 ## Templates
 
-Templates are written in the Twig language, and can output to any format required.
+Templates are written in the [Twig](https://twig.symfony.com/) language, and can output to any format required.
+Usually HTML is the target format, but LaTeX, XML, or anything else is just as possible.
+Formats do have to have a file extension though (that's how they're identified, in Basildon).
 
-There are a few variables available to templates:
+All templates live in the `templates/` directory of a site.
+The structure within that directory can be anything.
 
-1. `page` - An object representing the current page being rendered.
-   It has the following members:
-   * `page.body`: The unmodified body text,
-     good for piping through filters such as `md2html` and `md2latex`.
-   * `page.metadata`: All the metadata defined in the page's frontmatter.
-   * `page.link(target)`: Creates a relative URL to another page.
-2. `database` - The database,
-   the most useful attribute of which is `database.query(sql)`.
-3. `site` - The site configuration.
+*[Read more about Templates.](templates.html)*
 
 ## Assets (stylesheets and scripts)
 

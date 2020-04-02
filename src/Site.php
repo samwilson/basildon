@@ -82,12 +82,22 @@ class Site
         if (is_object($this->config)) {
             return $this->config;
         }
+
+        // Load config.yaml
         $configFile = $this->getDir() . '/config.yaml';
         if (!file_exists($configFile)) {
             $this->config = new stdClass;
             return $this->config;
         }
-        $this->config = Yaml::parseFile($configFile, Yaml::PARSE_OBJECT_FOR_MAP);
+        $config = file_get_contents($configFile);
+
+        // Also load config.local.yaml
+        $configLocal = $this->getDir() . '/config.local.yaml';
+        if (file_exists($configLocal)) {
+            $config .= file_get_contents($configLocal);
+        }
+
+        $this->config = Yaml::parse($config, Yaml::PARSE_OBJECT_FOR_MAP);
         if ($this->config === null) {
             $this->config = new stdClass;
         }
