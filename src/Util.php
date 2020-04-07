@@ -24,8 +24,9 @@ class Util
      * @link https://stackoverflow.com/a/7288067/99667
      *
      * @param string $dir The directory to remove.
+     * @param string[] $exclude Array of regular expressions with which to *not* delete some files.
      */
-    public static function cleanDir(string $dir): void
+    public static function cleanDir(string $dir, array $exclude): void
     {
         if (!is_dir($dir)) {
             return;
@@ -34,8 +35,12 @@ class Util
         /** @var \DirectoryIterator $rii */
         $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($rii as $file) {
-            if ($file->getBasename() === '.git') {
-                continue;
+            $relativePathname = substr($file->getPathname(), strlen($dir));
+            foreach ($exclude as $pattern) {
+                if (preg_match($pattern, $relativePathname)) {
+                    // If we match on any exclusion, don't proceed with deleting this file or directory.
+                    continue 2;
+                }
             }
             if ($file->isDir()) {
                 rmdir($file->getPathname());
