@@ -58,13 +58,14 @@ class Site
         if ($this->pages) {
             return $this->pages;
         }
-        $finder = new Finder;
+        $finder = new Finder();
         $finder->files()
             ->in($this->getDir() . '/content')
             ->name('*' . $this->getExt());
         $pages = [];
         foreach ($finder as $file) {
-            $id = substr($file->getPathname(), strlen($this->getDir() . '/content'), -strlen($this->getExt()));
+            $idPath = substr($file->getPathname(), strlen($this->getDir() . '/content'), -strlen($this->getExt()));
+            $id = str_replace(DIRECTORY_SEPARATOR, '/', $idPath);
             $page = new Page($this, $id);
             $pages[$page->getId()] = $page;
         }
@@ -86,7 +87,7 @@ class Site
         // Load config.yaml
         $configFile = $this->getDir() . '/config.yaml';
         if (!file_exists($configFile)) {
-            $this->config = new stdClass;
+            $this->config = new stdClass();
             return $this->config;
         }
         $config = file_get_contents($configFile);
@@ -99,7 +100,7 @@ class Site
 
         $this->config = Yaml::parse($config, Yaml::PARSE_OBJECT_FOR_MAP);
         if ($this->config === null) {
-            $this->config = new stdClass;
+            $this->config = new stdClass();
         }
         return $this->config;
     }
@@ -107,8 +108,6 @@ class Site
     /**
      * Get the filename extension used for content pages (inlcuding leading dot).
      * Will use what's defined in the site config key 'ext', or default to '.md'.
-     *
-     * @return string
      */
     public function getExt(): string
     {
@@ -136,7 +135,6 @@ class Site
 
     /**
      * @param string $apiUrl The URL to api.php for a MediaWiki wiki.
-     * @return MediawikiApi
      */
     public function getMediawikiApi(string $apiUrl): MediawikiApi
     {

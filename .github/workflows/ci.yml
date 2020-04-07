@@ -5,10 +5,24 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # @TODO Include 'windows-latest' when the EOL issues with tests have been fixed.
+        os: [ ubuntu-latest, macos-latest ]
+        # All supported PHP versions https://www.php.net/supported-versions.php
+        php: [ '7.2', '7.3', '7.4' ]
+
+    runs-on: ${{matrix.os}}
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{matrix.php}}
+        extensions: fileinfo, json, pdo, mbstring
 
     - name: Install
       run: |

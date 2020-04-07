@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24182bacf7034dea140b12757cb98844",
+    "content-hash": "8ee53655264e63b6a606d28a02d3955d",
     "packages": [
         {
             "name": "addwiki/mediawiki-api-base",
@@ -478,16 +478,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.65",
+            "version": "1.0.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "8f17b3ba67097aafb8318cd5c553b1acf7c891c8"
+                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/8f17b3ba67097aafb8318cd5c553b1acf7c891c8",
-                "reference": "8f17b3ba67097aafb8318cd5c553b1acf7c891c8",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/021569195e15f8209b1c4bebb78bd66aa4f08c21",
+                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21",
                 "shasum": ""
             },
             "require": {
@@ -558,7 +558,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2020-03-08T18:53:20+00:00"
+            "time": "2020-03-17T18:58:12+00:00"
         },
         {
             "name": "lusitanian/oauth",
@@ -704,53 +704,6 @@
             ],
             "description": "A converter class that converts normal ASCII text to valid LaTeX",
             "time": "2015-12-13T07:33:35+00:00"
-        },
-        {
-            "name": "phpstan/phpdoc-parser",
-            "version": "0.3.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/8c4ef2aefd9788238897b678a985e1d5c8df6db4",
-                "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~7.1"
-            },
-            "require-dev": {
-                "consistence/coding-standard": "^3.5",
-                "jakub-onderka/php-parallel-lint": "^0.9.2",
-                "phing/phing": "^2.16.0",
-                "phpstan/phpstan": "^0.10",
-                "phpunit/phpunit": "^6.3",
-                "slevomat/coding-standard": "^4.7.2",
-                "squizlabs/php_codesniffer": "^3.3.2",
-                "symfony/process": "^3.4 || ^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PHPStan\\PhpDocParser\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "time": "2019-06-07T19:13:52+00:00"
         },
         {
             "name": "psr/cache",
@@ -899,16 +852,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
                 "shasum": ""
             },
             "require": {
@@ -942,7 +895,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2019-11-01T11:05:21+00:00"
+            "time": "2020-03-23T09:12:05+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -983,43 +936,6 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2019-03-08T08:55:37+00:00"
-        },
-        {
-            "name": "roslov/psr12ext",
-            "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/roslov/psr12ext.git",
-                "reference": "38b67a1bf952fdeba4eb637a141eaecf55d72051"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/roslov/psr12ext/zipball/38b67a1bf952fdeba4eb637a141eaecf55d72051",
-                "reference": "38b67a1bf952fdeba4eb637a141eaecf55d72051",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "slevomat/coding-standard": "^5.0.4",
-                "squizlabs/php_codesniffer": "^3.4"
-            },
-            "type": "phpcodesniffer-standard",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Oleksandr Roslov",
-                    "email": "tr@dupkiller.net"
-                }
-            ],
-            "description": "PSR-12 Extended Coding Standard",
-            "keywords": [
-                "codesniffer",
-                "psr12"
-            ],
-            "time": "2019-06-20T12:36:00+00:00"
         },
         {
             "name": "samwilson/phpflickr",
@@ -1065,108 +981,17 @@
             "time": "2020-01-25T00:50:10+00:00"
         },
         {
-            "name": "slevomat/coding-standard",
-            "version": "5.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "287ac3347c47918c0bf5e10335e36197ea10894c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/287ac3347c47918c0bf5e10335e36197ea10894c",
-                "reference": "287ac3347c47918c0bf5e10335e36197ea10894c",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "phpstan/phpdoc-parser": "^0.3.1",
-                "squizlabs/php_codesniffer": "^3.4.1"
-            },
-            "require-dev": {
-                "jakub-onderka/php-parallel-lint": "1.0.0",
-                "phing/phing": "2.16.1",
-                "phpstan/phpstan": "0.11.4",
-                "phpstan/phpstan-phpunit": "0.11",
-                "phpstan/phpstan-strict-rules": "0.11",
-                "phpunit/phpunit": "8.0.5"
-            },
-            "type": "phpcodesniffer-standard",
-            "autoload": {
-                "psr-4": {
-                    "SlevomatCodingStandard\\": "SlevomatCodingStandard"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
-            "time": "2019-03-22T19:10:53+00:00"
-        },
-        {
-            "name": "squizlabs/php_codesniffer",
-            "version": "3.5.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "dceec07328401de6211037abbb18bda423677e26"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dceec07328401de6211037abbb18bda423677e26",
-                "reference": "dceec07328401de6211037abbb18bda423677e26",
-                "shasum": ""
-            },
-            "require": {
-                "ext-simplexml": "*",
-                "ext-tokenizer": "*",
-                "ext-xmlwriter": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
-            },
-            "bin": [
-                "bin/phpcs",
-                "bin/phpcbf"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Greg Sherwood",
-                    "role": "lead"
-                }
-            ],
-            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
-            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
-            "keywords": [
-                "phpcs",
-                "standards"
-            ],
-            "time": "2020-01-30T22:20:29+00:00"
-        },
-        {
             "name": "symfony/console",
-            "version": "v5.0.5",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "d29e2d36941de13600c399e393a60b8cfe59ac49"
+                "reference": "5fa1caadc8cdaa17bcfb25219f3b53fe294a9935"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/d29e2d36941de13600c399e393a60b8cfe59ac49",
-                "reference": "d29e2d36941de13600c399e393a60b8cfe59ac49",
+                "url": "https://api.github.com/repos/symfony/console/zipball/5fa1caadc8cdaa17bcfb25219f3b53fe294a9935",
+                "reference": "5fa1caadc8cdaa17bcfb25219f3b53fe294a9935",
                 "shasum": ""
             },
             "require": {
@@ -1229,20 +1054,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2020-02-24T15:05:31+00:00"
+            "time": "2020-03-30T11:42:42+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v5.0.5",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "6251f201187ca9d66f6b099d3de65d279e971138"
+                "reference": "600a52c29afc0d1caa74acbec8d3095ca7e9910d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/6251f201187ca9d66f6b099d3de65d279e971138",
-                "reference": "6251f201187ca9d66f6b099d3de65d279e971138",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/600a52c29afc0d1caa74acbec8d3095ca7e9910d",
+                "reference": "600a52c29afc0d1caa74acbec8d3095ca7e9910d",
                 "shasum": ""
             },
             "require": {
@@ -1278,20 +1103,20 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2020-02-14T07:43:07+00:00"
+            "time": "2020-03-27T16:56:45+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.14.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38"
+                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
-                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
+                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
                 "shasum": ""
             },
             "require": {
@@ -1303,7 +1128,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -1336,20 +1161,20 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2020-01-13T11:15:53+00:00"
+            "time": "2020-02-27T09:26:54+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.14.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "34094cfa9abe1f0f14f48f490772db7a775559f2"
+                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/34094cfa9abe1f0f14f48f490772db7a775559f2",
-                "reference": "34094cfa9abe1f0f14f48f490772db7a775559f2",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
+                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
                 "shasum": ""
             },
             "require": {
@@ -1361,7 +1186,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -1395,20 +1220,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-01-13T11:15:53+00:00"
+            "time": "2020-03-09T19:04:49+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
-            "version": "v1.14.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php73.git",
-                "reference": "5e66a0fa1070bf46bec4bea7962d285108edd675"
+                "reference": "0f27e9f464ea3da33cbe7ca3bdf4eb66def9d0f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/5e66a0fa1070bf46bec4bea7962d285108edd675",
-                "reference": "5e66a0fa1070bf46bec4bea7962d285108edd675",
+                "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/0f27e9f464ea3da33cbe7ca3bdf4eb66def9d0f7",
+                "reference": "0f27e9f464ea3da33cbe7ca3bdf4eb66def9d0f7",
                 "shasum": ""
             },
             "require": {
@@ -1417,7 +1242,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -1453,20 +1278,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-01-13T11:15:53+00:00"
+            "time": "2020-02-27T09:26:54+00:00"
         },
         {
             "name": "symfony/process",
-            "version": "v5.0.5",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "fd4a86dd7e36437f2fc080d8c42c7415d828a0a8"
+                "reference": "c5ca4a0fc16a0c888067d43fbcfe1f8a53d8e70e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/fd4a86dd7e36437f2fc080d8c42c7415d828a0a8",
-                "reference": "fd4a86dd7e36437f2fc080d8c42c7415d828a0a8",
+                "url": "https://api.github.com/repos/symfony/process/zipball/c5ca4a0fc16a0c888067d43fbcfe1f8a53d8e70e",
+                "reference": "c5ca4a0fc16a0c888067d43fbcfe1f8a53d8e70e",
                 "shasum": ""
             },
             "require": {
@@ -1502,7 +1327,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2020-02-08T17:00:58+00:00"
+            "time": "2020-03-27T16:56:45+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -1564,16 +1389,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.0.5",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "a4b613d7e44f62941adff5a802cff70adee57d3f"
+                "reference": "ad5e9c83ade5bbb3a96a3f30588a0622708caefd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/a4b613d7e44f62941adff5a802cff70adee57d3f",
-                "reference": "a4b613d7e44f62941adff5a802cff70adee57d3f",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/ad5e9c83ade5bbb3a96a3f30588a0622708caefd",
+                "reference": "ad5e9c83ade5bbb3a96a3f30588a0622708caefd",
                 "shasum": ""
             },
             "require": {
@@ -1619,7 +1444,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2020-02-03T13:51:17+00:00"
+            "time": "2020-03-30T11:42:42+00:00"
         },
         {
             "name": "tedivm/stash",
@@ -1841,101 +1666,8 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
-        },
-        {
-            "name": "jakub-onderka/php-console-highlighter",
-            "version": "v0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JakubOnderka/PHP-Console-Highlighter.git",
-                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JakubOnderka/PHP-Console-Highlighter/zipball/9f7a229a69d52506914b4bc61bfdb199d90c5547",
-                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "jakub-onderka/php-console-color": "~0.2",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "jakub-onderka/php-code-style": "~1.0",
-                "jakub-onderka/php-parallel-lint": "~1.0",
-                "jakub-onderka/php-var-dump-check": "~0.1",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "JakubOnderka\\PhpConsoleHighlighter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jakub Onderka",
-                    "email": "acci@acci.cz",
-                    "homepage": "http://www.acci.cz/"
-                }
-            ],
-            "description": "Highlight PHP code in terminal",
-            "time": "2018-09-29T18:48:56+00:00"
-        },
-        {
-            "name": "jakub-onderka/php-parallel-lint",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JakubOnderka/PHP-Parallel-Lint.git",
-                "reference": "04fbd3f5fb1c83f08724aa58a23db90bd9086ee8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JakubOnderka/PHP-Parallel-Lint/zipball/04fbd3f5fb1c83f08724aa58a23db90bd9086ee8",
-                "reference": "04fbd3f5fb1c83f08724aa58a23db90bd9086ee8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "jakub-onderka/php-console-highlighter": "~0.3",
-                "nette/tester": "~1.3",
-                "squizlabs/php_codesniffer": "~2.7"
-            },
-            "suggest": {
-                "jakub-onderka/php-console-highlighter": "Highlight syntax in code snippet"
-            },
-            "bin": [
-                "parallel-lint"
-            ],
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "./"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Jakub Onderka",
-                    "email": "ahoj@jakubonderka.cz"
-                }
-            ],
-            "description": "This tool check syntax of PHP files about 20x faster than serial check.",
-            "homepage": "https://github.com/JakubOnderka/PHP-Parallel-Lint",
-            "time": "2018-02-24T15:31:20+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2086,6 +1818,105 @@
             ],
             "description": "Library for handling version information and constraints",
             "time": "2018-07-08T19:19:57+00:00"
+        },
+        {
+            "name": "php-parallel-lint/php-console-highlighter",
+            "version": "v0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-parallel-lint/PHP-Console-Highlighter.git",
+                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-parallel-lint/PHP-Console-Highlighter/zipball/9f7a229a69d52506914b4bc61bfdb199d90c5547",
+                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "jakub-onderka/php-console-color": "~0.2",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-code-style": "~1.0",
+                "jakub-onderka/php-parallel-lint": "~1.0",
+                "jakub-onderka/php-var-dump-check": "~0.1",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JakubOnderka\\PhpConsoleHighlighter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Onderka",
+                    "email": "acci@acci.cz",
+                    "homepage": "http://www.acci.cz/"
+                }
+            ],
+            "description": "Highlight PHP code in terminal",
+            "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "php-parallel-lint/php-parallel-lint",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-parallel-lint/PHP-Parallel-Lint.git",
+                "reference": "474f18bc6cc6aca61ca40bfab55139de614e51ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-parallel-lint/PHP-Parallel-Lint/zipball/474f18bc6cc6aca61ca40bfab55139de614e51ca",
+                "reference": "474f18bc6cc6aca61ca40bfab55139de614e51ca",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "grogy/php-parallel-lint": "*",
+                "jakub-onderka/php-parallel-lint": "*"
+            },
+            "require-dev": {
+                "nette/tester": "^1.3 || ^2.0",
+                "php-parallel-lint/php-console-highlighter": "~0.3",
+                "squizlabs/php_codesniffer": "~3.0"
+            },
+            "suggest": {
+                "php-parallel-lint/php-console-highlighter": "Highlight syntax in code snippet"
+            },
+            "bin": [
+                "parallel-lint"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Onderka",
+                    "email": "ahoj@jakubonderka.cz"
+                }
+            ],
+            "description": "This tool check syntax of PHP files about 20x faster than serial check.",
+            "homepage": "https://github.com/php-parallel-lint/PHP-Parallel-Lint",
+            "time": "2020-04-04T12:18:32+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2300,6 +2131,55 @@
                 "stub"
             ],
             "time": "2020-03-05T15:02:03+00:00"
+        },
+        {
+            "name": "phpstan/phpdoc-parser",
+            "version": "0.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpdoc-parser.git",
+                "reference": "928179efc5368145a8b03cb20d58cb3f3136afae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/928179efc5368145a8b03cb20d58cb3f3136afae",
+                "reference": "928179efc5368145a8b03cb20d58cb3f3136afae",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1"
+            },
+            "require-dev": {
+                "consistence/coding-standard": "^3.5",
+                "ergebnis/composer-normalize": "^2.0.2",
+                "jakub-onderka/php-parallel-lint": "^0.9.2",
+                "phing/phing": "^2.16.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12",
+                "phpunit/phpunit": "^6.3",
+                "slevomat/coding-standard": "^4.7.2",
+                "symfony/process": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\PhpDocParser\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPDoc parser with support for nullable, intersection and generic types",
+            "time": "2020-01-25T20:42:48+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2555,16 +2435,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.2",
+            "version": "8.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "018b6ac3c8ab20916db85fa91bf6465acb64d1e0"
+                "reference": "67750516bc02f300e2742fed2f50177f8f37bedf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/018b6ac3c8ab20916db85fa91bf6465acb64d1e0",
-                "reference": "018b6ac3c8ab20916db85fa91bf6465acb64d1e0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/67750516bc02f300e2742fed2f50177f8f37bedf",
+                "reference": "67750516bc02f300e2742fed2f50177f8f37bedf",
                 "shasum": ""
             },
             "require": {
@@ -2634,7 +2514,44 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2020-01-08T08:49:49+00:00"
+            "time": "2020-03-31T08:52:04+00:00"
+        },
+        {
+            "name": "roslov/psr12ext",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roslov/psr12ext.git",
+                "reference": "3fbb7042f7637b21835cdcb31a0073f05032a24b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roslov/psr12ext/zipball/3fbb7042f7637b21835cdcb31a0073f05032a24b",
+                "reference": "3fbb7042f7637b21835cdcb31a0073f05032a24b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "slevomat/coding-standard": "^6.1.5",
+                "squizlabs/php_codesniffer": "^3.5.4"
+            },
+            "type": "phpcodesniffer-standard",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Oleksandr Roslov",
+                    "email": "tr@dupkiller.net"
+                }
+            ],
+            "description": "PSR-12 Extended Coding Standard",
+            "keywords": [
+                "codesniffer",
+                "psr12"
+            ],
+            "time": "2020-03-06T17:18:55+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3252,17 +3169,114 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
-            "name": "symfony/var-dumper",
-            "version": "v5.0.5",
+            "name": "slevomat/coding-standard",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "3a37aeb1132d1035536d3d6aa9cb06c2ff9355e9"
+                "url": "https://github.com/slevomat/coding-standard.git",
+                "reference": "c4bf9cad66da885cc843cc24d708661d9d8fbb95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/3a37aeb1132d1035536d3d6aa9cb06c2ff9355e9",
-                "reference": "3a37aeb1132d1035536d3d6aa9cb06c2ff9355e9",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/c4bf9cad66da885cc843cc24d708661d9d8fbb95",
+                "reference": "c4bf9cad66da885cc843cc24d708661d9d8fbb95",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "phpstan/phpdoc-parser": "0.4.0 - 0.4.3",
+                "squizlabs/php_codesniffer": "^3.5.4"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "0.6.2",
+                "phing/phing": "2.16.3",
+                "php-parallel-lint/php-parallel-lint": "1.1.0",
+                "phpstan/phpstan": "0.12.18",
+                "phpstan/phpstan-phpunit": "0.12.6",
+                "phpstan/phpstan-strict-rules": "0.12.2",
+                "phpunit/phpunit": "7.5.20|8.5.2|9.0.1"
+            },
+            "type": "phpcodesniffer-standard",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SlevomatCodingStandard\\": "SlevomatCodingStandard"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
+            "time": "2020-03-28T22:04:31+00:00"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "dceec07328401de6211037abbb18bda423677e26"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dceec07328401de6211037abbb18bda423677e26",
+                "reference": "dceec07328401de6211037abbb18bda423677e26",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "bin": [
+                "bin/phpcs",
+                "bin/phpcbf"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "lead"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
+            "keywords": [
+                "phpcs",
+                "standards"
+            ],
+            "time": "2020-01-30T22:20:29+00:00"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "version": "v5.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "f74a126acd701392eef2492a17228d42552c86b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f74a126acd701392eef2492a17228d42552c86b5",
+                "reference": "f74a126acd701392eef2492a17228d42552c86b5",
                 "shasum": ""
             },
             "require": {
@@ -3324,7 +3338,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2020-02-26T22:30:10+00:00"
+            "time": "2020-03-27T16:56:45+00:00"
         },
         {
             "name": "theseer/tokenizer",

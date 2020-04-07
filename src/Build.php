@@ -60,7 +60,7 @@ class Build extends Command
         // Build Lunr index as search.json.
         if ($input->getOption('lunr')) {
             $io->writeln('Building search index...');
-            $lunrBuilder = new BuildLunrIndex;
+            $lunrBuilder = new BuildLunrIndex();
             $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::trimmer');
             $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stop_word_filter');
             $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stemmer');
@@ -84,7 +84,7 @@ class Build extends Command
         // Copy all assets.
         $assetsDir = $site->getDir() . '/assets';
         if (is_dir($assetsDir)) {
-            $assets = new Finder;
+            $assets = new Finder();
             $assets->files()
                 ->in($dir . '/assets')
                 ->name('/.*\.(css|js|jpg|png|gif|svg|pdf)/');
