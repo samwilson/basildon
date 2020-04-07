@@ -38,7 +38,7 @@ class Build extends Command
         $site = new Site($dir, (int) $input->getOption('ttl'));
 
         // Clean output.
-        Util::cleanDir($site->getDir() . '/output');
+        Util::cleanDir($site->getDir() . '/output', $site->getConfig()->output_exclude ?? []);
 
         // First gather all data.
         $dbFile = $site->getDir() . '/cache/database/db.sqlite3';

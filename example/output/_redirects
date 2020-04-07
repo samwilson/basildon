@@ -1,0 +1,4 @@
+# Redirects from what the browser requests to what we serve
+# https://docs.netlify.com/routing/redirects/#syntax-for-the-redirects-file
+
+/home              /
