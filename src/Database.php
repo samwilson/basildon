@@ -85,9 +85,7 @@ class Database
     }
 
     /**
-     * @param string $sql
      * @param string[] $params
-     * @return PDOStatement
      */
     public function query(string $sql, array $params = []): PDOStatement
     {

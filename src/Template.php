@@ -32,18 +32,16 @@ class Template
 
     /**
      * Get the Twig Environment.
-     *
-     * @return Environment
      */
     protected function getTwig(Page $page): Environment
     {
-        $loader = new FilesystemLoader;
+        $loader = new FilesystemLoader();
         $loader->addPath($this->site->getDir() . '/templates');
         $twig = new Environment($loader, [
             'debug' => true,
             'strict_variables' => true,
         ]);
-        $twig->addExtension(new DebugExtension);
+        $twig->addExtension(new DebugExtension());
         $twigExtension = new Twig($this->site, $page);
         $twig->addExtension($twigExtension);
         $twig->getExtension(EscaperExtension::class)
@@ -60,7 +58,7 @@ class Template
         if (!is_dir($templatesDir)) {
             throw new Exception('Templates directory does not exist: ' . $templatesDir);
         }
-        $finder = new Finder;
+        $finder = new Finder();
         $finder->files()
             ->in($templatesDir)
             ->name($this->name . '*.twig');
@@ -83,7 +81,6 @@ class Template
      *
      * @param string $format The format to render.
      * @param mixed[]|null $params The parameters to pass to the template.
-     * @return string
      */
     public function renderSimple(string $format, Page $page, ?array $params = null): string
     {

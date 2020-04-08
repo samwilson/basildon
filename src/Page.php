@@ -26,8 +26,6 @@ class Page
 
     /**
      * Get the Site to which this Page belongs.
-     *
-     * @return Site
      */
     public function getSite(): Site
     {
@@ -36,8 +34,6 @@ class Page
 
     /**
      * Page ID. Always starts with a slash.
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -48,7 +44,6 @@ class Page
      * Get a relative link from this page to another.
      *
      * @param string $targetId The ID of the target page.
-     * @return string
      */
     public function getLink(string $targetId): string
     {
@@ -75,8 +70,6 @@ class Page
 
     /**
      * Get the template's name, without format name or twig file extension.
-     *
-     * @return string
      */
     public function getTemplateName(): string
     {
@@ -86,8 +79,6 @@ class Page
 
     /**
      * The 'contents' is the full original file, both metadata and body.
-     *
-     * @return string
      */
     protected function getContents(): string
     {
@@ -107,7 +98,7 @@ class Page
     public function getMetadata(): array
     {
         $contents = $this->getContents();
-        preg_match("/---+\n(.*)\n---+/ms", $contents, $matches);
+        preg_match("/---+[\n\r]+(.*)[\n\r]+---+/ms", $contents, $matches);
         $defaultMetadata = ['template' => 'index'];
         if (!isset($matches[1])) {
             return $defaultMetadata;
@@ -119,7 +110,7 @@ class Page
     public function getBody(): string
     {
         $contents = $this->getContents();
-        preg_match("/---+\n.*\n---+\n?(.*)/ms", $contents, $matches);
+        preg_match("/---+[\n\r]+.*[\n\r]+---+[\n\r]?(.*)/ms", $contents, $matches);
         return isset($matches[1]) ? trim($matches[1]) : $contents;
     }
 }

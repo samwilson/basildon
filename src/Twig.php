@@ -67,7 +67,7 @@ class Twig extends AbstractExtension
 
     public function filterMarkdownToHtml(string $input): string
     {
-        $markdown = new MarkdownToHtml;
+        $markdown = new MarkdownToHtml();
         $markdown->setSite($this->site);
         $markdown->setPage($this->page);
         return $markdown->parse($input);
@@ -75,7 +75,7 @@ class Twig extends AbstractExtension
 
     public function filterMarkdownToLatex(string $input): string
     {
-        $markdown = new MarkdownToLatex;
+        $markdown = new MarkdownToLatex();
         $markdown->setSite($this->site);
         $markdown->setPage($this->page);
         return $markdown->parse($input);
@@ -84,7 +84,6 @@ class Twig extends AbstractExtension
     /**
      * @param string|DateTime $dateTime
      * @param string|DateTimeZone $timezone
-     * @return DateTime
      */
     public function functionDateCreate($dateTime, $timezone = 'Z'): DateTime
     {
@@ -100,7 +99,6 @@ class Twig extends AbstractExtension
 
     /**
      * @param mixed $a
-     * @return bool
      */
     public function functionInstanceof($a, string $b): bool
     {
@@ -128,7 +126,7 @@ class Twig extends AbstractExtension
 
         // Download to a local directory if it's not already there.
         if (!file_exists($outputFilepath)) {
-            (new Client)->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
+            (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
         }
 
         // Return the full path to the downloaded file..
@@ -149,7 +147,6 @@ class Twig extends AbstractExtension
     }
 
     /**
-     * @param string $photoId
      * @return string[]
      */
     public function functionFlickr(string $photoId): array
