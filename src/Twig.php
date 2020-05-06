@@ -8,14 +8,15 @@ use App\Markdown\MarkdownToHtml;
 use App\Markdown\MarkdownToLatex;
 use DateTime;
 use DateTimeZone;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
 use Mediawiki\Api\FluentRequest;
 use Samwilson\PhpFlickr\PhotosApi;
 use Samwilson\PhpFlickr\PhpFlickr;
 use Stash\Driver\FileSystem;
 use Stash\Pool;
+use Throwable;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -58,6 +59,7 @@ class Twig extends AbstractExtension
             new TwigFunction('date', 'date'),
             new TwigFunction('date_create', [$this, 'functionDateCreate']),
             new TwigFunction('strtotime', 'strtotime'),
+            new TwigFunction('json_decode', 'json_decode'),
             new TwigFunction('tex_url', [$this, 'functionTexUrl']),
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
@@ -112,6 +114,8 @@ class Twig extends AbstractExtension
      */
     public function functionTexUrl(string $url): string
     {
+        Build::writeln('TeX file download: ' . basename($url));
+
         // Set up file and directory names.
         $filename = md5($url) . '.' . pathinfo($url, PATHINFO_EXTENSION);
         $outputFilepath = $this->site->getDir() . '/cache/tex/_urls/' . $filename;
@@ -125,8 +129,16 @@ class Twig extends AbstractExtension
         Util::mkdir(dirname($outputFilepath));
 
         // Download to a local directory if it's not already there.
-        if (!file_exists($outputFilepath)) {
-            (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
+        if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
+            try {
+                (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
+            } catch (Throwable $exception) {
+                throw new Exception("Unable to download: $url");
+            }
+        }
+
+        if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
+            throw new Exception("Download failed: $url");
         }
 
         // Return the full path to the downloaded file..
@@ -142,6 +154,7 @@ class Twig extends AbstractExtension
         $request = FluentRequest::factory()
             ->setAction('wbgetentities')
             ->setParam('ids', $wikidataId);
+        Build::writeln('Wikidata fetch info: ' . $wikidataId);
         $result = $api->getRequest($request);
         return $result['entities'][$wikidataId];
     }
@@ -155,13 +168,15 @@ class Twig extends AbstractExtension
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
         $pool = new Pool(new FileSystem(['path' => $this->site->getDir() . '/cache/flickr']));
         $flickr->setCache($pool);
+        $shortUrl = $flickr->urls()->getShortUrl($photoId);
+        Build::writeln("Flickr fetch info: $photoId $shortUrl");
         $info = $flickr->photos()->getInfo($photoId);
         return [
             'title' => $info['title'],
             'description' => $info['description'],
             'urls' => [
                 'photopage' => $info['urls']['url'][0]['_content'],
-                'short' => $flickr->urls()->getShortUrl($photoId),
+                'short' => $shortUrl,
                 'medium_image' => $flickr->urls()->getImageUrl($info, PhotosApi::SIZE_MEDIUM_800),
             ],
             'dates' => $info['dates'],
@@ -185,6 +200,7 @@ class Twig extends AbstractExtension
                 'titles' => 'File:' . $filename,
             ]));
         $fileInfo = array_shift($fileInfoResponse['query']['pages']);
+        Build::writeln("Commons fetch info: $filename");
         $mediaInfoResponse = $api->getRequest(FluentRequest::factory()
             ->setAction('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));

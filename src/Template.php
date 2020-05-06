@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App;
 
 use Exception;
+use Symfony\Component\Console\Style\OutputStyle;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Twig\Environment;
