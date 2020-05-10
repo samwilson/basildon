@@ -2,9 +2,30 @@
     "name": "samwilson/basildon",
     "description": "A static site generator.",
     "license": "GPL-3.0-or-later",
-    "bin": [
-        "bin/basildon"
-    ],
+    "require": {
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "addwiki/mediawiki-api-base": "^2.5",
+        "cebe/markdown-latex": "^1.1",
+        "getdkan/lunr.php": "^1.0",
+        "kevinrob/guzzle-cache-middleware": "^3.3",
+        "league/flysystem": "^1.0",
+        "samwilson/phpflickr": "^4.13",
+        "symfony/console": "^5.0",
+        "symfony/finder": "^5.0",
+        "symfony/process": "^5.0",
+        "symfony/yaml": "^5.0",
+        "tedivm/stash": "^0.15",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.5",
+        "php-parallel-lint/php-console-highlighter": "^0.4",
+        "php-parallel-lint/php-parallel-lint": "1.2.0",
+        "phpunit/phpunit": "^8.5",
+        "roslov/psr12ext": "^3.0",
+        "symfony/var-dumper": "^5.0"
+    },
     "autoload": {
         "psr-4": {
             "App\\": "src/"
@@ -15,32 +36,13 @@
             "Test\\": "tests/"
         }
     },
-    "require": {
-        "ext-json": "*",
-        "ext-pdo": "*",
-        "symfony/console": "^5.0",
-        "symfony/finder": "^5.0",
-        "twig/twig": "^3.0",
-        "symfony/process": "^5.0",
-        "symfony/yaml": "^5.0",
-        "cebe/markdown-latex": "^1.1",
-        "getdkan/lunr.php": "^1.0",
-        "tedivm/stash": "^0.15",
-        "kevinrob/guzzle-cache-middleware": "^3.3",
-        "addwiki/mediawiki-api-base": "^2.5",
-        "league/flysystem": "^1.0",
-        "samwilson/phpflickr": "^4.13"
-    },
-    "require-dev": {
-        "php-parallel-lint/php-parallel-lint": "1.2.0",
-        "php-parallel-lint/php-console-highlighter": "^0.4",
-        "phpunit/phpunit": "^8.5",
-        "roslov/psr12ext": "^3.0",
-        "symfony/var-dumper": "^5.0"
-    },
+    "bin": [
+        "bin/basildon"
+    ],
     "scripts": {
         "test": [
             "composer validate",
+            "composer normalize --dry-run",
             "parallel-lint . --exclude node_modules --exclude vendor",
             "phpcs -s",
             "phpunit"
