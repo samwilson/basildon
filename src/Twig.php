@@ -8,6 +8,7 @@ use App\Markdown\MarkdownToHtml;
 use App\Markdown\MarkdownToLatex;
 use DateTime;
 use DateTimeZone;
+use Endroid\QrCode\QrCode;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -64,6 +65,7 @@ class Twig extends AbstractExtension
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
             new TwigFunction('flickr', [$this, 'functionFlickr']),
+            new TwigFunction('qrcode', [$this, 'functionQrCode']),
         ];
     }
 
@@ -172,6 +174,7 @@ class Twig extends AbstractExtension
         Build::writeln("Flickr fetch info: $photoId $shortUrl");
         $info = $flickr->photos()->getInfo($photoId);
         return [
+            'id' => $info['id'],
             'title' => $info['title'],
             'description' => $info['description'],
             'urls' => [
@@ -200,12 +203,45 @@ class Twig extends AbstractExtension
                 'titles' => 'File:' . $filename,
             ]));
         $fileInfo = array_shift($fileInfoResponse['query']['pages']);
+        if (!isset($fileInfo['pageid'])) {
+            throw new Exception('Commons file does not exist: ' . $filename);
+        }
         Build::writeln("Commons fetch info: $filename");
         $mediaInfoResponse = $api->getRequest(FluentRequest::factory()
             ->setAction('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
         return array_merge($fileInfo, $mediaInfo);
+    }
+
+    /**
+     * @return string Relative URL string, of the form '/assets/qrcodes/hash.svg'.
+     */
+    public function functionQrCode(string $text): string
+    {
+        $qr = new QrCode($text);
+        $qr->setWriterByName('svg');
+        $qrFilename = md5($text) . '.svg';
+        $assetPath = '/assets/qrcodes/' . $qrFilename;
+        $filePath = $this->site->getDir() . '/output' . $assetPath;
+        $cachePath = $this->site->getDir() . '/cache/qrcodes/' . $qrFilename;
+        // If it's already been used in this run, nothing neds to be done.
+        if (file_exists($filePath)) {
+            return $assetPath;
+        }
+        // Create the required directories.
+        Util::mkdir(dirname($cachePath));
+        Util::mkdir(dirname($filePath));
+        // If it's already cached, copy it to output and use it.
+        if (file_exists($cachePath)) {
+            copy($cachePath, $filePath);
+            return $assetPath;
+        }
+        // Create cached file.
+        $qr->writeFile($cachePath);
+        // Copy it to output.
+        copy($cachePath, $filePath);
+        return $assetPath;
     }
 
     public function escapeTex(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
