@@ -26,7 +26,7 @@ class Util
      * @param string $dir The directory to remove.
      * @param string[] $exclude Array of regular expressions with which to *not* delete some files.
      */
-    public static function cleanDir(string $dir, array $exclude): void
+    public static function cleanDir(string $dir, array $exclude = []): void
     {
         if (!is_dir($dir)) {
             return;

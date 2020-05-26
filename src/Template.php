@@ -107,10 +107,14 @@ class Template
                 Util::mkdir(dirname($texOutFile));
                 file_put_contents($texOutFile, $renderedTemplate);
                 // Generate PDF.
-                $process = new Process(['pdflatex', '-output-directory', dirname($texOutFile), $texOutFile]);
+                $pdfDir = dirname($texOutFile);
+                $process = new Process(['latexmk', '-lualatex', "-auxdir=$pdfDir", "-outdir=$pdfDir", $texOutFile]);
                 $process->mustRun();
                 // Copy PDF to output directory.
                 Util::mkdir(dirname($outFileBase));
+                if (!file_exists($texOutFileBase . '.pdf')) {
+                    throw new Exception('Unable to generate PDF from ' . $texOutFile);
+                }
                 copy($texOutFileBase . '.pdf', $outFileBase . '.pdf');
             } else {
                 // Save rendered template to output directory.
@@ -119,7 +123,5 @@ class Template
                 file_put_contents($outFile, $renderedTemplate);
             }
         }
-        // Also output a JSON representation of the page.
-        file_put_contents($outFileBase . '.json', json_encode($page->getMetadata()));
     }
 }

@@ -36,10 +36,15 @@ class Site
 
     public function __construct(string $dir, int $cacheTtl = 60)
     {
-        $this->dir = $dir;
+        $this->dir = rtrim($dir, '/');
         $this->ttl = $cacheTtl;
     }
 
+    /**
+     * Get the top-level site directory.
+     *
+     * @return string Never with a trailing slash.
+     */
     public function getDir(): string
     {
         return $this->dir;

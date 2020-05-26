@@ -19,7 +19,7 @@
     <main class="container">
         {% block main %}
             <h2>{% if page.title is defined %}{{ page.title }}{% else %}Untitled{% endif %}</h2>
-            <dl class="">
+            <dl>
                 {% for key, value in page.metadata %}
                     <dt>{{ key }}</dt>
                     <dd>
