@@ -1,12 +1,26 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+// Try all the places for autoload (kudos to parallel-lint).
+$autoloadLocations = [
+    getcwd() . '/vendor/autoload.php',
+    getcwd() . '/../../autoload.php',
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../../autoload.php',
+];
+foreach ($autoloadLocations as $autoload) {
+    if (is_file($autoload)) {
+        require_once($autoload);
+        break;
+    }
+}
 
 use App\Build;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Basildon', '0.1.0');
+$app = new Application('Basildon', '0.2.0');
 $app->add(new Build() );
 $app->setDefaultCommand('build', true);
 $app->run();
