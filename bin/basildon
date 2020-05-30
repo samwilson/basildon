@@ -3,8 +3,6 @@
 
 // Try all the places for autoload (kudos to parallel-lint).
 $autoloadLocations = [
-    getcwd() . '/vendor/autoload.php',
-    getcwd() . '/../../autoload.php',
     __DIR__ . '/vendor/autoload.php',
     __DIR__ . '/../vendor/autoload.php',
     __DIR__ . '/../../../autoload.php',

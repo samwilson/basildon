@@ -92,7 +92,20 @@ class Build extends Command
             static::writeln('...index built: /lunr.json (' . round(filesize($lunrIndexFilename) / 1024) . 'KB)');
         }
 
+        // Copy all other content files.
+        $images = new Finder();
+        $images->files()
+            ->in($dir . '/content')
+            ->name('/.*\.(jpg|png|gif|svg|pdf)$/');
+        foreach ($images as $image) {
+            $assetRelativePath = substr($image->getRealPath(), strlen($dir . '/content'));
+            static::writeln('Image: ' . $assetRelativePath);
+            Util::mkdir(dirname($dir . '/output' . $assetRelativePath));
+            copy($image->getRealPath(), $dir . '/output' . $assetRelativePath);
+        }
+
         // Copy all assets.
+        // @TODO Add processing (LESS etc.).
         $assetsDir = $site->getDir() . '/assets';
         if (is_dir($assetsDir)) {
             $assets = new Finder();
