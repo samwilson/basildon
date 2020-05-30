@@ -18,7 +18,7 @@ foreach ($autoloadLocations as $autoload) {
 use App\Build;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Basildon', '0.2.0');
+$app = new Application('Basildon', '0.3.0');
 $app->add(new Build() );
 $app->setDefaultCommand('build', true);
 $app->run();
