@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Process\Process;
 
 class Build extends Command
 {
@@ -120,9 +121,15 @@ class Build extends Command
             }
         }
 
+        $outDir = $site->getDir() . '/output/';
+        $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
+        $outputSizeCmd->run();
+        $outputSize = $outputSizeCmd->getOutput();
         static::$io->success([
-            'Site output to ' . $site->getDir() . '/output/',
-            'Total time: ' . round(microtime(true) - $timeStart, 1) . ' seconds.',
+            'Site output to ' . $outDir,
+            'Memory usage: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MiB',
+            'Total time: ' . round(microtime(true) - $timeStart, 1) . ' seconds',
+            'Output size: ' . substr($outputSize, 0, strpos($outputSize, "\t")),
         ]);
         return 0;
     }

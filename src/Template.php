@@ -108,6 +108,7 @@ class Template
                 file_put_contents($texOutFile, $renderedTemplate);
                 // Generate PDF.
                 $pdfDir = dirname($texOutFile);
+                Build::writeln('Compiling PDF for: ' . $page->getId());
                 $process = new Process(['latexmk', '-lualatex', "-auxdir=$pdfDir", "-outdir=$pdfDir", $texOutFile]);
                 $process->mustRun();
                 // Copy PDF to output directory.

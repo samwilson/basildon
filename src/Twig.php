@@ -32,6 +32,9 @@ class Twig extends AbstractExtension
     /** @var Page */
     protected $page;
 
+    /** @var mixed[] Runtime cache of Commons file info. */
+    protected $commonsData;
+
     public function __construct(Site $site, Page $page)
     {
         $this->site = $site;
@@ -193,6 +196,9 @@ class Twig extends AbstractExtension
      */
     public function functionCommons(string $filename): array
     {
+        if (isset($this->commonsData[$filename])) {
+            return $this->commonsData[$filename];
+        }
         $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
         $fileInfoResponse = $api->getRequest(FluentRequest::factory()
             ->setAction('query')
@@ -211,7 +217,8 @@ class Twig extends AbstractExtension
             ->setAction('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
-        return array_merge($fileInfo, $mediaInfo);
+        $this->commonsData[$filename] = array_merge($fileInfo, $mediaInfo);
+        return $this->commonsData[$filename];
     }
 
     /**
