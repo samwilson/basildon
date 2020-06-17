@@ -32,8 +32,12 @@ class Twig extends AbstractExtension
     /** @var Page */
     protected $page;
 
-    /** @var mixed[] Runtime cache of Commons file info. */
-    protected $commonsData;
+    /** @var mixed[] Runtime cache of API-retrieved info. */
+    protected static $data = [
+        'commons' => [],
+        'wikidata' => [],
+        'flickr' => [],
+    ];
 
     public function __construct(Site $site, Page $page)
     {
@@ -155,13 +159,17 @@ class Twig extends AbstractExtension
      */
     public function functionWikidata(string $wikidataId): array
     {
+        if (isset(static::$data['wikidata'][$wikidataId])) {
+            return static::$data['wikidata'][$wikidataId];
+        }
         $api = $this->site->getMediawikiApi('https://www.wikidata.org/w/api.php');
         $request = FluentRequest::factory()
             ->setAction('wbgetentities')
             ->setParam('ids', $wikidataId);
         Build::writeln('Wikidata fetch info: ' . $wikidataId);
         $result = $api->getRequest($request);
-        return $result['entities'][$wikidataId];
+        static::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
+        return static::$data['wikidata'][$wikidataId];
     }
 
     /**
@@ -169,6 +177,9 @@ class Twig extends AbstractExtension
      */
     public function functionFlickr(string $photoId): array
     {
+        if (isset(static::$data['flickr'][$photoId])) {
+            return static::$data['flickr'][$photoId];
+        }
         $config = $this->site->getConfig()->flickr;
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
         $pool = new Pool(new FileSystem(['path' => $this->site->getDir() . '/cache/flickr']));
@@ -176,7 +187,7 @@ class Twig extends AbstractExtension
         $shortUrl = $flickr->urls()->getShortUrl($photoId);
         Build::writeln("Flickr fetch info: $photoId $shortUrl");
         $info = $flickr->photos()->getInfo($photoId);
-        return [
+        static::$data['flickr'][$photoId] = [
             'id' => $info['id'],
             'title' => $info['title'],
             'description' => $info['description'],
@@ -189,6 +200,7 @@ class Twig extends AbstractExtension
             'owner' => $info['owner'],
             'license' => $flickr->photosLicenses()->getInfo()[$info['license']],
         ];
+        return static::$data['flickr'][$photoId];
     }
 
     /**
@@ -196,8 +208,8 @@ class Twig extends AbstractExtension
      */
     public function functionCommons(string $filename): array
     {
-        if (isset($this->commonsData[$filename])) {
-            return $this->commonsData[$filename];
+        if (isset(static::$data['commons'][$filename])) {
+            return static::$data['commons'][$filename];
         }
         $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
         $fileInfoResponse = $api->getRequest(FluentRequest::factory()
@@ -217,8 +229,8 @@ class Twig extends AbstractExtension
             ->setAction('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
-        $this->commonsData[$filename] = array_merge($fileInfo, $mediaInfo);
-        return $this->commonsData[$filename];
+        static::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
+        return static::$data['commons'][$filename];
     }
 
     /**
