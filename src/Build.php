@@ -65,7 +65,7 @@ class Build extends Command
 
         // Render all pages.
         foreach ($site->getPages() as $page) {
-            static::writeln('Page: ' . $page->getId());
+            static::writeln('<info>Page: ' . $page->getId() . '</info>');
             $site->getTemplate($page->getTemplateName())->render($page, $db);
         }
 
