@@ -40,7 +40,10 @@ The structure within that directory can be anything.
 ## Assets (stylesheets and scripts)
 
 Every stylesheet and script in the `assets/` directory
-will be copied to `output/assets/`. 
+will be copied to `output/assets/`.
+
+Images should be in the `content/` directory;
+for more information, see the [Content documentation page](content.html).
 
 ## Output
 

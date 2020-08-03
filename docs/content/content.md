@@ -22,6 +22,18 @@ An example of a page file at `content/topics/goats.md`:
 Because content is usually in Markdown format, there are some useful Markdown additions that can be used in content pages.
 The rest of this page explains these.
 
+## Images
+
+Images should be stored in the `content/` directory,
+and included with the normal Markdown syntax.
+Their file paths should be relative to the content directory and start with a slash.
+
+For example, an image file stored at `content/images/file.png`
+should be referenced like this: `![Alt text](/images/file.png)`.
+
+For information about other assets such as stylesheets and scripts,
+see [the Assets section](index.html) of the documentation overview.
+
 ## Embeds
 
 This section documents 'embeds', which are what we call a URL on its own line in a Markdown document.
