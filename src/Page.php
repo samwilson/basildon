@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
+use Exception;
 use Symfony\Component\Yaml\Yaml;
+use Throwable;
 
 class Page
 {
@@ -103,7 +105,12 @@ class Page
         if (!isset($matches[1])) {
             return $defaultMetadata;
         }
-        $parsedMetadata = Yaml::parse($matches[1], Yaml::PARSE_DATETIME);
+        try {
+            $parsedMetadata = Yaml::parse($matches[1], Yaml::PARSE_DATETIME);
+        } catch (Throwable $exception) {
+            Build::writeln('Error reading metadata from ' . $this->getId());
+            return [];
+        }
         return array_merge($defaultMetadata, $parsedMetadata);
     }
 
