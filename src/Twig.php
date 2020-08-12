@@ -219,6 +219,7 @@ class Twig extends AbstractExtension
                 'iiprop' => 'url',
                 'iiurlwidth' => $this->site->getConfig()->embedWidth ?? 800,
                 'titles' => 'File:' . $filename,
+                'redirects' => true,
             ]));
         $fileInfo = array_shift($fileInfoResponse['query']['pages']);
         if (!isset($fileInfo['pageid'])) {
