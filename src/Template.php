@@ -46,8 +46,9 @@ class Template
         $twig->addExtension(new DebugExtension());
         $twigExtension = new Twig($this->site, $page);
         $twig->addExtension($twigExtension);
-        $twig->getExtension(EscaperExtension::class)
-            ->setEscaper('tex', [$twigExtension, 'escapeTex']);
+        $escaper = $twig->getExtension(EscaperExtension::class);
+        $escaper->setEscaper('tex', [$twigExtension, 'escapeTex']);
+        $escaper->setEscaper('csv', [$twigExtension, 'escapeCsv']);
         return $twig;
     }
 

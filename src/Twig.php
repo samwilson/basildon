@@ -294,4 +294,20 @@ class Twig extends AbstractExtension
         ];
         return preg_replace($pat, $rep, $string);
     }
+
+    /**
+     * Escape a CSV cell value by wrapping it in quotes if required, and escaping double-quotes.
+     *
+     * @param Environment $env The Twig environment.
+     * @param string|null $string The string to escape.
+     * @param string $charset The charset of the string.
+     */
+    public function escapeCsv(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
+    {
+        $out = str_replace('"', '""', $string);
+        if (strpos($out, '"') !== false || strpos($out, ',') !== false) {
+            $out = '"' . $out . '"';
+        }
+        return $out;
+    }
 }
