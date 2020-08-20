@@ -1,5 +1,5 @@
 ---
-title: Basildon Documentation
+title: Basildon
 subtitle: Content
 ---
 
