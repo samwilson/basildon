@@ -3,8 +3,6 @@
     <rule ref="./vendor/roslov/psr12ext/PSR12Ext/ruleset.xml">
         <!-- Exclude property type hints until we only support PHP 7.4 and above. -->
         <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint" />
-        <!-- @TODO Figure out why Windows gets confused. Exclude till then. -->
-        <exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
     </rule>
     <file>.</file>
     <exclude-pattern>.phpunit/</exclude-pattern>
