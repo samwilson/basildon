@@ -48,7 +48,7 @@ Test embeds. A file from Wikimedia Commons:
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\linewidth]{%s/tests/test_site/cache/tex/_urls/c8746163efee06a4cd52b7d3f79327e8.png}
+\includegraphics[width=\linewidth]{%stests/test_site/cache/tex/_urls/c8746163efee06a4cd52b7d3f79327e8.png}
 \caption{ A temporary file for testing of correct rendering of PNG files. }
 \\end{center}
 \\end{figure}
