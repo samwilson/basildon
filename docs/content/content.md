@@ -92,6 +92,32 @@ In `templates/embeds/commons.html.twig`:
 
 Note that this is also using the `commons()` Twig function, which is [documented separately](./templates.html).
 
-### Exapmle: Flickr
+### Example: Flickr
 
+In `config.yaml`:
+
+    embeds:
+      flickr: "|https://www.flickr.com.*?([0-9]+).*|"
+
+In `templates/embeds/flickr.html.twig`:
+
+    {% set flickr = flickr(embed.matches.1) %}
+    
+    <figure itemscope itemtype="http://schema.org/ImageObject">
+        <a href="{{ flickr.urls.photopage }}"><img alt="An image from Flickr." src="{{ flickr.urls.medium_image }}" /></a>
+        <figcaption>
+            <strong itemprop="name">{{ flickr.title }}{% if flickr.description %}:{% endif %}</strong>
+            {% if flickr.description %}
+                <span itemprop="description">{{ flickr.description|raw }}</span>
+            {% endif %}
+            <span class="meta">
+                {% if flickr.dates.taken %}
+                    {% set date = date_create(flickr.dates.taken) %}
+                    <time datetime="{{ date.format('c') }}">{{ date.format('Y F j l, g:iA') }}</time>
+                {% endif %}
+                &middot; <a href="{{ flickr.urls.photopage }}">via Flickr</a>
+                &middot; <a href="{{ flickr.license.url }}" rel="license" title="{{ flickr.license.name }}">&copy;</a>
+            </span>
+        </figcaption>
+    </figure>
 
