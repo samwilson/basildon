@@ -17,12 +17,13 @@ class TwigTest extends TestCase
     /**
      * @dataProvider provideEscapeCsv
      */
-    public function testEscapeCsv(string $in, string $out): void
+    public function testEscape(string $strategy, string $in, string $out): void
     {
         $site = new Site(__DIR__ . '/test_site');
         $twig = new Twig($site, new Page($site, '/simple'));
         $env = new Environment(new ArrayLoader());
-        static::assertSame($out, $twig->escapeCsv($env, $in));
+        $escapeMethod = 'escape' . ucfirst($strategy);
+        static::assertSame($out, $twig->$escapeMethod($env, $in));
     }
 
     /**
@@ -31,9 +32,10 @@ class TwigTest extends TestCase
     public function provideEscapeCsv(): array
     {
         return [
-            'simple' => [ 'foo', 'foo' ],
-            'quotes' => [ 'the "foo" thing', '"the ""foo"" thing"' ],
-            'commas' => [ 'foo, bar', '"foo, bar"' ],
+            'csv' => [ 'csv', 'foo', 'foo' ],
+            'csv quotes' => [ 'csv', 'the "foo" thing', '"the ""foo"" thing"' ],
+            'csv commas' => [ 'csv', 'foo, bar', '"foo, bar"' ],
+            'tex special chars' => [ 'tex', 'A$B"', 'A\textdollar B"' ],
         ];
     }
 }

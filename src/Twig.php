@@ -264,7 +264,7 @@ class Twig extends AbstractExtension
         return $assetPath;
     }
 
-    public function escapeTex(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
+    public function escapeTex(Environment $env, string $string = '', string $charset = 'utf-8'): string
     {
         $pat = [
             '/\\\(\s)/',

@@ -5,12 +5,13 @@
     "require": {
         "ext-json": "*",
         "ext-pdo": "*",
-        "addwiki/mediawiki-api-base": "^2.5",
+        "addwiki/mediawiki-api-base": "2.7.*",
         "cebe/markdown-latex": "^1.1",
         "endroid/qr-code": "^3.7",
         "getdkan/lunr.php": "^1.0",
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "league/flysystem": "^1.0",
+        "myclabs/php-enum": "1.5.*",
         "samwilson/phpflickr": "^4.13",
         "symfony/console": "^5.0",
         "symfony/finder": "^5.0",
@@ -21,8 +22,10 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.7",
+        "phan/phan": "^4.0",
         "php-parallel-lint/php-console-highlighter": "^0.5",
         "php-parallel-lint/php-parallel-lint": "1.2.0",
+        "phpunit/php-token-stream": "^3.0",
         "phpunit/phpunit": "^8.5",
         "roslov/psr12ext": "^3.0",
         "symfony/var-dumper": "^5.0"
@@ -46,7 +49,8 @@
             "composer normalize --dry-run",
             "parallel-lint . --exclude node_modules --exclude vendor",
             "phpcs -s",
-            "phpunit"
+            "phpunit",
+            "phan --allow-polyfill-parser"
         ]
     }
 }
