@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use Exception;
-use Symfony\Component\Console\Style\OutputStyle;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Twig\Environment;
@@ -47,8 +45,10 @@ class Template
         $twigExtension = new Twig($this->site, $page);
         $twig->addExtension($twigExtension);
         $escaper = $twig->getExtension(EscaperExtension::class);
-        $escaper->setEscaper('tex', [$twigExtension, 'escapeTex']);
-        $escaper->setEscaper('csv', [$twigExtension, 'escapeCsv']);
+        if ($escaper instanceof EscaperExtension) {
+            $escaper->setEscaper('tex', [$twigExtension, 'escapeTex']);
+            $escaper->setEscaper('csv', [$twigExtension, 'escapeCsv']);
+        }
         return $twig;
     }
 

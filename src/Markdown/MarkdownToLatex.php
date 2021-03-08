@@ -12,8 +12,10 @@ class MarkdownToLatex extends Markdown
 {
     use EmbedTrait;
 
-    /** @var string */
-    protected $format = 'tex';
+    public function getFormat(): string
+    {
+        return 'tex';
+    }
 
     /**
      * @inheritdoc

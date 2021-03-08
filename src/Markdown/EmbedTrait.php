@@ -27,6 +27,11 @@ trait EmbedTrait
     }
 
     /**
+     * Get the name of the format that this Embed produces.
+     */
+    abstract protected function getFormat(): string;
+
+    /**
      * @param string[] $lines
      */
     protected function identifyEmbed(string $line, array $lines, int $current): bool
@@ -70,7 +75,7 @@ trait EmbedTrait
     protected function renderEmbed(array $embed): string
     {
         $template = $this->site->getTemplate('embeds/' . $embed['name']);
-        return $template->renderSimple($this->format, $this->page, [
+        return $template->renderSimple($this->getFormat(), $this->page, [
             'site' => $this->site,
             'page' => $this->page,
             'embed' => $embed,

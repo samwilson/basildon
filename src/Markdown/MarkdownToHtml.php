@@ -10,8 +10,10 @@ class MarkdownToHtml extends Markdown
 {
     use EmbedTrait;
 
-    /** @var string */
-    protected $format = 'html';
+    public function getFormat(): string
+    {
+        return 'html';
+    }
 
     /**
      * @inheritdoc

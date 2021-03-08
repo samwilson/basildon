@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use Exception;
 use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
