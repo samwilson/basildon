@@ -14,6 +14,11 @@
 
     {{ page.body|md2html|raw }}
 
+    <p>
+        QR code example:
+        <img src="{{ page.link(qrcode('https://example.org'~page.id~'.html')) }}" alt="Permalink QR code" />
+    </p>
+
     <ol>
         {% for p in database.query('SELECT p.* FROM pages p, json_each(p.tags) j WHERE "/tags/"||j.value LIKE "'~page.id~'"') %}
             <li><a href="{{ page.link(p.id) }}.html">{{ p.title }}</a></li>

@@ -32,9 +32,14 @@ class Build extends Command
     {
         parent::configure();
         $this->setName('build');
-        $this->addArgument('dir', InputArgument::REQUIRED);
+        $this->setDescription('Build a website.');
+        $this->addArgument(
+            'dir',
+            InputArgument::REQUIRED,
+            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc."
+        );
         $this->addOption('lunr', 'l', InputOption::VALUE_NONE, 'Build Lunr index?');
-        $this->addOption('ttl', 't', InputOption::VALUE_REQUIRED, 'Set the cache TTL in seconds.', 60 * 5);
+        $this->addOption('ttl', 't', InputOption::VALUE_REQUIRED, 'Set the cache TTL in seconds.', (string) (60 * 5));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

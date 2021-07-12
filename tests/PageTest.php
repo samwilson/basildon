@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 class PageTest extends TestCase
 {
 
+    /**
+     * @covers \App\Page::getMetadata()
+     */
     public function testGetMetadata(): void
     {
         $site = new Site(__DIR__ . '/test_site');
@@ -20,6 +23,9 @@ class PageTest extends TestCase
         static::assertEquals('The body text.', $file->getBody());
     }
 
+    /**
+     * @covers \App\Page::getBody()
+     */
     public function testGetBody(): void
     {
         $site = new Site(__DIR__ . '/test_site');
@@ -27,6 +33,9 @@ class PageTest extends TestCase
         static::assertSame('The body text.', $page->getBody());
     }
 
+    /**
+     * @covers \App\Page::getLink()
+     */
     public function testGetLink(): void
     {
         $site = new Site(__DIR__ . '/test_site');

@@ -8,7 +8,8 @@ use App\Markdown\MarkdownToHtml;
 use App\Markdown\MarkdownToLatex;
 use DateTime;
 use DateTimeZone;
-use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -239,8 +240,6 @@ class Twig extends AbstractExtension
      */
     public function functionQrCode(string $text): string
     {
-        $qr = new QrCode($text);
-        $qr->setWriterByName('svg');
         $qrFilename = md5($text) . '.svg';
         $assetPath = '/assets/qrcodes/' . $qrFilename;
         $filePath = $this->site->getDir() . '/output' . $assetPath;
@@ -258,7 +257,11 @@ class Twig extends AbstractExtension
             return $assetPath;
         }
         // Create cached file.
-        $qr->writeFile($cachePath);
+        Builder::create()
+            ->writer(new SvgWriter())
+            ->data($text)
+            ->build()
+            ->saveToFile($cachePath);
         // Copy it to output.
         copy($cachePath, $filePath);
         return $assetPath;
