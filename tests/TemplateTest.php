@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 class TemplateTest extends TestCase
 {
 
+    /**
+     * @covers \App\Template::renderSimple
+     */
     public function testRenderSimple(): void
     {
         $site = new Site(__DIR__ . '/test_site');
@@ -31,6 +34,9 @@ The body text.
 ', $out);
     }
 
+    /**
+     * @covers \App\Template::render
+     */
     public function testEmbeds(): void
     {
         $site = new Site(__DIR__ . '/test_site');
@@ -49,7 +55,7 @@ Test embeds. A file from Wikimedia Commons:
 \begin{figure}
 \begin{center}
 \includegraphics[width=\linewidth]{%stests/test_site/cache/tex/_urls/c8746163efee06a4cd52b7d3f79327e8.png}
-\caption{ A temporary file for testing of correct rendering of PNG files. }
+\caption{ A temporary file for testing of correct rendering of PNG image files. }
 \\end{center}
 \\end{figure}
 

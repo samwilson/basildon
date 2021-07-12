@@ -15,6 +15,8 @@ class TwigTest extends TestCase
 {
 
     /**
+     * @covers \App\Twig::escapeCsv()
+     * @covers \App\Twig::escapeTex()
      * @dataProvider provideEscapeCsv
      */
     public function testEscape(string $strategy, string $in, string $out): void
@@ -37,5 +39,16 @@ class TwigTest extends TestCase
             'csv commas' => [ 'csv', 'foo, bar', '"foo, bar"' ],
             'tex special chars' => [ 'tex', 'A$B"', 'A\textdollar B"' ],
         ];
+    }
+
+    /**
+     * @covers Twig::functionQrCode()
+     */
+    public function testQrCode(): void
+    {
+        $site = new Site(__DIR__ . '/test_site');
+        $twig = new Twig($site, new Page($site, '/simple'));
+        $out = $twig->functionQrCode('Lorem');
+        static::assertSame('/assets/qrcodes/db6ff2ffe2df7b8cfc0d9542bdce27dc.svg', $out);
     }
 }
