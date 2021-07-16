@@ -40,6 +40,13 @@ class Build extends Command
         );
         $this->addOption('lunr', 'l', InputOption::VALUE_NONE, 'Build Lunr index?');
         $this->addOption('ttl', 't', InputOption::VALUE_REQUIRED, 'Set the cache TTL in seconds.', (string) (60 * 5));
+        $this->addOption(
+            'page',
+            'p',
+            InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+            'ID of a single page to render.',
+            []
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -65,10 +72,20 @@ class Build extends Command
             $attrList[] = [ $column ];
         }
         static::$io->table(['Attributes'], $attrList);
+        static::$io->write('Processing site . . . ');
         $db->processSite($site);
+        static::$io->writeln('<info>OK</info>');
 
         // Render all pages.
-        foreach ($site->getPages() as $page) {
+        $pages = [];
+        if (count($input->getOption('page')) > 0) {
+            foreach ($input->getOption('page') as $pageId) {
+                $pages[] = new Page($site, $pageId);
+            }
+        } else {
+            $pages = $site->getPages();
+        }
+        foreach ($pages as $page) {
             static::writeln('<info>Page: ' . $page->getId() . '</info>');
             $site->getTemplate($page->getTemplateName())->render($page, $db);
         }
