@@ -140,12 +140,11 @@ class Site
     public function getMediawikiApi(string $apiUrl): MediawikiApi
     {
         $stack = HandlerStack::create();
+        $cacheDir = $this->getDir() . '/cache/mediawikiapi/' . preg_replace('/[^a-z0-9]/', '', $apiUrl);
         $stack->push(
             new CacheMiddleware(
                 new GreedyCacheStrategy(
-                    new FlysystemStorage(
-                        new Local($this->getDir() . '/cache/mediawikiapi')
-                    ),
+                    new FlysystemStorage(new Local($cacheDir)),
                     $this->ttl
                 )
             ),

@@ -3,5 +3,6 @@ title: Welcome
 template: recent
 ---
 
-Blah here.
+Lorem ipsum. This is a test. It has [links](https://example.org/) and a [ref link to goats].
 
+[ref link to goats]: ./tags/goats.html
