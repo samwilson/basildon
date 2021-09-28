@@ -157,6 +157,7 @@ trait FootnoteTrait
      * @param string $line
      * @return false|int
      */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
     protected function identifyFootnoteList($line)
     {
         return preg_match('/^\[\^(.+?)]:/', $line);
