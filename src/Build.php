@@ -94,9 +94,9 @@ class Build extends Command
         if ($input->getOption('lunr')) {
             static::writeln('Building search index...');
             $lunrBuilder = new BuildLunrIndex();
-            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::trimmer');
-            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stop_word_filter');
-            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stemmer');
+//            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::trimmer');
+//            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stop_word_filter');
+//            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stemmer');
             $lunrBuilder->ref(Database::COL_NAME_ID);
             foreach ($db->getColumns($site) as $column) {
                 $lunrBuilder->field($column);

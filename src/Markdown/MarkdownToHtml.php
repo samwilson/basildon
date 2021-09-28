@@ -9,10 +9,17 @@ use cebe\markdown\Markdown;
 class MarkdownToHtml extends Markdown
 {
     use EmbedTrait;
+    use FootnoteTrait;
 
     public function getFormat(): string
     {
         return 'html';
+    }
+
+    // phpcs:ignore
+    public function parse($text)
+    {
+        return $this->addFootnotes(parent::parse($text));
     }
 
     /**

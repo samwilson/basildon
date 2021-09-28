@@ -53,6 +53,13 @@ figure img {
     height: auto;
 }
 
+.footnotes { font-size: 0.75em; }
+.footnotes hr { border:1px solid #bbb; border-width:1px 0 0 0; }
+.footnotes li > * { display: inline; }
+.footnote-ref { font-size: 0.6em; }
+.footnote-ref a::before { content: "[";}
+.footnote-ref a::after { content: "]";}
+
 footer {
     margin-top: 2em;
     font-size: smaller;

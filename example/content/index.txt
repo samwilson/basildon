@@ -3,6 +3,8 @@ title: Welcome
 template: recent
 ---
 
-Lorem ipsum. This is a test. It has [links](https://example.org/) and a [ref link to goats].
+Lorem ipsum. This is a test. It has [links](https://example.org/) and a [ref link to goats].[^1]
 
 [ref link to goats]: ./tags/goats.html
+
+[^1]: It can also have footnotes.
