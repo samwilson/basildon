@@ -19,7 +19,8 @@ An example of a page file at `content/topics/goats.md`:
     
     This is the part where we explain more about the 'goat' topic.
 
-Because content is usually in Markdown format, there are some useful Markdown additions that can be used in content pages.
+Because content is usually in [Markdown format](https://www.markdownguide.org/getting-started/),
+there are some useful Markdown additions that can be used in content pages.
 The rest of this page explains these.
 
 ## Images
@@ -36,7 +37,7 @@ see [the Assets section](index.html) of the documentation overview.
 
 ## Embeds
 
-This section documents 'embeds', which are what we call a URL on its own line in a Markdown document.
+This section documents 'embeds', which are what we call a URL on its own line in a Markdown document.[^embed]
 Embeds are simple ways to include images, videos, and summaries of other web pages.
 For example, this is a photo from Wikimedia Commons:
 
@@ -49,6 +50,10 @@ It is added to the source Markdown with this:
 All of the other information (image URL, caption, etc.) is retrieved from the Commons API when the Markdown is rendered.
 
 Embeds can be rendered to any output format; they're not limited to HTML.
+
+[^embed]: The term 'embed' comes from WordPress,
+which has a [similar function](https://wordpress.org/support/article/embeds/).
+Basildon doesn't yet support the [oEmbed standard](https://oembed.com/).
 
 ### Configuration
 
