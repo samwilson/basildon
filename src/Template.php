@@ -64,7 +64,7 @@ class Template
         $finder = new Finder();
         $finder->files()
             ->in($templatesDir)
-            ->name($this->name . '*.twig');
+            ->name($this->name . '.*.twig');
         $formats = [];
         foreach ($finder as $file) {
             preg_match('/^.*\.(.*)\.twig$/', $file->getFilename(), $matches);

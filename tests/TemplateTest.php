@@ -65,4 +65,14 @@ Test embeds. A file from Wikimedia Commons:
 
 ", $out);
     }
+
+    /**
+     * @covers \App\Template::getFormats()
+     */
+    public function testGetFormats(): void
+    {
+        $site = new Site(__DIR__ . '/test_site');
+        $tpl = new Template($site, 'test');
+        $this->assertSame(['tex'], $tpl->getFormats());
+    }
 }
