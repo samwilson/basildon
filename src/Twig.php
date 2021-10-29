@@ -267,8 +267,18 @@ class Twig extends AbstractExtension
         return $assetPath;
     }
 
-    public function escapeTex(Environment $env, string $string = '', string $charset = 'utf-8'): string
+    /**
+     * Escape a TeX string.
+     *
+     * @param Environment $env The Twig environment. Not used.
+     * @param string|null $string The string to escape.
+     * @param string $charset The charset of the string. Not used.
+     */
+    public function escapeTex(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
     {
+        if ($string === null) {
+            return '';
+        }
         $pat = [
             '/\\\(\s)/',
             '/\\\(\S)/',
@@ -307,6 +317,9 @@ class Twig extends AbstractExtension
      */
     public function escapeCsv(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
     {
+        if ($string === null) {
+            return '';
+        }
         $out = str_replace('"', '""', $string);
         if (strpos($out, '"') !== false || strpos($out, ',') !== false) {
             $out = '"' . $out . '"';
