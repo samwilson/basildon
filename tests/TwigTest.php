@@ -17,9 +17,9 @@ class TwigTest extends TestCase
     /**
      * @covers \App\Twig::escapeCsv()
      * @covers \App\Twig::escapeTex()
-     * @dataProvider provideEscapeCsv
+     * @dataProvider provideEscape()
      */
-    public function testEscape(string $strategy, string $in, string $out): void
+    public function testEscape(string $strategy, ?string $in, string $out): void
     {
         $site = new Site(__DIR__ . '/test_site');
         $twig = new Twig($site, new Page($site, '/simple'));
@@ -31,13 +31,15 @@ class TwigTest extends TestCase
     /**
      * @return string[][]
      */
-    public function provideEscapeCsv(): array
+    public function provideEscape(): array
     {
         return [
             'csv' => [ 'csv', 'foo', 'foo' ],
             'csv quotes' => [ 'csv', 'the "foo" thing', '"the ""foo"" thing"' ],
             'csv commas' => [ 'csv', 'foo, bar', '"foo, bar"' ],
             'tex special chars' => [ 'tex', 'A$B"', 'A\textdollar B"' ],
+            'tex allow null' => [ 'tex', null, '' ],
+            'csv allow null' => [ 'csv', null, '' ],
         ];
     }
 
