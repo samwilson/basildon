@@ -13,12 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Install and build
-        run: |
-          composer install
-          ./bin/basildon docs
-          echo '{}' > package.json
-
       - name: Deploy to Netlify
         uses: jsmrcaga/action-netlify-deploy@master
         with:
@@ -26,6 +20,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_DEPLOY_MESSAGE: "Prod deploy v${{ github.ref }}"
           NETLIFY_DEPLOY_TO_PROD: true
-          build_command: ""
+          install_command: "composer install"
+          build_command: "./bin/basildon docs"
           build_directory: "docs/output/"
           node_version: "--lts"
