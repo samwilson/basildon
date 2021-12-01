@@ -17,10 +17,18 @@ class PageTest extends TestCase
     public function testGetMetadata(): void
     {
         $site = new Site(__DIR__ . '/test_site');
-        $file = new Page($site, '/simple');
-        $metadata = ['title' => 'The title', 'tags' => 'one, two', 'template' => 'index'];
-        static::assertEquals($metadata, $file->getMetadata());
-        static::assertEquals('The body text.', $file->getBody());
+        $page1 = new Page($site, '/simple');
+        $metadata = ['template' => 'index', 'title' => 'The title', 'tags' => 'one, two'];
+        static::assertSame($metadata, $page1->getMetadata());
+        static::assertSame('The body text.', $page1->getBody());
+
+        // No metadata.
+        $page2 = new Page($site, '/subdir/subdir/deep');
+        static::assertSame(['template' => 'index'], $page2->getMetadata());
+
+        // Invalid YAML metadata.
+        $page3 = new Page($site, '/subdir/foo');
+        static::assertSame(['template' => 'index'], $page3->getMetadata());
     }
 
     /**

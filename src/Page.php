@@ -107,8 +107,8 @@ class Page
         try {
             $parsedMetadata = Yaml::parse($matches[1], Yaml::PARSE_DATETIME);
         } catch (Throwable $exception) {
-            Build::writeln('Error reading metadata from ' . $this->getId());
-            return [];
+            Build::writeln('Error reading metadata from ' . $this->getId() . "\n> " . $exception->getMessage());
+            return $defaultMetadata;
         }
         return array_merge($defaultMetadata, $parsedMetadata);
     }
