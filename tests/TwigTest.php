@@ -13,7 +13,6 @@ use Twig\Loader\ArrayLoader;
 
 class TwigTest extends TestCase
 {
-
     /**
      * @covers \App\Twig::escapeCsv()
      * @covers \App\Twig::escapeTex()

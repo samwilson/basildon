@@ -11,7 +11,6 @@ use PDOStatement;
 
 class Database
 {
-
     /** @var PDO */
     protected static $pdo;
 

@@ -26,7 +26,6 @@ use Twig\TwigFunction;
 
 class Twig extends AbstractExtension
 {
-
     /** @var Site */
     protected $site;
 

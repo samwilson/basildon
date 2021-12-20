@@ -17,7 +17,6 @@ use Twig\Loader\FilesystemLoader;
  */
 class Template
 {
-
     /** @var Site */
     protected $site;
 

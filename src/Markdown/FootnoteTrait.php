@@ -9,7 +9,6 @@ namespace App\Markdown;
  */
 trait FootnoteTrait
 {
-
     /** @var string[][] Unordered array of footnotes. */
     protected $footnotes = [];
 

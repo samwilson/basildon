@@ -9,7 +9,6 @@ use Throwable;
 
 class Page
 {
-
     /** @var Site */
     protected $site;
 
