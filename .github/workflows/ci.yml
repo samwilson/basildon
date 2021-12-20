@@ -25,7 +25,7 @@ jobs:
 
     - name: Install
       run: |
-        composer install
+        composer --ignore-platform-reqs install
 
     - name: Test
       run: |
