@@ -17,7 +17,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class Site
 {
-
     /** @var string */
     protected $dir;
 

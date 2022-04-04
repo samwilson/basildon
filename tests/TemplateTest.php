@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class TemplateTest extends TestCase
 {
-
     /**
      * @covers \App\Template::renderSimple
      */
@@ -54,7 +53,7 @@ Test embeds. A file from Wikimedia Commons:
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\linewidth]{%stests/test_site/cache/tex/_urls/c7476d9f8e5cdcfc507affb12fed6891.png}
+\includegraphics[width=\linewidth]{%stests/test_site/cache/tex/_urls/c8746163efee06a4cd52b7d3f79327e8.png}
 \caption{ A temporary file for testing of correct rendering of PNG image files. }
 \\end{center}
 \\end{figure}
