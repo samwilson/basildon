@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\EscaperExtension;
+use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 
 /**
@@ -17,7 +18,6 @@ use Twig\Loader\FilesystemLoader;
  */
 class Template
 {
-
     /** @var Site */
     protected $site;
 
@@ -41,6 +41,7 @@ class Template
             'debug' => true,
             'strict_variables' => true,
         ]);
+        $twig->addExtension(new IntlExtension());
         $twig->addExtension(new DebugExtension());
         $twigExtension = new Twig($this->site, $page);
         $twig->addExtension($twigExtension);

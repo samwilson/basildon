@@ -18,6 +18,7 @@
         "symfony/process": "^5.0",
         "symfony/yaml": "^5.0",
         "tedivm/stash": "^0.16",
+        "twig/intl-extra": "^3.3",
         "twig/twig": "^3.0"
     },
     "require-dev": {
@@ -42,6 +43,11 @@
     "bin": [
         "bin/basildon"
     ],
+    "config": {
+        "platform": {
+            "php": "7.3"
+        }
+    },
     "scripts": {
         "test": [
             "composer validate",

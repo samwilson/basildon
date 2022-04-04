@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class PageTest extends TestCase
 {
-
     /**
      * @covers \App\Page::getMetadata()
      */

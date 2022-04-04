@@ -17,7 +17,6 @@ use Symfony\Component\Process\Process;
 
 class Build extends Command
 {
-
     /** @var SymfonyStyle */
     public static $io;
 

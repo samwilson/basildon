@@ -10,7 +10,6 @@ use RecursiveIteratorIterator;
 
 class Util
 {
-
     public static function mkdir(string $dir): void
     {
         if (!is_dir($dir)) {

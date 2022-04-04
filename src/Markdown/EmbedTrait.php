@@ -9,7 +9,6 @@ use App\Site;
 
 trait EmbedTrait
 {
-
     /** @var Site */
     protected $site;
 
