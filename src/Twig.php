@@ -71,6 +71,7 @@ class Twig extends AbstractExtension
             new TwigFunction('tex_url', [$this, 'functionTexUrl']),
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
+            new TwigFunction('wikipedia', [$this, 'functionWikipedia']),
             new TwigFunction('flickr', [$this, 'functionFlickr']),
             new TwigFunction('qrcode', [$this, 'functionQrCode']),
         ];
@@ -232,6 +233,22 @@ class Twig extends AbstractExtension
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
         static::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
         return static::$data['commons'][$filename];
+    }
+
+    public function functionWikipedia(string $lang, string $articleTitle): string
+    {
+        if (isset(static::$data['wikipedia'][$articleTitle])) {
+            return static::$data['wikipedia'][$articleTitle];
+        }
+        Build::writeln("Wikipedia fetch extract: $articleTitle");
+        $url = "https://$lang.wikipedia.org/api/rest_v1/page/summary/" . str_replace(' ', '_', $articleTitle);
+        $json = (new Client())->get($url)->getBody()->getContents();
+        $response = json_decode($json, true);
+        if (!$response) {
+            throw new Exception("Unable to get extract of Wikipedia article: $articleTitle");
+        }
+        static::$data['commons'][$articleTitle] = $response['extract_html'];
+        return static::$data['commons'][$articleTitle];
     }
 
     /**

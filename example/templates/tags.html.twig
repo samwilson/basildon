@@ -6,10 +6,16 @@
 
     {{ page.body|md2html|raw }}
 
+    <p>Wikipedia says the following about tags:</p>
+    <blockquote>
+        {{wikipedia('en', 'Tag (metadata)')|raw}}
+        <p><em><a href="https://en.wikipedia.org/wiki/Tag_(metadata)">Read more…</a></em></p>
+    </blockquote>
+
     <p>
-        There are 
+        There are
         {{ database.query('SELECT COUNT(*) FROM pages WHERE id IN (SELECT "/tags/"||j.value FROM pages p, json_each(p.tags) j)').fetchColumn()|format_spellout_number }}
-        tags:
+        tags in this example site:
     </p>
 
     <ol>
