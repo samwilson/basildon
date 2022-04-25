@@ -42,3 +42,5 @@ these are explained on this page.
 2. `md2latex` – Filter markdown to LaTeX.
 3. `escape('tex')` – Escaper to use in TeX templates to escape characters that have special meaning in TeX, e.g. `{{ '$10'|e('tex') }}`.
    This is often used by wrapping the template in `{% autoescape 'tex' %}{% endautoescape %}`
+4. `dirname` and `basename` — Identical to PHP's [dirname()](https://www.php.net/manual/en/function.dirname.php)
+   and [basename()](https://www.php.net/manual/en/function.basename.php) functions. Useful for working with Basildon page IDs.

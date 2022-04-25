@@ -52,6 +52,7 @@ class Twig extends AbstractExtension
     {
         return [
             new TwigFilter('basename', 'basename'),
+            new TwigFilter('dirname', 'dirname'),
             new TwigFilter('md2html', [$this, 'filterMarkdownToHtml']),
             new TwigFilter('md2latex', [$this, 'filterMarkdownToLatex']),
         ];

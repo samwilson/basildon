@@ -44,6 +44,10 @@
         "bin/basildon"
     ],
     "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "ergebnis/composer-normalize": true
+        },
         "platform": {
             "php": "7.3"
         }
