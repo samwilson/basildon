@@ -22,5 +22,4 @@ use Symfony\Component\Console\Application;
 $app = new Application('Basildon');
 $app->add(new BuildCommand());
 $app->add(new WriteCommand());
-//$app->setDefaultCommand('build', true);
 $app->run();

@@ -28,7 +28,7 @@ class WriteCommand extends CommandBase
         }
         $dbFile = $site->getDir() . '/cache/database/db.sqlite3';
         $db = new Database($dbFile);
-        foreach ($db->query('SELECT * FROM pages ORDER BY ' . Database::COL_NAME_BODY) as $newMeta) {
+        foreach ($db->query('SELECT * FROM pages ORDER BY ' . Database::COL_NAME_ID) as $newMeta) {
             $page = new Page($site, $newMeta->{Database::COL_NAME_ID});
             $newBody = $newMeta->body;
 
