@@ -9,6 +9,7 @@ use App\Page;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class WriteCommand extends CommandBase
 {
@@ -27,11 +28,21 @@ class WriteCommand extends CommandBase
         }
         $dbFile = $site->getDir() . '/cache/database/db.sqlite3';
         $db = new Database($dbFile);
-        foreach ($db->query('SELECT * FROM pages ORDER BY id') as $newMeta) {
-            $page = new Page($site, $newMeta->id);
+        foreach ($db->query('SELECT * FROM pages ORDER BY ' . Database::COL_NAME_BODY) as $newMeta) {
+            $page = new Page($site, $newMeta->{Database::COL_NAME_BODY});
             $newBody = $newMeta->body;
-            unset($newMeta->body, $newMeta->id);
-            $page->write((array) $newMeta, $newBody);
+
+            // Don't write id or body columns.
+            unset($newMeta->{Database::COL_NAME_ID}, $newMeta->{Database::COL_NAME_BODY});
+
+            // Parse each column's value.
+            $parsedMetadata = [];
+            foreach ($newMeta as $k => $v) {
+                $parsedMetadata[$k] = Yaml::parse($v, Yaml::PARSE_DATETIME);
+            }
+
+            // Write the new data.
+            $page->write(array_filter($parsedMetadata), $newBody);
         }
         return Command::SUCCESS;
     }
