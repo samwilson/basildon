@@ -29,7 +29,7 @@ class WriteCommand extends CommandBase
         $dbFile = $site->getDir() . '/cache/database/db.sqlite3';
         $db = new Database($dbFile);
         foreach ($db->query('SELECT * FROM pages ORDER BY ' . Database::COL_NAME_BODY) as $newMeta) {
-            $page = new Page($site, $newMeta->{Database::COL_NAME_BODY});
+            $page = new Page($site, $newMeta->{Database::COL_NAME_ID});
             $newBody = $newMeta->body;
 
             // Don't write id or body columns.
@@ -37,7 +37,7 @@ class WriteCommand extends CommandBase
 
             // Parse each column's value.
             $parsedMetadata = [];
-            foreach ($newMeta as $k => $v) {
+            foreach (array_filter((array) $newMeta) as $k => $v) {
                 $parsedMetadata[$k] = Yaml::parse($v, Yaml::PARSE_DATETIME);
             }
 
