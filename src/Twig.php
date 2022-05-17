@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Command\CommandBase;
 use App\Markdown\MarkdownToHtml;
 use App\Markdown\MarkdownToLatex;
 use DateTime;
@@ -125,7 +126,7 @@ class Twig extends AbstractExtension
      */
     public function functionTexUrl(string $url): string
     {
-        Build::writeln('TeX file download: ' . basename($url));
+        CommandBase::writeln('TeX file download: ' . basename($url));
 
         // Set up file and directory names.
         $filename = md5($url) . '.' . pathinfo($url, PATHINFO_EXTENSION);
@@ -168,7 +169,7 @@ class Twig extends AbstractExtension
         $request = FluentRequest::factory()
             ->setAction('wbgetentities')
             ->setParam('ids', $wikidataId);
-        Build::writeln('Wikidata fetch info: ' . $wikidataId);
+        CommandBase::writeln('Wikidata fetch info: ' . $wikidataId);
         $result = $api->getRequest($request);
         static::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
         return static::$data['wikidata'][$wikidataId];
@@ -187,7 +188,7 @@ class Twig extends AbstractExtension
         $pool = new Pool(new FileSystem(['path' => $this->site->getDir() . '/cache/flickr']));
         $flickr->setCache($pool);
         $shortUrl = $flickr->urls()->getShortUrl($photoId);
-        Build::writeln("Flickr fetch info: $photoId $shortUrl");
+        CommandBase::writeln("Flickr fetch info: $photoId $shortUrl");
         $info = $flickr->photos()->getInfo($photoId);
         static::$data['flickr'][$photoId] = [
             'id' => $info['id'],
@@ -227,7 +228,7 @@ class Twig extends AbstractExtension
         if (!isset($fileInfo['pageid'])) {
             throw new Exception('Commons file does not exist: ' . $filename);
         }
-        Build::writeln("Commons fetch info: $filename");
+        CommandBase::writeln("Commons fetch info: $filename");
         $mediaInfoResponse = $api->getRequest(FluentRequest::factory()
             ->setAction('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
@@ -241,7 +242,7 @@ class Twig extends AbstractExtension
         if (isset(static::$data['wikipedia'][$articleTitle])) {
             return static::$data['wikipedia'][$articleTitle];
         }
-        Build::writeln("Wikipedia fetch extract: $articleTitle");
+        CommandBase::writeln("Wikipedia fetch extract: $articleTitle");
         $url = "https://$lang.wikipedia.org/api/rest_v1/page/summary/" . str_replace(' ', '_', $articleTitle);
         $json = (new Client())->get($url)->getBody()->getContents();
         $response = json_decode($json, true);
