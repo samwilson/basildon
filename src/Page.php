@@ -145,6 +145,7 @@ class Page
         }
 
         $yaml = Yaml::dump($newMetadata, 4, 4, Yaml::DUMP_NULL_AS_TILDE);
+        Util::mkdir(dirname($this->getFilename()));
         file_put_contents($this->getFilename(), "---\n$yaml---\n$trimmedBody\n");
         // Reset contents to ensure it'll be re-read when next accessed.
         $this->contents = null;
