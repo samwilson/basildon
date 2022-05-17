@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Command;
 
+use App\Database;
+use App\Page;
+use App\Util;
 use LunrPHP\BuildLunrIndex;
 use PDO;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,28 +17,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
-class Build extends Command
+class BuildCommand extends CommandBase
 {
-    /** @var SymfonyStyle */
-    public static $io;
-
-    public static function writeln(string $line): void
-    {
-        if (self::$io instanceof SymfonyStyle) {
-            self::$io->writeln($line);
-        }
-    }
-
     protected function configure(): void
     {
         parent::configure();
         $this->setName('build');
         $this->setDescription('Build a website.');
-        $this->addArgument(
-            'dir',
-            InputArgument::REQUIRED,
-            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc."
-        );
         $this->addOption('lunr', 'l', InputOption::VALUE_NONE, 'Build Lunr index?');
         $this->addOption('ttl', 't', InputOption::VALUE_REQUIRED, 'Set the cache TTL in seconds.', (string) (60 * 5));
         $this->addOption(
@@ -52,12 +39,10 @@ class Build extends Command
     {
         $timeStart = microtime(true);
         static::$io = new SymfonyStyle($input, $output);
-        $dir = realpath($input->getArgument('dir'));
-        if (!$dir || !is_dir($dir)) {
-            $output->writeln('bad directory');
-            return 1;
+        $site = $this->getSite($input);
+        if (!$site) {
+            return Command::FAILURE;
         }
-        $site = new Site($dir, (int) $input->getOption('ttl'));
 
         // Clean output.
         Util::cleanDir($site->getDir() . '/output', $site->getConfig()->output_exclude ?? []);
@@ -115,6 +100,7 @@ class Build extends Command
 
         // Copy all other content files.
         $images = new Finder();
+        $dir = $site->getDir();
         $images->files()
             ->in($dir . '/content')
             ->name('/.*\.(jpg|png|gif|svg|pdf)$/');

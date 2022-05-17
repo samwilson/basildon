@@ -1,6 +1,8 @@
 ---
-title: The title
-tags: one, two
+template: index
+title: 'The title'
+tags:
+    - one
+    - two
 ---
-
 The body text.

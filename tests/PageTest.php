@@ -6,6 +6,7 @@ namespace Test;
 
 use App\Page;
 use App\Site;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class PageTest extends TestCase
@@ -17,7 +18,7 @@ class PageTest extends TestCase
     {
         $site = new Site(__DIR__ . '/test_site');
         $page1 = new Page($site, '/simple');
-        $metadata = ['template' => 'index', 'title' => 'The title', 'tags' => 'one, two'];
+        $metadata = ['template' => 'index', 'title' => 'The title', 'tags' => ['one', 'two']];
         static::assertSame($metadata, $page1->getMetadata());
         static::assertSame('The body text.', $page1->getBody());
 
@@ -55,5 +56,47 @@ class PageTest extends TestCase
 
         $page3 = new Page($site, '/subdir/subdir/deep');
         static::assertEquals('../../subdir/foo', $page3->getLink('subdir/foo'));
+    }
+
+    /**
+     * @covers \App\Page::write()
+     */
+    public function testWrite(): void
+    {
+        $site = new Site(__DIR__ . '/test_site');
+        $page = new Page($site, '/simple');
+
+        // Check zero-modification.
+        $metaOriginal = $page->getMetadata();
+        $page->write($metaOriginal, $page->getBody());
+        static::assertSame('The body text.', $page->getBody());
+        static::assertSame(
+            "---\ntemplate: index\ntitle: 'The title'\ntags:\n    - one\n    - two\n---\nThe body text.\n",
+            $page->getContents()
+        );
+
+        // Change a metadata field.
+        $metaNew = $metaOriginal;
+        $metaNew['tags'][] = 'new tag';
+        $page->write($metaNew, $page->getBody());
+        static::assertSame(
+            "---\ntemplate: index\ntitle: 'The title'\n"
+            . "tags:\n    - one\n    - two\n    - 'new tag'\n---\nThe body text.\n",
+            $page->getContents()
+        );
+        static::assertSame($metaNew, $page->getMetadata());
+
+        // Replace all metadata.
+        $page->write(['foo' => 'bar'], $page->getBody());
+        static::assertSame("---\nfoo: bar\n---\nThe body text.\n", $page->getContents());
+
+        // Reset to original.
+        $page->write($metaOriginal, $page->getBody());
+
+        // Create new page.
+        $newPage = new Page($site, '/subdir/new-page');
+        $newPage->write(['date' => new DateTime('2020-01-01 02:03:04Z')], 'Test');
+        static::assertSame("---\ndate: 2020-01-01T02:03:04+00:00\n---\nTest\n", $newPage->getContents());
+        unlink($newPage->getFilename());
     }
 }

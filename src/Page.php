@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Command\CommandBase;
 use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
@@ -15,7 +16,7 @@ class Page
     /** @var string */
     protected $id;
 
-    /** @var string */
+    /** @var ?string */
     protected $contents;
 
     public function __construct(Site $site, string $id)
@@ -80,14 +81,24 @@ class Page
     /**
      * The 'contents' is the full original file, both metadata and body.
      */
-    protected function getContents(): string
+    public function getContents(): string
     {
-        if ($this->contents) {
+        if ($this->contents !== null) {
             return $this->contents;
         }
-        $filename = $this->site->getDir() . '/content' . $this->getId() . $this->site->getExt();
-        $this->contents = file_get_contents($filename);
+        if (!file_exists($this->getFilename())) {
+            return '';
+        }
+        $this->contents = file_get_contents($this->getFilename());
         return $this->contents;
+    }
+
+    /**
+     * Get the full filesystem path to the source Markdown file for this page.
+     */
+    public function getFilename(): string
+    {
+        return $this->site->getDir() . '/content' . $this->getId() . $this->site->getExt();
     }
 
     /**
@@ -106,7 +117,7 @@ class Page
         try {
             $parsedMetadata = Yaml::parse($matches[1], Yaml::PARSE_DATETIME);
         } catch (Throwable $exception) {
-            Build::writeln('Error reading metadata from ' . $this->getId() . "\n> " . $exception->getMessage());
+            CommandBase::writeln('Error reading metadata from ' . $this->getId() . "\n> " . $exception->getMessage());
             return $defaultMetadata;
         }
         return array_merge($defaultMetadata, $parsedMetadata);
@@ -117,5 +128,26 @@ class Page
         $contents = $this->getContents();
         preg_match("/---+[\n\r]+.*[\n\r]+---+[\n\r]?(.*)/ms", $contents, $matches);
         return isset($matches[1]) ? trim($matches[1]) : $contents;
+    }
+
+    /**
+     * Write new content to this page's file.
+     *
+     * @param mixed[] $newMetadata
+     */
+    public function write(array $newMetadata, string $newBody): void
+    {
+        // Loose equality check.
+        $trimmedBody = trim($newBody);
+        if ($newMetadata == $this->getMetadata() && $trimmedBody == $this->getBody()) {
+            CommandBase::writeln('No change required');
+            return;
+        }
+
+        $yaml = Yaml::dump($newMetadata, 4, 4, Yaml::DUMP_NULL_AS_TILDE);
+        Util::mkdir(dirname($this->getFilename()));
+        file_put_contents($this->getFilename(), "---\n$yaml---\n$trimmedBody\n");
+        // Reset contents to ensure it'll be re-read when next accessed.
+        $this->contents = null;
     }
 }

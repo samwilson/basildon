@@ -29,10 +29,10 @@ class Site
     /** @var int Cache TTL in seconds. */
     protected $ttl;
 
-    public function __construct(string $dir, int $cacheTtl = 60)
+    public function __construct(string $dir, ?int $cacheTtl = null)
     {
         $this->dir = rtrim($dir, '/');
-        $this->ttl = $cacheTtl;
+        $this->ttl = $cacheTtl ?? 60;
     }
 
     /**

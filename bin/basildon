@@ -15,10 +15,11 @@ foreach ($autoloadLocations as $autoload) {
     }
 }
 
-use App\Build;
+use App\Command\BuildCommand;
+use App\Command\WriteCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Basildon', '0.6.0');
-$app->add(new Build() );
-$app->setDefaultCommand('build', true);
+$app = new Application('Basildon');
+$app->add(new BuildCommand());
+$app->add(new WriteCommand());
 $app->run();
