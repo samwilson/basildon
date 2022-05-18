@@ -23,6 +23,10 @@ Because content is usually in [Markdown format](https://www.markdownguide.org/ge
 there are some useful Markdown additions that can be used in content pages.
 The rest of this page explains these.
 
+All the metadata from content files is read into an [SQLite](https://www.sqlite.org) database when a site is built,
+which can be queried in [templates](templates.html) (see that page for more information about how).
+The database can also be modified and the changes [written back to the content files](writing.html).
+
 ## Images
 
 Images should be stored in the `content/` directory,
