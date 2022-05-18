@@ -13,7 +13,7 @@ Prerequisites: [PHP](https://www.php.net/) (version 7.3 or higher) and [Composer
 
 1. `composer create-project samwilson/basildon-skeleton mysite`
 2. `cd mysite`
-3. `./vendor/bin/basildon .`
+3. `./vendor/bin/basildon build .`
 4. Edit files in the `content/` and `templates/` directories (for more details, see below).
 
 ## Content
