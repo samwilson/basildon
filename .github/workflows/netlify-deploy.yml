@@ -16,7 +16,7 @@ jobs:
       - name: Build
         run: |
           composer install
-          ./bin/basildon docs
+          ./bin/basildon build docs
 
       - name: Deploy
         env:
