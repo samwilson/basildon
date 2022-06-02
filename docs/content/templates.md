@@ -33,6 +33,8 @@ these are explained on this page.
    For example, `{{ wikidata('Q42').descriptions.en.value }}` will return something like "English writer and humorist".
    To get the full details of the returned structure,
    see e.g. [wikidata.org/wiki/Special:EntityData/Q42.json](https://www.wikidata.org/wiki/Special:EntityData/Q42.json).
+5. `wikidata_query(sparql)` — Returns the result of the Sparql query from Wikidata.
+   See the example in [/example/templates/tag.html.twig](https://github.com/samwilson/basildon/blob/master/example/templates/tag.html.twig)
 5. `wikipedia(lang, title)` — Returns an HTML extract of the given article.
    For example: `{{wikipedia('en', 'Tag (metadata)')|raw}}`
 
