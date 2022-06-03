@@ -87,7 +87,7 @@ trait FootnoteTrait
     }
 
     /**
-     * @param mixed[] $footnotesSorted Array with 'html', 'num', and 'refs' keys.
+     * @param mixed[][] $footnotesSorted Array with 'html', 'num', and 'refs' keys.
      */
     protected function getFootnotesHtml(array $footnotesSorted): string
     {

@@ -93,10 +93,20 @@ class PageTest extends TestCase
         // Reset to original.
         $page->write($metaOriginal, $page->getBody());
 
-        // Create new page.
+        // Create some new pages.
         $newPage = new Page($site, '/subdir/new-page');
         $newPage->write(['date' => new DateTime('2020-01-01 02:03:04Z')], 'Test');
         static::assertSame("---\ndate: 2020-01-01T02:03:04+00:00\n---\nTest\n", $newPage->getContents());
+        $newPage2 = new Page($site, '/subdir/new-page-2');
+        $newPage2->write(['int_number' => 123], '');
+        static::assertSame("---\nint_number: 123\n---\n", $newPage2->getContents());
+
+        // Edit a page with no body.
+        $newPage2->write(['foo' => 'bar'], '');
+        static::assertSame("---\nfoo: bar\n---\n", $newPage2->getContents());
+
+        // Clean up.
         unlink($newPage->getFilename());
+        unlink($newPage2->getFilename());
     }
 }
