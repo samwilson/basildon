@@ -74,6 +74,7 @@ class Twig extends AbstractExtension
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
             new TwigFunction('wikipedia', [$this, 'functionWikipedia']),
+            new TwigFunction('wikidata_query', [$this, 'functionWikidataQuery']),
             new TwigFunction('flickr', [$this, 'functionFlickr']),
             new TwigFunction('qrcode', [$this, 'functionQrCode']),
         ];
@@ -173,6 +174,14 @@ class Twig extends AbstractExtension
         $result = $api->getRequest($request);
         static::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
         return static::$data['wikidata'][$wikidataId];
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function functionWikidataQuery(string $sparql): array
+    {
+        return (new WikidataQuery($sparql))->fetch();
     }
 
     /**

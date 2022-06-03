@@ -4,14 +4,6 @@
 
     <h2>{{ page.metadata.title }}</h2>
 
-    {% if page.metadata.wikidata is defined %}
-        {% set wditem = wikidata( page.metadata.wikidata ) %}
-        <p>
-          <a href="{{ wditem.id }}">{{ wditem.labels.en.value }} ({{ wditem.id }})</a>:
-            {{ wditem.descriptions.en.value }}
-        </p>
-    {% endif %}
-
     {{ page.body|md2html|raw }}
 
     <p>
@@ -19,10 +11,36 @@
         <img src="{{ page.link(qrcode('https://example.org'~page.id~'.html')) }}" alt="Permalink QR code" />
     </p>
 
+    <h2>All pages with this tag:</h2>
     <ol>
         {% for p in database.query('SELECT p.* FROM pages p, json_each(p.tags) j WHERE "/tags/"||j.value LIKE "'~page.id~'"') %}
             <li><a href="{{ page.link(p.id) }}.html">{{ p.title }}</a></li>
         {% endfor %}
     </ol>
+
+    {% if page.metadata.wikidata is defined %}
+        {% set wditem = wikidata( page.metadata.wikidata ) %}
+
+        <h2>Wikidata item</h2>
+        <p>
+          <a href="{{ wditem.id }}">{{ wditem.labels.en.value }} ({{ wditem.id }})</a>:
+            {{ wditem.descriptions.en.value }}
+        </p>
+
+        <h2>Wikidata query showing all instances of this tag:</h2>
+        {% set query_result = wikidata_query('SELECT ?item ?itemLabel ?itemDescription WHERE {
+                ?item wdt:P31 wd:' ~ wditem.id ~ '
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }') %}
+        <ol>
+            {% for res in query_result %}
+                <li>
+                    <a href="{{ res.item }}">{{ res.itemLabel }}</a>
+                    {%- if res.itemDescription is defined and res.itemDescription %}: {{ res.itemDescription }}{% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+
+    {% endif %}
 
 {% endblock %}
