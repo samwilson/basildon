@@ -102,32 +102,50 @@ class Page
     }
 
     /**
+     * @return mixed[] With 'metadata' and 'body' keys.
+     */
+    private function parseContents(): array
+    {
+        $contents = $this->getContents();
+        $defaultMetadata = ['template' => 'index'];
+        preg_match('/^(---+)/', $contents, $hyphenMatches);
+        if (isset($hyphenMatches[1])) {
+            $hyphenCount = strlen($hyphenMatches[1]);
+            $frontmatterClosePos = strpos($contents, $hyphenMatches[1], $hyphenCount);
+            $frontmatterData = trim(substr($contents, $hyphenCount, $frontmatterClosePos - $hyphenCount));
+            try {
+                $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
+            } catch (Throwable $throwable) {
+                CommandBase::writeln(
+                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage()
+                );
+                $parsedMetadata = $defaultMetadata;
+            }
+            $metadata = array_merge($defaultMetadata, $parsedMetadata);
+            $body = substr($contents, $frontmatterClosePos + $hyphenCount);
+        } else {
+            $metadata = $defaultMetadata;
+            $body = $contents;
+        }
+        return [
+            'metadata' => $metadata,
+            'body' => trim($body),
+        ];
+    }
+
+    /**
      * Get a file's metadata.
      *
      * @return string[]
      */
     public function getMetadata(): array
     {
-        $contents = $this->getContents();
-        preg_match("/---+[\n\r]+(.*)[\n\r]+---+/ms", $contents, $matches);
-        $defaultMetadata = ['template' => 'index'];
-        if (!isset($matches[1])) {
-            return $defaultMetadata;
-        }
-        try {
-            $parsedMetadata = Yaml::parse($matches[1], Yaml::PARSE_DATETIME);
-        } catch (Throwable $exception) {
-            CommandBase::writeln('Error reading metadata from ' . $this->getId() . "\n> " . $exception->getMessage());
-            return $defaultMetadata;
-        }
-        return array_merge($defaultMetadata, $parsedMetadata);
+        return $this->parseContents()['metadata'];
     }
 
     public function getBody(): string
     {
-        $contents = $this->getContents();
-        preg_match("/---+[\n\r]+.*[\n\r]+---+[\n\r]?(.*)/ms", $contents, $matches);
-        return isset($matches[1]) ? trim($matches[1]) : $contents;
+        return $this->parseContents()['body'];
     }
 
     /**

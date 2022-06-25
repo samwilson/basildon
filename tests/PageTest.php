@@ -109,4 +109,62 @@ class PageTest extends TestCase
         unlink($newPage->getFilename());
         unlink($newPage2->getFilename());
     }
+
+    /**
+     * @covers Page::write()
+     * @dataProvider provideWriting
+     *
+     * @param mixed[] $metadata
+     */
+    public function testWriting(string $pageText, array $metadata, string $body): void
+    {
+        $site = new Site(__DIR__ . '/test_site');
+        file_put_contents($site->getDir() . '/content/test_writing.txt', $pageText);
+        $page = new Page($site, '/test_writing');
+        static::assertSame($metadata, $page->getMetadata());
+        static::assertSame($body, $page->getBody());
+        $page->write($metadata, $body);
+        static::assertSame($metadata, $page->getMetadata());
+        static::assertSame($body, $page->getBody());
+        unlink($page->getFilename());
+    }
+
+    /**
+     * @return mixed[][]
+     */
+    public function provideWriting(): array
+    {
+        return [
+            'only Yaml no newline' => [
+                "---\ntemplate: lorem\n---",
+                ['template' => 'lorem'],
+                '',
+            ],
+            'only Yaml with multiple newlines' => [
+                "---\ntemplate: lorem\n---\n\n",
+                ['template' => 'lorem'],
+                '',
+            ],
+            'only frontmatter, four hyphens' => [
+                "----\ntemplate: lorem\n----",
+                ['template' => 'lorem'],
+                '',
+            ],
+            'only body no newline' => [
+                'lorem ipsum',
+                ['template' => 'index'],
+                'lorem ipsum',
+            ],
+            'only body multiple newlines' => [
+                "\n\nlorem ipsum\n\n\n",
+                ['template' => 'index'],
+                'lorem ipsum',
+            ],
+            'both Yaml and body' => [
+                "---\ntemplate: lorem\n---\nIpsum.\n",
+                ['template' => 'lorem'],
+                'Ipsum.',
+            ],
+        ];
+    }
 }
