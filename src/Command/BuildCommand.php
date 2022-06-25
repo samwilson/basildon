@@ -33,6 +33,12 @@ class BuildCommand extends CommandBase
             'ID of a single page to render.',
             []
         );
+        $this->addOption(
+            'skip',
+            's',
+            InputOption::VALUE_NONE,
+            'Skip processing of site pages, and use existing database.'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -56,9 +62,15 @@ class BuildCommand extends CommandBase
             $attrList[] = [ $column ];
         }
         static::$io->table(['Attributes'], $attrList);
-        static::$io->write('Processing site . . . ');
-        $db->processSite($site);
-        static::$io->writeln('<info>OK</info>');
+        if ($input->getOption('skip')) {
+            static::$io->warning("Skipping processing of pages. Using existing database at $dbFile");
+        } else {
+            static::$io->write('Processing site . . . ');
+            $timeStartProcessing = microtime(true);
+            $db->processSite($site);
+            $seconds = max(1, round(microtime(true) - $timeStartProcessing, 0));
+            static::$io->writeln('<info>OK</info> (' . $seconds . ' ' . ($seconds > 1 ? 'seconds' : 'second') . ')');
+        }
 
         // Render all pages.
         $pages = [];
