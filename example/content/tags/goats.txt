@@ -8,4 +8,4 @@ Goats are a good example animal.
 
 Here's a photo of one on Flickr:
 
-https://www.flickr.com/photos/glaciernps/20886993696
+{{{flickr id=20886993696 }}}

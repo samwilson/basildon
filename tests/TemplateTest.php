@@ -36,11 +36,11 @@ The body text.
     /**
      * @covers \App\Template::render
      */
-    public function testEmbeds(): void
+    public function testShortcodes(): void
     {
         $site = new Site(__DIR__ . '/test_site');
         $tpl = new Template($site, 'test');
-        $page = $site->getPages()['/embeds'];
+        $page = $site->getPages()['/shortcodes'];
         $out = $tpl->renderSimple('tex', $page);
         static::assertStringMatchesFormat("
 \documentclass{article}
@@ -57,6 +57,7 @@ Test embeds. A file from Wikimedia Commons:
 \caption{ A temporary file for testing of correct rendering of PNG image files. }
 \\end{center}
 \\end{figure}
+
 
 
 

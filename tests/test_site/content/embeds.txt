@@ -1,3 +1,0 @@
-Test embeds. A file from Wikimedia Commons:
-
-https://commons.wikimedia.org/wiki/File:Test.png

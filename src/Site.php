@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Kevinrob\GuzzleCache\CacheMiddleware;
@@ -76,6 +77,29 @@ class Site
     public function getTemplate(string $name): Template
     {
         return new Template($this, $name);
+    }
+
+    /**
+     * @return Template[]
+     */
+    public function getTemplates(string $prefix = ''): array
+    {
+        $templatesDir = $this->getDir() . '/templates';
+        if (!is_dir($templatesDir)) {
+            throw new Exception('Templates directory does not exist: ' . $templatesDir);
+        }
+        $finder = new Finder();
+        $finder->files()
+            ->in($templatesDir)
+            ->path($prefix)
+            ->name('*.twig');
+        $templates = [];
+        foreach ($finder as $file) {
+            preg_match('/(.*)\.(.*)\.twig/', $file->getFilename(), $nameParts);
+            $tplName = $file->getRelativePath() . '/' . $nameParts[1];
+            $templates[] = new Template($this, $tplName);
+        }
+        return $templates;
     }
 
     public function getConfig(): object
