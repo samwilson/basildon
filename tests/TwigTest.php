@@ -72,11 +72,11 @@ class TwigTest extends TestCase
         return [
             [
                 'Foo ![bar](/subdir/Simple_shapes_example.png)',
-                "Foo \includegraphics{%s/tests/test_site/content/subdir/Simple_shapes_example.png}\n",
+                "Foo \includegraphics{%stests/test_site/content/subdir/Simple_shapes_example.png}\n",
             ],
             [
                 'Foo ![bar](https://upload.wikimedia.org/wikipedia/commons/a/aa/Simple_shapes_example.png)',
-                "Foo \includegraphics{%s/tests/test_site/cache/tex/_urls/67b86101a84e805c263e1315ee17e768.png}\n",
+                "Foo \includegraphics{%stests/test_site/cache/tex/_urls/67b86101a84e805c263e1315ee17e768.png}\n",
             ],
         ];
     }
