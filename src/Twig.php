@@ -13,8 +13,10 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use League\CommonMark\Environment\Environment as CommonMarkEnvironment;
+use League\CommonMark\Event\DocumentPreRenderEvent;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\MarkdownConverter;
 use Mediawiki\Api\FluentRequest;
@@ -90,6 +92,16 @@ class Twig extends AbstractExtension
     {
         $environment = $this->getCommonMarkEnvironment('html');
         $environment->addExtension(new AutolinkExtension());
+        $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
+            foreach ($event->getDocument()->iterator() as $node) {
+                if (!$node instanceof Image) {
+                    continue;
+                }
+                if (substr($node->getUrl(), 0, 4) !== 'http') {
+                    $node->setUrl($this->page->getLink($node->getUrl()));
+                }
+            }
+        });
         $converter = new MarkdownConverter($environment);
         return $converter->convert($input)->getContent();
     }
@@ -99,6 +111,24 @@ class Twig extends AbstractExtension
         $environment = $this->getCommonMarkEnvironment('tex');
         $environment->addExtension(new LatexRendererExtension());
         $environment->addExtension(new AutolinkExtension());
+        $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
+            foreach ($event->getDocument()->iterator() as $node) {
+                if (!$node instanceof Image) {
+                    continue;
+                }
+                if (substr($node->getUrl(), 0, 4) === 'http') {
+                    // Absolute URLs.
+                    $node->setUrl($this->functionTexUrl($node->getUrl()));
+                } else {
+                    // Relative URLs.
+                    $link = $this->site->getDir() . '/content' . $node->getUrl();
+                    if (!is_file($link)) {
+                        throw new Exception("Unable to find image: $link");
+                    }
+                    $node->setUrl($link);
+                }
+            }
+        });
         $converter = new MarkdownConverter($environment);
         return $converter->convert($input)->getContent();
     }

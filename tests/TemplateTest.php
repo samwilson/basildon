@@ -47,7 +47,7 @@ The body text.
 
 \begin{document}
 
-Test embeds. A file from Wikimedia Commons:
+Test shortcodes. A file from Wikimedia Commons:
 
 
 
