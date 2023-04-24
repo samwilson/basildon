@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec3a4d4c7861135cbde96b202198f5b2",
+    "content-hash": "2ea5b390de1941f63bc0122e66f39b0c",
     "packages": [
         {
             "name": "addwiki/mediawiki-api-base",
@@ -6788,7 +6788,8 @@
     "prefer-lowest": false,
     "platform": {
         "ext-json": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-sqlite3": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
