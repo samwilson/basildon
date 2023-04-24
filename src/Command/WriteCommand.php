@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
-class WriteCommand extends CommandBase
+final class WriteCommand extends CommandBase
 {
     protected function configure(): void
     {

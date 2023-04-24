@@ -8,7 +8,7 @@ use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class Util
+final class Util
 {
     public static function mkdir(string $dir): void
     {
@@ -31,8 +31,8 @@ class Util
             return;
         }
         $rdi = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
-        /** @var \DirectoryIterator $rii */
         $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
+        \assert($rii instanceof \DirectoryIterator);
         foreach ($rii as $file) {
             $relativePathname = substr($file->getPathname(), strlen($dir));
             foreach ($exclude as $pattern) {

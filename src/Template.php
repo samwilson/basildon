@@ -17,7 +17,7 @@ use Twig\Loader\FilesystemLoader;
 /**
  * A Template belongs to a Site and can be used to render Pages to various formats.
  */
-class Template
+final class Template
 {
     /** @var Site */
     protected $site;
@@ -34,29 +34,6 @@ class Template
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * Get the Twig Environment.
-     */
-    protected function getTwig(Page $page): Environment
-    {
-        $loader = new FilesystemLoader();
-        $loader->addPath($this->site->getDir() . '/templates');
-        $twig = new Environment($loader, [
-            'debug' => true,
-            'strict_variables' => true,
-        ]);
-        $twig->addExtension(new IntlExtension());
-        $twig->addExtension(new DebugExtension());
-        $twigExtension = new Twig($this->site, $page);
-        $twig->addExtension($twigExtension);
-        $escaper = $twig->getExtension(EscaperExtension::class);
-        if ($escaper instanceof EscaperExtension) {
-            $escaper->setEscaper('tex', [$twigExtension, 'escapeTex']);
-            $escaper->setEscaper('csv', [$twigExtension, 'escapeCsv']);
-        }
-        return $twig;
     }
 
     /**
@@ -133,5 +110,28 @@ class Template
                 file_put_contents($outFile, $renderedTemplate);
             }
         }
+    }
+
+    /**
+     * Get the Twig Environment.
+     */
+    protected function getTwig(Page $page): Environment
+    {
+        $loader = new FilesystemLoader();
+        $loader->addPath($this->site->getDir() . '/templates');
+        $twig = new Environment($loader, [
+            'debug' => true,
+            'strict_variables' => true,
+        ]);
+        $twig->addExtension(new IntlExtension());
+        $twig->addExtension(new DebugExtension());
+        $twigExtension = new Twig($this->site, $page);
+        $twig->addExtension($twigExtension);
+        $escaper = $twig->getExtension(EscaperExtension::class);
+        if ($escaper instanceof EscaperExtension) {
+            $escaper->setEscaper('tex', [$twigExtension, 'escapeTex']);
+            $escaper->setEscaper('csv', [$twigExtension, 'escapeCsv']);
+        }
+        return $twig;
     }
 }

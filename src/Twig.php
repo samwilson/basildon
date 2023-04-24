@@ -33,7 +33,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-class Twig extends AbstractExtension
+final class Twig extends AbstractExtension
 {
     /** @var Site */
     protected $site;
@@ -133,31 +133,6 @@ class Twig extends AbstractExtension
         return $converter->convert($input)->getContent();
     }
 
-    private function getCommonMarkEnvironment(string $format): CommonMarkEnvironment
-    {
-        $shortcodes = [];
-        foreach ($this->site->getTemplates('shortcodes') as $shortcodeTemplate) {
-            $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
-            $page = $this->page;
-            $shortcodes[$shortcodeName] = static function (
-                Shortcode $shortcode
-            ) use (
-                $shortcodeTemplate,
-                $format,
-                $page
-            ) {
-                return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
-            };
-        }
-        $environment = new CommonMarkEnvironment([
-            'shortcodes' => ['shortcodes' => $shortcodes],
-        ]);
-        $environment->addExtension(new CommonMarkCoreExtension());
-        $environment->addExtension(new FootnoteExtension());
-        $environment->addExtension(new ShortcodeExtension());
-        return $environment;
-    }
-
     /**
      * @param string|DateTime $dateTime
      * @param string|DateTimeZone $timezone
@@ -207,7 +182,7 @@ class Twig extends AbstractExtension
         if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
             try {
                 (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
-            } catch (Throwable $exception) {
+            } catch (Throwable) {
                 throw new Exception("Unable to download: $url");
             }
         }
@@ -225,8 +200,8 @@ class Twig extends AbstractExtension
      */
     public function functionWikidata(string $wikidataId): array
     {
-        if (isset(static::$data['wikidata'][$wikidataId])) {
-            return static::$data['wikidata'][$wikidataId];
+        if (isset(self::$data['wikidata'][$wikidataId])) {
+            return self::$data['wikidata'][$wikidataId];
         }
         $api = $this->site->getMediawikiApi('https://www.wikidata.org/w/api.php');
         $request = FluentRequest::factory()
@@ -234,8 +209,8 @@ class Twig extends AbstractExtension
             ->setParam('ids', $wikidataId);
         CommandBase::writeln('Wikidata fetch info: ' . $wikidataId);
         $result = $api->getRequest($request);
-        static::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
-        return static::$data['wikidata'][$wikidataId];
+        self::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
+        return self::$data['wikidata'][$wikidataId];
     }
 
     /**
@@ -251,8 +226,8 @@ class Twig extends AbstractExtension
      */
     public function functionFlickr(string $photoId): array
     {
-        if (isset(static::$data['flickr'][$photoId])) {
-            return static::$data['flickr'][$photoId];
+        if (isset(self::$data['flickr'][$photoId])) {
+            return self::$data['flickr'][$photoId];
         }
         $config = $this->site->getConfig()->flickr;
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
@@ -261,7 +236,7 @@ class Twig extends AbstractExtension
         $shortUrl = $flickr->urls()->getShortUrl($photoId);
         CommandBase::writeln("Flickr fetch info: $photoId $shortUrl");
         $info = $flickr->photos()->getInfo($photoId);
-        static::$data['flickr'][$photoId] = [
+        self::$data['flickr'][$photoId] = [
             'id' => $info['id'],
             'title' => $info['title'],
             'description' => $info['description'],
@@ -274,7 +249,7 @@ class Twig extends AbstractExtension
             'owner' => $info['owner'],
             'license' => $flickr->photosLicenses()->getInfo()[$info['license']],
         ];
-        return static::$data['flickr'][$photoId];
+        return self::$data['flickr'][$photoId];
     }
 
     /**
@@ -282,8 +257,8 @@ class Twig extends AbstractExtension
      */
     public function functionCommons(string $filename): array
     {
-        if (isset(static::$data['commons'][$filename])) {
-            return static::$data['commons'][$filename];
+        if (isset(self::$data['commons'][$filename])) {
+            return self::$data['commons'][$filename];
         }
         $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
         $fileInfoResponse = $api->getRequest(FluentRequest::factory()
@@ -304,14 +279,14 @@ class Twig extends AbstractExtension
             ->setAction('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
-        static::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
-        return static::$data['commons'][$filename];
+        self::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
+        return self::$data['commons'][$filename];
     }
 
     public function functionWikipedia(string $lang, string $articleTitle): string
     {
-        if (isset(static::$data['wikipedia'][$articleTitle])) {
-            return static::$data['wikipedia'][$articleTitle];
+        if (isset(self::$data['wikipedia'][$articleTitle])) {
+            return self::$data['wikipedia'][$articleTitle];
         }
         CommandBase::writeln("Wikipedia fetch extract: $articleTitle");
         $url = "https://$lang.wikipedia.org/api/rest_v1/page/summary/" . str_replace(' ', '_', $articleTitle);
@@ -320,8 +295,8 @@ class Twig extends AbstractExtension
         if (!$response) {
             throw new Exception("Unable to get extract of Wikipedia article: $articleTitle");
         }
-        static::$data['commons'][$articleTitle] = $response['extract_html'];
-        return static::$data['commons'][$articleTitle];
+        self::$data['commons'][$articleTitle] = $response['extract_html'];
+        return self::$data['commons'][$articleTitle];
     }
 
     /**
@@ -414,5 +389,30 @@ class Twig extends AbstractExtension
             $out = '"' . $out . '"';
         }
         return $out;
+    }
+
+    private function getCommonMarkEnvironment(string $format): CommonMarkEnvironment
+    {
+        $shortcodes = [];
+        foreach ($this->site->getTemplates('shortcodes') as $shortcodeTemplate) {
+            $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
+            $page = $this->page;
+            $shortcodes[$shortcodeName] = static function (
+                Shortcode $shortcode
+            ) use (
+                $shortcodeTemplate,
+                $format,
+                $page
+            ) {
+                return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
+            };
+        }
+        $environment = new CommonMarkEnvironment([
+            'shortcodes' => ['shortcodes' => $shortcodes],
+        ]);
+        $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new FootnoteExtension());
+        $environment->addExtension(new ShortcodeExtension());
+        return $environment;
     }
 }

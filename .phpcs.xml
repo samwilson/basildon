@@ -4,6 +4,10 @@
         <!-- Exclude these type hints until we only support PHP 7.4 and above. -->
         <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint" />
         <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint" />
+        <!-- @todo Fix these. -->
+        <exclude name="SlevomatCodingStandard.Classes.ClassLength.ClassTooLong" />
+        <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh" />
+        <exclude name="SlevomatCodingStandard.Files.FileLength.FileTooLong" />
     </rule>
     <file>.</file>
     <exclude-pattern>.phpunit/</exclude-pattern>

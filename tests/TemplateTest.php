@@ -8,7 +8,7 @@ use App\Site;
 use App\Template;
 use PHPUnit\Framework\TestCase;
 
-class TemplateTest extends TestCase
+final class TemplateTest extends TestCase
 {
     /**
      * @covers \App\Template::renderSimple
@@ -19,7 +19,7 @@ class TemplateTest extends TestCase
         $tpl = new Template($site, 'test');
         $page = $site->getPages()['/simple'];
         $out = $tpl->renderSimple('tex', $page);
-        static::assertSame('
+        self::assertSame('
 \documentclass{article}
 
 \begin{document}
@@ -42,7 +42,7 @@ The body text.
         $tpl = new Template($site, 'test');
         $page = $site->getPages()['/shortcodes'];
         $out = $tpl->renderSimple('tex', $page);
-        static::assertStringMatchesFormat("
+        self::assertStringMatchesFormat("
 \documentclass{article}
 
 \begin{document}

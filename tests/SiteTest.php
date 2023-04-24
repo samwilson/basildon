@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Test;
 
-use App\Page;
 use App\Site;
 use PHPUnit\Framework\TestCase;
 
-class SiteTest extends TestCase
+final class SiteTest extends TestCase
 {
     /**
      * @covers \App\Site::getPages()
@@ -16,6 +15,6 @@ class SiteTest extends TestCase
     public function testBasics(): void
     {
         $site = new Site(__DIR__ . '/test_site');
-        static::assertCount(4, $site->getPages());
+        self::assertCount(4, $site->getPages());
     }
 }

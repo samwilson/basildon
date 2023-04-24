@@ -7,7 +7,7 @@ namespace App;
 use GuzzleHttp\Client;
 use SimpleXMLElement;
 
-class WikidataQuery
+final class WikidataQuery
 {
     /** @var string The Sparql query to run. */
     protected $query;
