@@ -60,7 +60,7 @@
             "parallel-lint . --exclude node_modules --exclude vendor",
             "phpcs -s",
             "phpunit",
-            "phan"
+            "phan --allow-polyfill-parser"
         ]
     }
 }
