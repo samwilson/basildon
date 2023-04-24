@@ -5,6 +5,7 @@
     "require": {
         "ext-json": "*",
         "ext-pdo": "*",
+        "ext-sqlite3": "*",
         "addwiki/mediawiki-api-base": "^2.7",
         "endroid/qr-code": "^4.1",
         "getdkan/lunr.php": "^1.0",
