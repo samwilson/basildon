@@ -6,12 +6,13 @@
         "ext-json": "*",
         "ext-pdo": "*",
         "addwiki/mediawiki-api-base": "^2.7",
-        "cebe/markdown-latex": "^1.1",
         "endroid/qr-code": "^4.1",
         "getdkan/lunr.php": "^1.0",
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "league/flysystem": "^1.0",
         "myclabs/php-enum": "^1.5",
+        "samwilson/commonmark-latex": "^0.2",
+        "samwilson/commonmark-shortcodes": "^0.2",
         "samwilson/phpflickr": "^4.13",
         "symfony/console": "^5.0",
         "symfony/finder": "^5.0",
@@ -49,7 +50,7 @@
             "ergebnis/composer-normalize": true
         },
         "platform": {
-            "php": "7.3"
+            "php": "7.4"
         }
     },
     "scripts": {

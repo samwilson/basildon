@@ -31,6 +31,11 @@ class Template
         $this->name = $name;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     /**
      * Get the Twig Environment.
      */
@@ -66,7 +71,8 @@ class Template
         $finder = new Finder();
         $finder->files()
             ->in($templatesDir)
-            ->name($this->name . '.*.twig');
+            ->path(dirname($this->name))
+            ->name(basename($this->name) . '.*.twig');
         $formats = [];
         foreach ($finder as $file) {
             preg_match('/^.*\.(.*)\.twig$/', $file->getFilename(), $matches);

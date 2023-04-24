@@ -39,55 +39,69 @@ should be referenced like this: `![Alt text](/images/file.png)`.
 For information about other assets such as stylesheets and scripts,
 see [the Assets section](index.html) of the documentation overview.
 
-## Embeds
+## Shortcodes
 
-This section documents 'embeds', which are what we call a URL on its own line in a Markdown document.[^embed]
-Embeds are simple ways to include images, videos, and summaries of other web pages.
+This section documents 'shortcodes', which are what we call specific replacable parts in a Markdown document.
+They are inline phrases or blocks of text such as `{foo}` or `{{{bar id=123}}}` which get replaced
+by the contents of templates such as `templates/shortcodes/foo.html.twig` or `templates/shortcodes/bar.tex.twig`.
+
+* Inline shortcodes are delimited by single braces and can contain any number of attributes, e.g.:
+  * Lorem `{foo}` ipsum with no parameters.
+  * Lorem `{foo bar=baz bif="foo bar"}` ipsum with two parameters, the second of which contains a space.
+  * Lorem `{foo bif}` ipsum with a parameter with no value.
+* Block shortcodes are delimited by triple braces at the beggining of lines, e.g.:
+  * A block of one line, with one parameter:
+    ```
+    {{{quotation cite="Author name"
+    Lorem ipsum
+    }}}
+    ```
+  * A single-line block with one parameter:
+    ```
+    {{{linebreak num=10}}}
+    ```
+
+Shortcodes replace an earlier feature in Basildon called 'embeds'.
+The functionality of embeds can be achieved with shortcodes, along with a lot more.
+
+The term 'shortcode' (as well as the older 'embed') comes from WordPress,
+which has a [similar function](https://codex.wordpress.org/shortcode).
+
+Shortcodes are a simple way to include images, videos, and summaries of other web pages.
 For example, this is a photo from Wikimedia Commons:
 
-https://commons.wikimedia.org/wiki/File:Co-Op,_Post_Office,_Courthouse.jpg
+{{{commons file=Co-Op,_Post_Office,_Courthouse.jpg }}}
 
 It is added to the source Markdown with this:
 
-    https://commons.wikimedia.org/wiki/File:Co-Op,_Post_Office,_Courthouse.jpg
+    {{{commons file=Co-Op,_Post_Office,_Courthouse.jpg }}}
 
 All of the other information (image URL, caption, etc.) is retrieved from the Commons API when the Markdown is rendered.
 
-Embeds can be rendered to any output format; they're not limited to HTML.
-
-[^embed]: The term 'embed' comes from WordPress,
-which has a [similar function](https://wordpress.org/support/article/embeds/).
-Basildon doesn't yet support the [oEmbed standard](https://oembed.com/).
+Shortcodes can be rendered to any output format; they're not limited to HTML.
 
 ### Configuration
 
-To configure a new embed, add a name and a URL pattern to your site's `config.yaml`, under the `embeds` key.
+To configure a new shortcode, add a file to the templates' directory,
+with a name matching what you want to use in the Markdown.
 
-    embeds:
-      embedName: "|embed-pattern|"
+The file `templates/shortcodes/<shortcode-name>.<format>.twig` to contain the HTML or other output that should be output for the shortcode. 
 
-(The pipe character is used here as a pattern delimiter because forward slash, which is commonly used,
-is going to occur frequently within the matched URLs, and escaping it in all cases is cumbersome.)
+The following variables are available in shortcode templates:
 
-Then, set up `templates/embeds/<embedName>.<format>.twig` to contain the HTML or other output that should be output for the embed. 
-
-The following variables are available for embed templates:
-
-* `embed.name`: the name of the embed, which will always be the same as the template's name.
-* `embed.matches`: the result of [`preg_match`](https://www.php.net/manual/en/function.preg-match.php) on the embed's pattern:
-  `matches.0` will contain the URL that matched the full pattern,
-  `matches.1` will have the text that matched the first captured parenthesized subpattern, and so on.
+* `shortcode.name`: the name of the shortcode, which will always be the same as the template's name.
+* `shortcode.attr('foo')`: fetches an attribute by name.
+* `shortcode.body`: for block shortcodes, fetches the entire body text.
 
 ### Example: Wikimedia Commons
 
-In `config.yaml`:
+In any Markdown file:
 
-    embeds:
-      commons: "|https://commons.wikimedia.org/wiki/File:(.*)|"
+    {{{commons file=Example.jpg}}}
 
-In `templates/embeds/commons.html.twig`:
+In `templates/shortcodes/commons.html.twig`:
 
-    {% set commons = commons(embed.matches.1) %}
+    {% set commons = commons(shortcode.attr('file')) %}
     <figure>
         <a href="{{ commons.imageinfo.0.descriptionurl }}">
             <img src="{{ image_url( commons.imageinfo.0.thumburl ) }}"
@@ -103,14 +117,13 @@ Note that this is also using the `commons()` Twig function, which is [documented
 
 ### Example: Flickr
 
-In `config.yaml`:
+In any Markdown file:
 
-    embeds:
-      flickr: "|https://www.flickr.com.*?([0-9]+).*|"
+    {{{flickr id=123456}}}
 
-In `templates/embeds/flickr.html.twig`:
+In `templates/shortcodes/flickr.html.twig`:
 
-    {% set flickr = flickr(embed.matches.1) %}
+    {% set flickr = flickr(shortcode.attr('id')) %}
     
     <figure itemscope itemtype="http://schema.org/ImageObject">
         <a href="{{ flickr.urls.photopage }}"><img alt="An image from Flickr." src="{{ flickr.urls.medium_image }}" /></a>

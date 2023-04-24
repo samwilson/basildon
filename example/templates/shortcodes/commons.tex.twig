@@ -1,5 +1,5 @@
 {% autoescape 'tex' %}
-{% set commons = commons(embed.matches.1) %}
+{% set commons = commons(shortcode.attr('file')) %}
 \begin{figure}
   \begin{center}
     \includegraphics[width=\linewidth]{{ '{' }}{{ tex_url( commons.imageinfo.0.thumburl )|raw }}{{ '}' }}

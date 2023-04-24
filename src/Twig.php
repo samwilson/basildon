@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use App\Command\CommandBase;
-use App\Markdown\MarkdownToHtml;
-use App\Markdown\MarkdownToLatex;
 use DateTime;
 use DateTimeZone;
 use Endroid\QrCode\Builder\Builder;
@@ -14,7 +12,17 @@ use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use League\CommonMark\Environment\Environment as CommonMarkEnvironment;
+use League\CommonMark\Event\DocumentPreRenderEvent;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
+use League\CommonMark\Extension\Footnote\FootnoteExtension;
+use League\CommonMark\MarkdownConverter;
 use Mediawiki\Api\FluentRequest;
+use Samwilson\CommonMarkLatex\LatexRendererExtension;
+use Samwilson\CommonMarkShortcodes\Shortcode;
+use Samwilson\CommonMarkShortcodes\ShortcodeExtension;
 use Samwilson\PhpFlickr\PhotosApi;
 use Samwilson\PhpFlickr\PhpFlickr;
 use Stash\Driver\FileSystem;
@@ -82,18 +90,72 @@ class Twig extends AbstractExtension
 
     public function filterMarkdownToHtml(string $input): string
     {
-        $markdown = new MarkdownToHtml();
-        $markdown->setSite($this->site);
-        $markdown->setPage($this->page);
-        return $markdown->parse($input);
+        $environment = $this->getCommonMarkEnvironment('html');
+        $environment->addExtension(new AutolinkExtension());
+        $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
+            foreach ($event->getDocument()->iterator() as $node) {
+                if (!$node instanceof Image) {
+                    continue;
+                }
+                if (substr($node->getUrl(), 0, 4) !== 'http') {
+                    $node->setUrl($this->page->getLink($node->getUrl()));
+                }
+            }
+        });
+        $converter = new MarkdownConverter($environment);
+        return $converter->convert($input)->getContent();
     }
 
     public function filterMarkdownToLatex(string $input): string
     {
-        $markdown = new MarkdownToLatex();
-        $markdown->setSite($this->site);
-        $markdown->setPage($this->page);
-        return $markdown->parse($input);
+        $environment = $this->getCommonMarkEnvironment('tex');
+        $environment->addExtension(new LatexRendererExtension());
+        $environment->addExtension(new AutolinkExtension());
+        $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
+            foreach ($event->getDocument()->iterator() as $node) {
+                if (!$node instanceof Image) {
+                    continue;
+                }
+                if (substr($node->getUrl(), 0, 4) === 'http') {
+                    // Absolute URLs.
+                    $node->setUrl($this->functionTexUrl($node->getUrl()));
+                } else {
+                    // Relative URLs.
+                    $link = $this->site->getDir() . '/content' . $node->getUrl();
+                    if (!is_file($link)) {
+                        throw new Exception("Unable to find image: $link");
+                    }
+                    $node->setUrl($link);
+                }
+            }
+        });
+        $converter = new MarkdownConverter($environment);
+        return $converter->convert($input)->getContent();
+    }
+
+    private function getCommonMarkEnvironment(string $format): CommonMarkEnvironment
+    {
+        $shortcodes = [];
+        foreach ($this->site->getTemplates('shortcodes') as $shortcodeTemplate) {
+            $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
+            $page = $this->page;
+            $shortcodes[$shortcodeName] = static function (
+                Shortcode $shortcode
+            ) use (
+                $shortcodeTemplate,
+                $format,
+                $page
+            ) {
+                return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
+            };
+        }
+        $environment = new CommonMarkEnvironment([
+            'shortcodes' => ['shortcodes' => $shortcodes],
+        ]);
+        $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new FootnoteExtension());
+        $environment->addExtension(new ShortcodeExtension());
+        return $environment;
     }
 
     /**

@@ -1,8 +1,8 @@
-{% set commons = commons(embed.matches.1) %}
+{% set commons = commons(shortcode.attr('file')) %}
 
 <figure itemscope itemtype="http://schema.org/ImageObject">
-    <a href="{{ commons.imageinfo.0.descriptionurl }}">
-        <img src="{{ commons.imageinfo.0.thumburl }}"
+    <a href="{{ commons.imageinfo.0.descriptionurl|raw }}">
+        <img src="{{ commons.imageinfo.0.thumburl|raw }}"
              width="{{ commons.imageinfo.0.thumbwidth }}"
              height="{{ commons.imageinfo.0.thumbheight }}"
              itemprop="contentUrl"

@@ -12,4 +12,4 @@ This is a second post in January.
 
 With a goat!
 
-https://commons.wikimedia.org/wiki/File:RoveZiege_00037.jpg
+{{{commons file=RoveZiege_00037.jpg}}}

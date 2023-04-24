@@ -1,0 +1,3 @@
+Test shortcodes. A file from Wikimedia Commons:
+
+{{{commons file=Test.png}}}

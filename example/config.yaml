@@ -1,7 +1,4 @@
 title: An Example Site
 ext: txt
-embeds:
-  commons: "|https://commons\\.wikimedia\\.org/wiki/File:(.*)|"
-  flickr: "|https://www.flickr.com.*?([0-9]+).*|"
 output_exclude:
   - "|/_redirects|"

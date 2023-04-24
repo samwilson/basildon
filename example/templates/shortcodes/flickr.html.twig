@@ -1,4 +1,4 @@
-{% set flickr = flickr(embed.matches.1) %}
+{% set flickr = flickr(shortcode.attr('id')) %}
 
 <figure itemscope itemtype="http://schema.org/ImageObject">
     <a href="{{ flickr.urls.photopage }}"><img src="{{ flickr.urls.medium_image }}" /></a>
