@@ -22,6 +22,7 @@ jobs:
       with:
         php-version: ${{matrix.php}}
         extensions: fileinfo, json, pdo, mbstring, gd, ast
+        tools: phan
 
     - name: Install
       run: |
