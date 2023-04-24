@@ -9,17 +9,17 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-class Database
+final class Database
 {
-    /** @var PDO */
-    protected static $pdo;
+    public const COL_NAME_ID = 'id';
+
+    public const COL_NAME_BODY = 'body';
 
     /** @var string[] */
     protected $keys;
 
-    public const COL_NAME_ID = 'id';
-
-    public const COL_NAME_BODY = 'body';
+    /** @var PDO */
+    protected static $pdo;
 
     /**
      * @param string $dsn A valid SQLite DSN. Usually the full filesystem path to the database file.
@@ -73,7 +73,8 @@ class Database
                 } elseif ($key === 'body') {
                     $value = $page->getBody();
                 } elseif ($value instanceof DateTime) {
-                    $value = $value->format('c'); // ISO 8601 format.
+                    // ISO 8601 format.
+                    $value = $value->format('c');
                 } elseif (is_array($value)) {
                     $value = json_encode($value);
                 }

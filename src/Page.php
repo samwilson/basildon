@@ -8,7 +8,7 @@ use App\Command\CommandBase;
 use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
-class Page
+final class Page
 {
     /** @var Site */
     protected $site;
@@ -102,38 +102,6 @@ class Page
     }
 
     /**
-     * @return mixed[] With 'metadata' and 'body' keys.
-     */
-    private function parseContents(): array
-    {
-        $contents = $this->getContents();
-        $defaultMetadata = ['template' => 'index'];
-        preg_match('/^(---+)/', $contents, $hyphenMatches);
-        if (isset($hyphenMatches[1])) {
-            $hyphenCount = strlen($hyphenMatches[1]);
-            $frontmatterClosePos = strpos($contents, $hyphenMatches[1], $hyphenCount);
-            $frontmatterData = trim(substr($contents, $hyphenCount, $frontmatterClosePos - $hyphenCount));
-            try {
-                $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
-            } catch (Throwable $throwable) {
-                CommandBase::writeln(
-                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage()
-                );
-                $parsedMetadata = $defaultMetadata;
-            }
-            $metadata = array_merge($defaultMetadata, $parsedMetadata);
-            $body = substr($contents, $frontmatterClosePos + $hyphenCount);
-        } else {
-            $metadata = $defaultMetadata;
-            $body = $contents;
-        }
-        return [
-            'metadata' => $metadata,
-            'body' => trim($body),
-        ];
-    }
-
-    /**
      * Get a file's metadata.
      *
      * @return string[]
@@ -168,5 +136,37 @@ class Page
         file_put_contents($this->getFilename(), "---\n$yaml---\n$body");
         // Reset contents to ensure it'll be re-read when next accessed.
         $this->contents = null;
+    }
+
+    /**
+     * @return mixed[] With 'metadata' and 'body' keys.
+     */
+    private function parseContents(): array
+    {
+        $contents = $this->getContents();
+        $defaultMetadata = ['template' => 'index'];
+        preg_match('/^(---+)/', $contents, $hyphenMatches);
+        if (isset($hyphenMatches[1])) {
+            $hyphenCount = strlen($hyphenMatches[1]);
+            $frontmatterClosePos = strpos($contents, $hyphenMatches[1], $hyphenCount);
+            $frontmatterData = trim(substr($contents, $hyphenCount, $frontmatterClosePos - $hyphenCount));
+            try {
+                $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
+            } catch (Throwable $throwable) {
+                CommandBase::writeln(
+                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage()
+                );
+                $parsedMetadata = $defaultMetadata;
+            }
+            $metadata = array_merge($defaultMetadata, $parsedMetadata);
+            $body = substr($contents, $frontmatterClosePos + $hyphenCount);
+        } else {
+            $metadata = $defaultMetadata;
+            $body = $contents;
+        }
+        return [
+            'metadata' => $metadata,
+            'body' => trim($body),
+        ];
     }
 }

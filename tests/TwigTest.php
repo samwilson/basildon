@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-class TwigTest extends TestCase
+final class TwigTest extends TestCase
 {
     /**
      * @covers \App\Twig::escapeCsv()
@@ -24,7 +24,7 @@ class TwigTest extends TestCase
         $twig = new Twig($site, new Page($site, '/simple'));
         $env = new Environment(new ArrayLoader());
         $escapeMethod = 'escape' . ucfirst($strategy);
-        static::assertSame($out, $twig->$escapeMethod($env, $in));
+        self::assertSame($out, $twig->$escapeMethod($env, $in));
     }
 
     /**
@@ -50,7 +50,7 @@ class TwigTest extends TestCase
         $site = new Site(__DIR__ . '/test_site');
         $twig = new Twig($site, new Page($site, '/simple'));
         $out = $twig->functionQrCode('Lorem');
-        static::assertSame('/assets/qrcodes/db6ff2ffe2df7b8cfc0d9542bdce27dc.svg', $out);
+        self::assertSame('/assets/qrcodes/db6ff2ffe2df7b8cfc0d9542bdce27dc.svg', $out);
     }
 
     /**
@@ -61,7 +61,7 @@ class TwigTest extends TestCase
     {
         $site = new Site(__DIR__ . '/test_site');
         $twig = new Twig($site, new Page($site, '/simple'));
-        static::assertStringMatchesFormat($latex, $twig->filterMarkdownToLatex($markdown));
+        self::assertStringMatchesFormat($latex, $twig->filterMarkdownToLatex($markdown));
     }
 
     /**

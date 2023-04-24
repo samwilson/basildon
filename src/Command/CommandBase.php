@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CommandBase extends Command
+abstract class CommandBase extends Command
 {
     /** @var SymfonyStyle */
     public static $io;

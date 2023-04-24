@@ -16,7 +16,7 @@ use stdClass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class Site
+final class Site
 {
     /** @var string */
     protected $dir;

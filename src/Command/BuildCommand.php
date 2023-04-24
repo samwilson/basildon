@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
-class BuildCommand extends CommandBase
+final class BuildCommand extends CommandBase
 {
     protected function configure(): void
     {
@@ -44,7 +44,7 @@ class BuildCommand extends CommandBase
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $timeStart = microtime(true);
-        static::$io = new SymfonyStyle($input, $output);
+        self::$io = new SymfonyStyle($input, $output);
         $site = $this->getSite($input);
         if (!$site) {
             return Command::FAILURE;
@@ -59,17 +59,17 @@ class BuildCommand extends CommandBase
         $db = new Database($dbFile);
         $attrList = [];
         foreach ($db->getColumns($site) as $column) {
-            $attrList[] = [ $column ];
+            $attrList[] = [$column];
         }
-        static::$io->table(['Attributes'], $attrList);
+        self::$io->table(['Attributes'], $attrList);
         if ($input->getOption('skip')) {
-            static::$io->warning("Skipping processing of pages. Using existing database at $dbFile");
+            self::$io->warning("Skipping processing of pages. Using existing database at $dbFile");
         } else {
-            static::$io->write('Processing site . . . ');
+            self::$io->write('Processing site . . . ');
             $timeStartProcessing = microtime(true);
             $db->processSite($site);
             $seconds = max(1, round(microtime(true) - $timeStartProcessing, 0));
-            static::$io->writeln('<info>OK</info> (' . $seconds . ' ' . ($seconds > 1 ? 'seconds' : 'second') . ')');
+            self::$io->writeln('<info>OK</info> (' . $seconds . ' ' . ($seconds > 1 ? 'seconds' : 'second') . ')');
         }
 
         // Render all pages.
@@ -82,13 +82,13 @@ class BuildCommand extends CommandBase
             $pages = $site->getPages();
         }
         foreach ($pages as $page) {
-            static::writeln('<info>Page: ' . $page->getId() . '</info>');
+            self::writeln('<info>Page: ' . $page->getId() . '</info>');
             $site->getTemplate($page->getTemplateName())->render($page, $db);
         }
 
         // Build Lunr index as search.json.
         if ($input->getOption('lunr')) {
-            static::writeln('Building search index...');
+            self::writeln('Building search index...');
             $lunrBuilder = new BuildLunrIndex();
             $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::trimmer');
             $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stop_word_filter');
@@ -98,16 +98,16 @@ class BuildCommand extends CommandBase
                 $lunrBuilder->field($column);
             }
             $rows = $db->query('SELECT * from pages')->fetchAll(PDO::FETCH_ASSOC);
-            $processBar = static::$io->createProgressBar(count($rows));
+            $processBar = self::$io->createProgressBar(count($rows));
             foreach ($rows as $row) {
                 $processBar->advance();
                 $lunrBuilder->add($row);
             }
             $processBar->finish();
-            static::writeln('');
+            self::writeln('');
             $lunrIndexFilename = $site->getDir() . '/output/lunr.json';
             file_put_contents($lunrIndexFilename, json_encode($lunrBuilder->output()));
-            static::writeln('...index built: /lunr.json (' . round(filesize($lunrIndexFilename) / 1024) . 'KB)');
+            self::writeln('...index built: /lunr.json (' . round(filesize($lunrIndexFilename) / 1024) . 'KB)');
         }
 
         // Copy all other content files.
@@ -118,7 +118,7 @@ class BuildCommand extends CommandBase
             ->name('/.*\.(jpg|png|gif|svg|pdf)$/');
         foreach ($images as $image) {
             $assetRelativePath = substr($image->getRealPath(), strlen($dir . '/content'));
-            static::writeln('Image: ' . $assetRelativePath);
+            self::writeln('Image: ' . $assetRelativePath);
             Util::mkdir(dirname($dir . '/output' . $assetRelativePath));
             copy($image->getRealPath(), $dir . '/output' . $assetRelativePath);
         }
@@ -134,7 +134,7 @@ class BuildCommand extends CommandBase
             $assetsOutputDir = $dir . '/output/assets';
             Util::mkdir($assetsOutputDir);
             foreach ($assets as $asset) {
-                static::writeln('Asset: /assets/' . $asset->getFilename());
+                self::writeln('Asset: /assets/' . $asset->getFilename());
                 copy($asset->getRealPath(), $assetsOutputDir . '/' . $asset->getFilename());
             }
         }
@@ -143,7 +143,7 @@ class BuildCommand extends CommandBase
         $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
         $outputSizeCmd->run();
         $outputSize = $outputSizeCmd->getOutput();
-        static::$io->success([
+        self::$io->success([
             'Site output to ' . $outDir,
             'Memory usage: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MiB',
             'Total time: ' . round(microtime(true) - $timeStart, 1) . ' seconds',
