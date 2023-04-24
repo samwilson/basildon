@@ -5,6 +5,10 @@ example/output/*
 docs/cache/
 docs/output/
 tests/test_site/cache/
+tests/test_site/output/
 .idea/
+*.code-workspace
 .phpunit.result.cache
 *config.local.yaml
+.netlify/
+package.json
