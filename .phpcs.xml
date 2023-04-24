@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <ruleset name="App">
     <rule ref="./vendor/roslov/psr12ext/PSR12Ext/ruleset.xml">
-        <!-- Exclude these type hints until we only support PHP 7.4 and above. -->
+        <!-- Exclude these type hints until we drop support for PHP 7.4. -->
         <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint" />
         <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint" />
+        <exclude name="SlevomatCodingStandard.Exceptions.RequireNonCapturingCatch.NonCapturingCatchRequired" />
         <!-- @todo Fix these. -->
         <exclude name="SlevomatCodingStandard.Classes.ClassLength.ClassTooLong" />
         <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh" />

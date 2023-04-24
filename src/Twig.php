@@ -182,7 +182,7 @@ final class Twig extends AbstractExtension
         if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
             try {
                 (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
-            } catch (Throwable) {
+            } catch (Throwable $exception) {
                 throw new Exception("Unable to download: $url");
             }
         }
