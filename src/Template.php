@@ -123,7 +123,7 @@ final class Template
     /**
      * Get the Twig Environment.
      */
-    public function getTwig(Page $page): Environment
+    protected function getTwig(Page $page): Environment
     {
         $loader = new FilesystemLoader();
         $loader->addPath($this->site->getDir() . '/templates');
