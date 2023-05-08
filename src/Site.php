@@ -74,15 +74,10 @@ final class Site
         return $this->pages;
     }
 
-    public function getTemplate(string $name): Template
-    {
-        return new Template($this, $name);
-    }
-
     /**
      * @return Template[]
      */
-    public function getTemplates(string $prefix = ''): array
+    public function getTemplates(Database $db, string $prefix = ''): array
     {
         $templatesDir = $this->getDir() . '/templates';
         if (!is_dir($templatesDir)) {
@@ -97,7 +92,7 @@ final class Site
         foreach ($finder as $file) {
             preg_match('/(.*)\.(.*)\.twig/', $file->getFilename(), $nameParts);
             $tplName = $file->getRelativePath() . '/' . $nameParts[1];
-            $templates[] = new Template($this, $tplName);
+            $templates[] = new Template($db, $this, $tplName);
         }
         return $templates;
     }

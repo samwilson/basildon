@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test;
 
+use App\Database;
 use App\Page;
 use App\Site;
 use App\Twig;
@@ -13,6 +14,14 @@ use Twig\Loader\ArrayLoader;
 
 final class TwigTest extends TestCase
 {
+    /** @var Database */
+    private $db;
+
+    public function setUp(): void
+    {
+        $this->db = new Database(__DIR__ . '/test_site/test.sqlite3');
+    }
+
     /**
      * @covers \App\Twig::escapeCsv()
      * @covers \App\Twig::escapeTex()
@@ -21,7 +30,7 @@ final class TwigTest extends TestCase
     public function testEscape(string $strategy, ?string $in, string $out): void
     {
         $site = new Site(__DIR__ . '/test_site');
-        $twig = new Twig($site, new Page($site, '/simple'));
+        $twig = new Twig($this->db, $site, new Page($site, '/simple'));
         $env = new Environment(new ArrayLoader());
         $escapeMethod = 'escape' . ucfirst($strategy);
         self::assertSame($out, $twig->$escapeMethod($env, $in));
@@ -48,7 +57,7 @@ final class TwigTest extends TestCase
     public function testQrCode(): void
     {
         $site = new Site(__DIR__ . '/test_site');
-        $twig = new Twig($site, new Page($site, '/simple'));
+        $twig = new Twig($this->db, $site, new Page($site, '/simple'));
         $out = $twig->functionQrCode('Lorem');
         self::assertSame('/assets/qrcodes/db6ff2ffe2df7b8cfc0d9542bdce27dc.svg', $out);
     }
@@ -60,7 +69,7 @@ final class TwigTest extends TestCase
     public function testImageUrlsToLatex(string $markdown, string $latex): void
     {
         $site = new Site(__DIR__ . '/test_site');
-        $twig = new Twig($site, new Page($site, '/simple'));
+        $twig = new Twig($this->db, $site, new Page($site, '/simple'));
         self::assertStringMatchesFormat($latex, $twig->filterMarkdownToLatex($markdown));
     }
 

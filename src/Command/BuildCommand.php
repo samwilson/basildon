@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Database;
 use App\Page;
+use App\Template;
 use App\Util;
 use LunrPHP\BuildLunrIndex;
 use PDO;
@@ -83,7 +84,8 @@ final class BuildCommand extends CommandBase
         }
         foreach ($pages as $page) {
             self::writeln('<info>Page: ' . $page->getId() . '</info>');
-            $site->getTemplate($page->getTemplateName())->render($page, $db);
+            $template = new Template($db, $site, $page->getTemplateName());
+            $template->render($page);
         }
 
         // Build Lunr index as search.json.

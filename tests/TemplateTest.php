@@ -4,33 +4,24 @@ declare(strict_types=1);
 
 namespace Test;
 
+use App\Database;
 use App\Site;
 use App\Template;
 use PHPUnit\Framework\TestCase;
 
 final class TemplateTest extends TestCase
 {
-    /**
-     * @covers \App\Template::renderSimple
-     */
-    public function testRenderSimple(): void
+    /** @var Database */
+    private $db;
+
+    /** @var Site */
+    private $site;
+
+    public function setUp(): void
     {
-        $site = new Site(__DIR__ . '/test_site');
-        $tpl = new Template($site, 'test');
-        $page = $site->getPages()['/simple'];
-        $out = $tpl->renderSimple('tex', $page);
-        self::assertSame('
-\documentclass{article}
-
-\begin{document}
-
-The body text.
-
-
-
-\end{document}
-
-', $out);
+        $this->db = new Database(__DIR__ . '/test_site/test.sqlite3');
+        $this->site = new Site(__DIR__ . '/test_site');
+        $this->db->processSite($this->site);
     }
 
     /**
@@ -38,12 +29,15 @@ The body text.
      */
     public function testShortcodes(): void
     {
-        $site = new Site(__DIR__ . '/test_site');
-        $tpl = new Template($site, 'test');
-        $page = $site->getPages()['/shortcodes'];
-        $out = $tpl->renderSimple('tex', $page);
+        $tpl = new Template($this->db, $this->site, 'test');
+        $page = $this->site->getPages()['/shortcodes'];
+        $tpl->render($page);
+        $texFile = __DIR__ . '/test_site/cache/tex/shortcodes.tex';
+        self::assertFileExists($texFile);
+        $out = file_get_contents($texFile);
         self::assertStringMatchesFormat("
 \documentclass{article}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -58,6 +52,8 @@ Test shortcodes. A file from Wikimedia Commons:
 \\end{center}
 \\end{figure}
 
+There are 4 pages.
+
 
 
 
@@ -71,8 +67,7 @@ Test shortcodes. A file from Wikimedia Commons:
      */
     public function testGetFormats(): void
     {
-        $site = new Site(__DIR__ . '/test_site');
-        $tpl = new Template($site, 'test');
+        $tpl = new Template($this->db, $this->site, 'test');
         $this->assertSame(['tex'], $tpl->getFormats());
     }
 }
