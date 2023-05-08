@@ -80,7 +80,7 @@ final class Template
             'database' => $this->db,
             'site' => $page->getSite(),
             'page' => $page,
-        ], $params);
+        ], $params ?? []);
         return $this->getTwig($page)->render($this->name . ".$format.twig", $allParams);
     }
 

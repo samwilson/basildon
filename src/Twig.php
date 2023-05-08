@@ -406,7 +406,7 @@ final class Twig extends AbstractExtension
             ) use (
                 $shortcodeTemplate,
                 $format,
-                $page,
+                $page
             ) {
                 return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
             };

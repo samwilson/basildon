@@ -25,6 +25,29 @@ final class TemplateTest extends TestCase
     }
 
     /**
+     * @covers \App\Template::renderSimple
+     */
+    public function testRenderSimple(): void
+    {
+        $tpl = new Template($this->db, $this->site, 'test');
+        $page = $this->site->getPages()['/simple'];
+        $out = $tpl->renderSimple('tex', $page);
+        self::assertSame('
+\documentclass{article}
+\usepackage{graphicx}
+
+\begin{document}
+
+The body text.
+
+
+
+\end{document}
+
+', $out);
+    }
+
+    /**
      * @covers \App\Template::render
      */
     public function testShortcodes(): void
