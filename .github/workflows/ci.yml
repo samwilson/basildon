@@ -23,10 +23,24 @@ jobs:
         php-version: ${{matrix.php}}
         extensions: fileinfo, json, pdo, mbstring, gd, ast, sqlite3
 
-    - name: Install
+    - name: Install on MacOS
+      if: runner.os == 'macOS'
       run: |
-        sudo apt update -q
+        brew update
+        brew install latexmk
+
+    - name: Install on Linux
+      if: runner.os == 'Linux' && inputs.apt != ''
+      run: |
+        sudo apt update
         sudo apt install -y latexmk
+
+    - name: Install on Windows
+      if: runner.os == 'Windows'
+      run: choco install -y latexmk
+
+    - name: Install Basildon
+      run: |
         composer install
 
     - name: Test
