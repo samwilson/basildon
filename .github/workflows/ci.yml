@@ -23,26 +23,32 @@ jobs:
         php-version: ${{matrix.php}}
         extensions: fileinfo, json, pdo, mbstring, gd, ast, sqlite3
 
-    - name: Install on MacOS
-      if: matrix.os == 'macos-latest'
-      run: |
-        brew update
-        brew install texlive
-        tlmgr install latexmk
-        tlmgr install pdftexcmds
+    - name: Set up TeXLive
+      uses: teatimeguest/setup-texlive-action@v2
 
-    - name: Install on Linux
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt update
-        sudo apt install -y texlive latexmk
+    - name: Check `tlmgr` version
+      run: tlmgr --version
 
-    - name: Install on Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        choco install -y texlive
-        tlmgr install latexmk
-        tlmgr install pdftexcmds
+    # - name: Install on MacOS
+    #   if: matrix.os == 'macos-latest'
+    #   run: |
+    #     brew update
+    #     brew install texlive
+    #     tlmgr install latexmk
+    #     tlmgr install pdftexcmds
+
+    # - name: Install on Linux
+    #   if: matrix.os == 'ubuntu-latest'
+    #   run: |
+    #     sudo apt update
+    #     sudo apt install -y texlive latexmk
+
+    # - name: Install on Windows
+    #   if: matrix.os == 'windows-latest'
+    #   run: |
+    #     choco install -y texlive
+    #     tlmgr install latexmk
+    #     tlmgr install pdftexcmds
 
     - name: Install Basildon
       run: |
