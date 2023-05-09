@@ -52,6 +52,8 @@ jobs:
 
     - name: Install Basildon
       run: |
+        tlmgr install latexmk
+        tlmgr install pdftexcmds
         composer install
 
     - name: Test
