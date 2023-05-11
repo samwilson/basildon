@@ -28,6 +28,7 @@ jobs:
 
     - name: Install
       run: |
+        tlmgr install latexmk
         composer install
 
     - name: Test
