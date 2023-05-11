@@ -7,6 +7,8 @@ subtitle: A static website generator
 written in PHP and supporting Markdown content, Twig templates,
 SQLite, and outputs of HTML and PDF (via LaTeX).
 
+This documentation is also available as [a PDF](basildon-docs.pdf).
+
 ## Quick start
 
 Prerequisites: [PHP](https://www.php.net/) (version 7.3 or higher) and [Composer](https://getcomposer.org/).
