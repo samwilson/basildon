@@ -19,7 +19,7 @@ final class TemplateTest extends TestCase
 
     public function setUp(): void
     {
-        $this->db = new Database(__DIR__ . '/test_site/test.sqlite3');
+        $this->db = new Database();
         $this->site = new Site(__DIR__ . '/test_site');
         $this->db->processSite($this->site);
     }

@@ -19,7 +19,7 @@ final class TwigTest extends TestCase
 
     public function setUp(): void
     {
-        $this->db = new Database(__DIR__ . '/test_site/test.sqlite3');
+        $this->db = new Database();
     }
 
     /**
