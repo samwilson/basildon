@@ -25,37 +25,14 @@ jobs:
 
     - name: Set up TeXLive
       uses: teatimeguest/setup-texlive-action@v2
+      with:
+        packages: scheme-basic latexmk listings
 
-    - name: Check `tlmgr` version
-      run: tlmgr --version
-
-    # - name: Install on MacOS
-    #   if: matrix.os == 'macos-latest'
-    #   run: |
-    #     brew update
-    #     brew install texlive
-    #     tlmgr install latexmk
-    #     tlmgr install pdftexcmds
-
-    # - name: Install on Linux
-    #   if: matrix.os == 'ubuntu-latest'
-    #   run: |
-    #     sudo apt update
-    #     sudo apt install -y texlive latexmk
-
-    # - name: Install on Windows
-    #   if: matrix.os == 'windows-latest'
-    #   run: |
-    #     choco install -y texlive
-    #     tlmgr install latexmk
-    #     tlmgr install pdftexcmds
-
-    - name: Install Basildon
+    - name: Install
       run: |
-        tlmgr install latexmk
-        tlmgr install pdftexcmds
         composer install
 
     - name: Test
       run: |
         composer test
+        ./bin/basildon build docs/
