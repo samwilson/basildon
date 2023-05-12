@@ -1,0 +1,25 @@
+{% autoescape 'tex' %}
+\documentclass[a4paper]{article}
+
+\usepackage{graphicx, url, listings}
+
+\title{Basildon}
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+
+    {{ page.body|md2latex|raw }}
+
+    {% for p in page.metadata.pages %}
+
+        {% set sec = database.query( 'SELECT * FROM pages WHERE id="'~p~'"' ).fetch %}
+
+        \section{ {{ sec.subtitle }} }
+
+        {{ sec.body|md2latex|raw }}
+
+    {% endfor %}
+
+\end{document}
+{% endautoescape %}

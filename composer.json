@@ -12,7 +12,7 @@
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "league/flysystem": "^1.0",
         "myclabs/php-enum": "^1.5",
-        "samwilson/commonmark-latex": "^0.2",
+        "samwilson/commonmark-latex": "^0.3",
         "samwilson/commonmark-shortcodes": "^0.2",
         "samwilson/phpflickr": "^4.13",
         "symfony/console": "^5.0",
