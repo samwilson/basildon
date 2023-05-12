@@ -26,7 +26,7 @@ jobs:
     - name: Set up TeXLive
       uses: teatimeguest/setup-texlive-action@v2
       with:
-        packages: latexmk
+        packages: lualatex latexmk
 
     # - name: Install on MacOS
     #   if: matrix.os == 'macos-latest'
