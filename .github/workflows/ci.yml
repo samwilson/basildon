@@ -21,7 +21,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{matrix.php}}
-        extensions: fileinfo, json, pdo, mbstring, gd, ast, sqlite3
+        extensions: fileinfo, json, pdo, mbstring, gd, ast, pdo_sqlite3, sqlite3
 
     - name: Set up TeXLive
       uses: teatimeguest/setup-texlive-action@v2
