@@ -104,8 +104,13 @@ final class Template
                 $pdfDir = dirname($texOutFile);
                 CommandBase::writeln('Compiling PDF for: ' . $page->getId());
                 $process = new Process(['latexmk', '-lualatex', "-auxdir=$pdfDir", "-outdir=$pdfDir", $texOutFile]);
-                $process->setTimeout(10 * 60);
-                $process->mustRun();
+                $process->setTimeout(20 * 60);
+                try {
+                    $process->mustRun();
+                } catch (Exception $e) {
+                    CommandBase::writeln($e->getMessage());
+                    dump($process->getOutput());
+                }
                 // Copy PDF to output directory.
                 Util::mkdir(dirname($outFileBase));
                 if (!file_exists($texOutFileBase . '.pdf')) {
