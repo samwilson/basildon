@@ -85,7 +85,7 @@ final class TwigTest extends TestCase
             ],
             [
                 'Foo ![bar](https://upload.wikimedia.org/wikipedia/commons/a/aa/Simple_shapes_example.png)',
-                "Foo \includegraphics{%stests/test_site/cache/tex/_urls/67b86101a84e805c263e1315ee17e768.png}\n",
+                "Foo \includegraphics{%stests/test_site/cache/tex/.urls/67b86101a84e805c263e1315ee17e768.png}\n",
             ],
         ];
     }
