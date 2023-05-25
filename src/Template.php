@@ -8,6 +8,7 @@ use App\Command\CommandBase;
 use Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
+use Throwable;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\EscaperExtension;
@@ -107,7 +108,7 @@ final class Template
                 $process->setTimeout(20 * 60);
                 try {
                     $process->mustRun();
-                } catch (Exception $e) {
+                } catch (Throwable $e) {
                     CommandBase::writeln($e->getMessage());
                     dump($process->getOutput());
                 }
