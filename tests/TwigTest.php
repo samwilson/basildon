@@ -73,12 +73,12 @@ final class TwigTest extends TestCase
             [
                 '/simple',
                 'Foo ![bar](subdir/Simple_shapes_example.png)',
-                "Foo \includegraphics{subdir/Simple_shapes_example.png}\n\n",
+                "Foo \includegraphics{../../content/subdir/Simple_shapes_example.png}\n\n",
             ],
             [
                 '/subdir/subdir/deep',
                 'Foo ![bar](../Simple_shapes_example.png)',
-                "Foo \includegraphics{../Simple_shapes_example.png}\n\n",
+                "Foo \includegraphics{../../../../content/subdir/Simple_shapes_example.png}\n\n",
             ],
             [
                 '/simple',
