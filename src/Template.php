@@ -8,7 +8,6 @@ use App\Command\CommandBase;
 use Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
-use Throwable;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\EscaperExtension;

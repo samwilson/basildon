@@ -170,7 +170,7 @@ final class Twig extends AbstractExtension
 
         // Set up file and directory names.
         $filename = md5($url) . '.' . pathinfo($url, PATHINFO_EXTENSION);
-        $outputFilepath = $this->site->getDir() . '/cache/tex/.urls/' . $filename;
+        $outputFilepath = $this->site->getDir() . '/cache/tex/_urls/' . $filename;
 
         // Check cache and return if the file exists and was modified within the permitted time-frame.
         $minCacheTime = time() - $this->site->getTtl();

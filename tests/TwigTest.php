@@ -69,7 +69,7 @@ final class TwigTest extends TestCase
     public function testImageUrlsToLatex(string $pageId, string $markdown, string $latex): void
     {
         $site = new Site(__DIR__ . '/test_site');
-        $twig = new Twig($this->db, $site, new Page($site, '/simple'));
+        $twig = new Twig($this->db, $site, new Page($site, $pageId));
         self::assertSame($latex, $twig->filterMarkdownToLatex($markdown));
     }
 
