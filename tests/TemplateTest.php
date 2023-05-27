@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace Test;
 
+use App\Database;
 use App\Site;
 use App\Template;
 use PHPUnit\Framework\TestCase;
 
 final class TemplateTest extends TestCase
 {
+    /** @var Database */
+    private $db;
+
+    /** @var Site */
+    private $site;
+
+    public function setUp(): void
+    {
+        $this->db = new Database();
+        $this->site = new Site(__DIR__ . '/test_site');
+        $this->db->processSite($this->site);
+    }
+
     /**
      * @covers \App\Template::renderSimple
      */
@@ -42,7 +56,7 @@ The body text.
         $tpl = new Template($site, 'test');
         $page = $site->getPages()['/shortcodes'];
         $out = $tpl->renderSimple('tex', $page);
-        self::assertStringMatchesFormat("
+        self::assertSame("
 \documentclass{article}
 
 \begin{document}
@@ -53,7 +67,7 @@ Test shortcodes. A file from Wikimedia Commons:
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\linewidth]{%stests/test_site/cache/tex/_urls/c8746163efee06a4cd52b7d3f79327e8.png}
+\includegraphics[width=\linewidth]{_urls/c8746163efee06a4cd52b7d3f79327e8.png}
 \caption{ A temporary file for testing of correct rendering of PNG image files. }
 \\end{center}
 \\end{figure}
