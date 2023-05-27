@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace Test;
 
+use App\Database;
 use App\Site;
 use App\Template;
 use PHPUnit\Framework\TestCase;
 
 final class TemplateTest extends TestCase
 {
+    /** @var Database */
+    private $db;
+
+    /** @var Site */
+    private $site;
+
+    public function setUp(): void
+    {
+        $this->db = new Database();
+        $this->site = new Site(__DIR__ . '/test_site');
+        $this->db->processSite($this->site);
+    }
+
     /**
      * @covers \App\Template::renderSimple
      */
