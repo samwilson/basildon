@@ -26,12 +26,7 @@ final class Database
      */
     public function __construct(string $dsn = ':memory:')
     {
-        try {
-            self::$pdo = new PDO("sqlite:$dsn");
-        } catch (PDOException $exception) {
-            dump(PDO::getAvailableDrivers());
-            throw $exception;
-        }
+        self::$pdo = new PDO("sqlite:$dsn");
         self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         self::$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }
