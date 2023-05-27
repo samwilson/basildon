@@ -120,12 +120,11 @@ final class Twig extends AbstractExtension
                     // Absolute URLs.
                     $node->setUrl($this->functionTexUrl($node->getUrl()));
                 } else {
-                    // Relative URLs.
-                    $link = $this->site->getDir() . '/content' . $node->getUrl();
-                    if (!is_file($link)) {
-                        throw new Exception("Unable to find image: $link");
+                    // Relative URLs can be left as-is, but check that the file exists.
+                    $path = dirname($this->page->getFilename()) . '/' . $node->getUrl();
+                    if (!is_file($path)) {
+                        throw new Exception("Unable to find image: $path");
                     }
-                    $node->setUrl($link);
                 }
             }
         });
@@ -191,8 +190,9 @@ final class Twig extends AbstractExtension
             throw new Exception("Download failed: $url");
         }
 
-        // Return the full path to the downloaded file..
-        return $outputFilepath;
+        // Return the relative path to the downloaded file.
+        $depth = count(explode('/', $this->page->getId()));
+        return str_repeat('../', $depth - 2) . '_urls/' . $filename;
     }
 
     /**
