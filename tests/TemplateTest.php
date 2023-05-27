@@ -58,7 +58,7 @@ The body text.
         $texFile = __DIR__ . '/test_site/cache/tex/shortcodes.tex';
         self::assertFileExists($texFile);
         $out = file_get_contents($texFile);
-        self::assertStringMatchesFormat("
+        self::assertSame("
 \documentclass{article}
 \usepackage{graphicx}
 
@@ -70,7 +70,7 @@ Test shortcodes. A file from Wikimedia Commons:
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\linewidth]{{%stests/test_site/cache/tex/.urls/c8746163efee06a4cd52b7d3f79327e8.png}}
+\includegraphics[width=\linewidth]{_urls/c8746163efee06a4cd52b7d3f79327e8.png}
 \caption{ A temporary file for testing of correct rendering of PNG image files. }
 \\end{center}
 \\end{figure}

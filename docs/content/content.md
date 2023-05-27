@@ -29,15 +29,18 @@ The database can also be modified and the changes [written back to the content f
 
 ## Images
 
-Images should be stored in the `content/` directory,
+Local images should be stored in the `content/` directory,
 and included with the normal Markdown syntax.
-Their file paths should be relative to the content directory and start with a slash.
+Their file paths should be relative to their own location and not start with a slash.
 
 For example, an image file stored at `content/images/file.png`
-should be referenced like this: `![Alt text](/images/file.png)`.
+should be referenced like this:
+
+* From `lorem.md` as `![Alt text](images/file.png)`.
+* From `lorem/ipsum.md` as `![Alt text](../images/file.png)`.
 
 For information about other assets such as stylesheets and scripts,
-see [the Assets section](index.html) of the documentation overview.
+see [the *Assets* section](index.html) of the documentation overview.
 
 ## Shortcodes
 

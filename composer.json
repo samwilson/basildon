@@ -16,6 +16,7 @@
         "samwilson/commonmark-shortcodes": "^0.2",
         "samwilson/phpflickr": "^4.13",
         "symfony/console": "^5.0",
+        "symfony/filesystem": "^5.4",
         "symfony/finder": "^5.0",
         "symfony/process": "^5.0",
         "symfony/yaml": "^5.0",

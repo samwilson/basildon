@@ -66,11 +66,11 @@ final class TwigTest extends TestCase
      * @covers Twig::filterMarkdownToLatex()
      * @dataProvider provideImageUrlsToLatex()
      */
-    public function testImageUrlsToLatex(string $markdown, string $latex): void
+    public function testImageUrlsToLatex(string $pageId, string $markdown, string $latex): void
     {
         $site = new Site(__DIR__ . '/test_site');
         $twig = new Twig($this->db, $site, new Page($site, '/simple'));
-        self::assertStringMatchesFormat($latex, $twig->filterMarkdownToLatex($markdown));
+        self::assertSame($latex, $twig->filterMarkdownToLatex($markdown));
     }
 
     /**
@@ -80,12 +80,19 @@ final class TwigTest extends TestCase
     {
         return [
             [
-                'Foo ![bar](/subdir/Simple_shapes_example.png)',
-                "Foo \includegraphics{%stests/test_site/content/subdir/Simple_shapes_example.png}\n",
+                '/simple',
+                'Foo ![bar](subdir/Simple_shapes_example.png)',
+                "Foo \includegraphics{../../content/subdir/Simple_shapes_example.png}\n\n",
             ],
             [
+                '/subdir/subdir/deep',
+                'Foo ![bar](../Simple_shapes_example.png)',
+                "Foo \includegraphics{../../../../content/subdir/Simple_shapes_example.png}\n\n",
+            ],
+            [
+                '/simple',
                 'Foo ![bar](https://upload.wikimedia.org/wikipedia/commons/a/aa/Simple_shapes_example.png)',
-                "Foo \includegraphics{%stests/test_site/cache/tex/.urls/67b86101a84e805c263e1315ee17e768.png}\n",
+                "Foo \includegraphics{_urls/67b86101a84e805c263e1315ee17e768.png}\n\n",
             ],
         ];
     }

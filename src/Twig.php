@@ -27,6 +27,7 @@ use Samwilson\PhpFlickr\PhotosApi;
 use Samwilson\PhpFlickr\PhpFlickr;
 use Stash\Driver\FileSystem;
 use Stash\Pool;
+use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Throwable;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -96,16 +97,6 @@ final class Twig extends AbstractExtension
     {
         $environment = $this->getCommonMarkEnvironment('html');
         $environment->addExtension(new AutolinkExtension());
-        $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
-            foreach ($event->getDocument()->iterator() as $node) {
-                if (!$node instanceof Image) {
-                    continue;
-                }
-                if (substr($node->getUrl(), 0, 4) !== 'http') {
-                    $node->setUrl($this->page->getLink($node->getUrl()));
-                }
-            }
-        });
         $converter = new MarkdownConverter($environment);
         return $converter->convert($input)->getContent();
     }
@@ -116,6 +107,7 @@ final class Twig extends AbstractExtension
         $environment->addExtension(new LatexRendererExtension());
         $environment->addExtension(new AutolinkExtension());
         $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
+            $filesystem = new SymfonyFilesystem();
             foreach ($event->getDocument()->iterator() as $node) {
                 if (!$node instanceof Image) {
                     continue;
@@ -125,11 +117,17 @@ final class Twig extends AbstractExtension
                     $node->setUrl($this->functionTexUrl($node->getUrl()));
                 } else {
                     // Relative URLs.
-                    $link = $this->site->getDir() . '/content' . $node->getUrl();
-                    if (!is_file($link)) {
-                        throw new Exception("Unable to find image: $link");
+                    $dirname = dirname($node->getUrl());
+                    $filename = basename($node->getUrl());
+                    $pageDir = dirname($this->page->getId());
+                    $pathTex = $this->site->getDir() . '/cache/tex' . $pageDir;
+                    $pathContent = realpath($this->site->getDir() . '/content' . $pageDir . '/' . $dirname);
+                    $pathContentFull = $pathContent . '/' . $filename;
+                    if (!is_file($pathContentFull)) {
+                        throw new Exception("Unable to find image: $pathContentFull");
                     }
-                    $node->setUrl($link);
+                    $path = $filesystem->makePathRelative($pathContent, $pathTex) . $filename;
+                    $node->setUrl($path);
                 }
             }
         });
@@ -195,8 +193,9 @@ final class Twig extends AbstractExtension
             throw new Exception("Download failed: $url");
         }
 
-        // Return the full path to the downloaded file..
-        return $outputFilepath;
+        // Return the relative path to the downloaded file.
+        $depth = count(explode('/', $this->page->getId()));
+        return str_repeat('../', $depth - 2) . '_urls/' . $filename;
     }
 
     /**
