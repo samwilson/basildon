@@ -23,6 +23,11 @@ jobs:
         php-version: ${{matrix.php}}
         extensions: fileinfo, json, pdo, mbstring, gd, ast, sqlite, pdo_sqlite
 
+    - name: Set up TeXLive
+      uses: teatimeguest/setup-texlive-action@v2
+      with:
+        packages: scheme-basic latexmk listings
+
     - name: Install
       run: |
         composer install
@@ -30,3 +35,4 @@ jobs:
     - name: Test
       run: |
         composer test
+        ./bin/basildon build docs/

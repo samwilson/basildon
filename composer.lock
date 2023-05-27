@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d73ba684574f0492f3621546386d5ac3",
+    "content-hash": "a1c1e42067f772941152875a605ac1bb",
     "packages": [
         {
             "name": "addwiki/mediawiki-api-base",
@@ -1815,16 +1815,16 @@
         },
         {
             "name": "samwilson/commonmark-latex",
-            "version": "0.2.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/samwilson/commonmark-latex.git",
-                "reference": "9ea72d0ca9c9d93ce78ca67976703cd792338cd1"
+                "reference": "f4d4d51053a8477770df8773f94485aefcc966c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samwilson/commonmark-latex/zipball/9ea72d0ca9c9d93ce78ca67976703cd792338cd1",
-                "reference": "9ea72d0ca9c9d93ce78ca67976703cd792338cd1",
+                "url": "https://api.github.com/repos/samwilson/commonmark-latex/zipball/f4d4d51053a8477770df8773f94485aefcc966c5",
+                "reference": "f4d4d51053a8477770df8773f94485aefcc966c5",
                 "shasum": ""
             },
             "require": {
@@ -1854,9 +1854,9 @@
             "description": "A LaTeX renderer for CommonMark.",
             "support": {
                 "issues": "https://github.com/samwilson/commonmark-latex/issues",
-                "source": "https://github.com/samwilson/commonmark-latex/tree/0.2.0"
+                "source": "https://github.com/samwilson/commonmark-latex/tree/0.3.0"
             },
-            "time": "2022-07-14T06:12:18+00:00"
+            "time": "2023-05-11T11:16:42+00:00"
         },
         {
             "name": "samwilson/commonmark-shortcodes",
