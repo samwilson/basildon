@@ -29,12 +29,12 @@ final class TemplateTest extends TestCase
      */
     public function testRenderSimple(): void
     {
-        $site = new Site(__DIR__ . '/test_site');
-        $tpl = new Template($site, 'test');
-        $page = $site->getPages()['/simple'];
+        $tpl = new Template($this->db, $this->site, 'test');
+        $page = $this->site->getPages()['/simple'];
         $out = $tpl->renderSimple('tex', $page);
         self::assertSame('
 \documentclass{article}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -52,12 +52,15 @@ The body text.
      */
     public function testShortcodes(): void
     {
-        $site = new Site(__DIR__ . '/test_site');
-        $tpl = new Template($site, 'test');
-        $page = $site->getPages()['/shortcodes'];
-        $out = $tpl->renderSimple('tex', $page);
+        $tpl = new Template($this->db, $this->site, 'test');
+        $page = $this->site->getPages()['/shortcodes'];
+        $tpl->render($page);
+        $texFile = __DIR__ . '/test_site/cache/tex/shortcodes.tex';
+        self::assertFileExists($texFile);
+        $out = file_get_contents($texFile);
         self::assertSame("
 \documentclass{article}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -72,6 +75,8 @@ Test shortcodes. A file from Wikimedia Commons:
 \\end{center}
 \\end{figure}
 
+There are 4 pages.
+
 
 
 
@@ -85,8 +90,7 @@ Test shortcodes. A file from Wikimedia Commons:
      */
     public function testGetFormats(): void
     {
-        $site = new Site(__DIR__ . '/test_site');
-        $tpl = new Template($site, 'test');
+        $tpl = new Template($this->db, $this->site, 'test');
         $this->assertSame(['tex'], $tpl->getFormats());
     }
 }

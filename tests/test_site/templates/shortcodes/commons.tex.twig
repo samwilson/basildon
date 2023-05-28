@@ -9,4 +9,6 @@
 \end{center}
 \end{figure}
 
+There are {{ database.query('SELECT COUNT(*) AS t FROM pages').fetch.t }} pages.
+
 {% endautoescape %}

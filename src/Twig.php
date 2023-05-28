@@ -36,6 +36,9 @@ use Twig\TwigFunction;
 
 final class Twig extends AbstractExtension
 {
+    /** @var Database */
+    protected $db;
+
     /** @var Site */
     protected $site;
 
@@ -49,8 +52,9 @@ final class Twig extends AbstractExtension
         'flickr' => [],
     ];
 
-    public function __construct(Site $site, Page $page)
+    public function __construct(Database $db, Site $site, Page $page)
     {
+        $this->db = $db;
         $this->site = $site;
         $this->page = $page;
     }
@@ -393,7 +397,7 @@ final class Twig extends AbstractExtension
     private function getCommonMarkEnvironment(string $format): CommonMarkEnvironment
     {
         $shortcodes = [];
-        foreach ($this->site->getTemplates('shortcodes') as $shortcodeTemplate) {
+        foreach ($this->site->getTemplates($this->db, 'shortcodes') as $shortcodeTemplate) {
             $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
             $page = $this->page;
             $shortcodes[$shortcodeName] = static function (

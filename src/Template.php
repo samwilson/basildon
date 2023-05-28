@@ -25,8 +25,12 @@ final class Template
     /** @var string The filesystem name of this template. */
     protected $name;
 
-    public function __construct(Site $site, string $name)
+    /** @var Database */
+    private $db;
+
+    public function __construct(Database $db, Site $site, string $name)
     {
+        $this->db = $db;
         $this->site = $site;
         $this->name = $name;
     }
@@ -72,15 +76,19 @@ final class Template
      */
     public function renderSimple(string $format, Page $page, ?array $params = null): string
     {
-        $params['page'] = $page;
-        return $this->getTwig($page)->render($this->name . ".$format.twig", $params);
+        $allParams = array_merge([
+            'database' => $this->db,
+            'site' => $page->getSite(),
+            'page' => $page,
+        ], $params ?? []);
+        return $this->getTwig($page)->render($this->name . ".$format.twig", $allParams);
     }
 
-    public function render(Page $page, Database $db): void
+    public function render(Page $page): void
     {
         foreach ($this->getFormats() as $format) {
             $renderedTemplate = $this->getTwig($page)->render($this->name . ".$format.twig", [
-                'database' => $db,
+                'database' => $this->db,
                 'site' => $page->getSite(),
                 'page' => $page,
             ]);
@@ -97,7 +105,7 @@ final class Template
                 CommandBase::writeln('Compiling PDF for: ' . $page->getId());
                 $args = ['latexmk', '-lualatex', "-auxdir=$pdfDir", "-outdir=$pdfDir", $texOutFile];
                 $process = new Process($args, $pdfDir);
-                $process->setTimeout(5 * 60);
+                $process->setTimeout(10 * 60);
                 $process->mustRun();
                 // Copy PDF to output directory.
                 Util::mkdir(dirname($outFileBase));
@@ -127,7 +135,7 @@ final class Template
         ]);
         $twig->addExtension(new IntlExtension());
         $twig->addExtension(new DebugExtension());
-        $twigExtension = new Twig($this->site, $page);
+        $twigExtension = new Twig($this->db, $this->site, $page);
         $twig->addExtension($twigExtension);
         $escaper = $twig->getExtension(EscaperExtension::class);
         if ($escaper instanceof EscaperExtension) {
