@@ -123,7 +123,7 @@ Note that this is also using the `commons()` Twig function, which is [documented
 
 In any Markdown file:
 
-    {{{flickr id=123456}}}
+    {{{flickr|id=123456}}}
 
 In `templates/shortcodes/flickr.html.twig`:
 
@@ -146,4 +146,3 @@ In `templates/shortcodes/flickr.html.twig`:
             </span>
         </figcaption>
     </figure>
-
