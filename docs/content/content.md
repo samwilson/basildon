@@ -45,17 +45,17 @@ see [the *Assets* section](index.html) of the documentation overview.
 ## Shortcodes
 
 This section documents 'shortcodes', which are what we call specific replacable parts in a Markdown document.
-They are inline phrases or blocks of text such as `{foo}` or `{{{bar id=123}}}` which get replaced
+They are inline phrases or blocks of text such as `{foo}` or `{{{bar|id=123}}}` which get replaced
 by the contents of templates such as `templates/shortcodes/foo.html.twig` or `templates/shortcodes/bar.tex.twig`.
 
 * Inline shortcodes are delimited by single braces and can contain any number of attributes, e.g.:
   * Lorem `{foo}` ipsum with no parameters.
-  * Lorem `{foo bar=baz bif="foo bar"}` ipsum with two parameters, the second of which contains a space.
+  * Lorem `{foo | bar=baz|bif="foo bar"}` ipsum with two parameters, the second of which contains a space.
   * Lorem `{foo bif}` ipsum with a parameter with no value.
 * Block shortcodes are delimited by triple braces at the beggining of lines, e.g.:
   * A block of one line, with one parameter:
     ```
-    {{{quotation cite="Author name"
+    {{{quotation | cite="Author name"
     Lorem ipsum
     }}}
     ```
@@ -73,11 +73,11 @@ which has a [similar function](https://codex.wordpress.org/shortcode).
 Shortcodes are a simple way to include images, videos, and summaries of other web pages.
 For example, this is a photo from Wikimedia Commons:
 
-{{{commons file=Co-Op,_Post_Office,_Courthouse.jpg }}}
+{{{commons|Co-Op,_Post_Office,_Courthouse.jpg}}}
 
 It is added to the source Markdown with this:
 
-    {{{commons file=Co-Op,_Post_Office,_Courthouse.jpg }}}
+    {{{commons|Co-Op,_Post_Office,_Courthouse.jpg}}}
 
 All of the other information (image URL, caption, etc.) is retrieved from the Commons API when the Markdown is rendered.
 
@@ -93,7 +93,8 @@ The file `templates/shortcodes/<shortcode-name>.<format>.twig` to contain the HT
 The following variables are available in shortcode templates:
 
 * `shortcode.name`: the name of the shortcode, which will always be the same as the template's name.
-* `shortcode.attr('foo')`: fetches an attribute by name.
+* `shortcode.attrs.foo`: fetches an attribute by name.
+* `shortcode.attrs.1`: fetches an unnamed attribute by number (starting from 1).
 * `shortcode.body`: for block shortcodes, fetches the entire body text.
 
 ### Example: Wikimedia Commons
@@ -126,7 +127,7 @@ In any Markdown file:
 
 In `templates/shortcodes/flickr.html.twig`:
 
-    {% set flickr = flickr(shortcode.attr('id')) %}
+    {% set flickr = flickr(shortcode.attrs.id) %}
     
     <figure itemscope itemtype="http://schema.org/ImageObject">
         <a href="{{ flickr.urls.photopage }}"><img alt="An image from Flickr." src="{{ flickr.urls.medium_image }}" /></a>

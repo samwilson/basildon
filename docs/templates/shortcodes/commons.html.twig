@@ -1,4 +1,4 @@
-{% set commons = commons(shortcode.attr('file')) %}
+{% set commons = commons(shortcode.attrs.1) %}
 
 <figure itemscope itemtype="http://schema.org/ImageObject">
     <a href="{{ commons.imageinfo.0.descriptionurl }}">
