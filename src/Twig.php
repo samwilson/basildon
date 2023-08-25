@@ -201,8 +201,8 @@ final class Twig extends AbstractExtension
         if (isset(self::$data['wikidata'][$wikidataId])) {
             return self::$data['wikidata'][$wikidataId];
         }
-        $pool = $this->getCachePool('wikidata');
-        $cacheItem = $pool->getItem($wikidataId);
+        $cache = $this->getCachePool('wikidata');
+        $cacheItem = $cache->getItem($wikidataId);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -214,7 +214,7 @@ final class Twig extends AbstractExtension
         $result = $api->getRequest($request);
         self::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
         $cacheItem->set(self::$data['wikidata'][$wikidataId]);
-        $pool->save($cacheItem);
+        $cache->save($cacheItem);
         return self::$data['wikidata'][$wikidataId];
     }
 
@@ -236,12 +236,12 @@ final class Twig extends AbstractExtension
         }
         $config = $this->site->getConfig()->flickr;
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
-        $pool = $this->getCachePool('flickr');
-        $cacheItem = $pool->getItem('basildon-flickr-' . $photoId);
+        $cache = $this->getCachePool('flickr');
+        $cacheItem = $cache->getItem('basildon-flickr-' . $photoId);
         if ($cacheItem->isHit()) {
             self::$data['flickr'][$photoId] = $cacheItem->get();
         } else {
-            $flickr->setCache($pool);
+            $flickr->setCache($cache);
             $shortUrl = $flickr->urls()->getShortUrl($photoId);
             CommandBase::writeln("Flickr fetch info: $photoId $shortUrl");
             $info = $flickr->photos()->getInfo($photoId);
@@ -259,7 +259,7 @@ final class Twig extends AbstractExtension
                 'license' => $flickr->photosLicenses()->getInfo()[$info['license']],
             ];
             $cacheItem->set(self::$data['flickr'][$photoId]);
-            $pool->save($cacheItem);
+            $cache->save($cacheItem);
         }
 
         return self::$data['flickr'][$photoId];
@@ -273,8 +273,8 @@ final class Twig extends AbstractExtension
         if (isset(self::$data['commons'][$filename])) {
             return self::$data['commons'][$filename];
         }
-        $pool = $this->getCachePool('commons');
-        $cacheItem = $pool->getItem($filename);
+        $cache = $this->getCachePool('commons');
+        $cacheItem = $cache->getItem($filename);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -299,7 +299,7 @@ final class Twig extends AbstractExtension
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
         self::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
         $cacheItem->set(self::$data['commons'][$filename]);
-        $pool->save($cacheItem);
+        $cache->save($cacheItem);
         return self::$data['commons'][$filename];
     }
 
@@ -308,8 +308,8 @@ final class Twig extends AbstractExtension
         if (isset(self::$data['wikipedia'][$articleTitle])) {
             return self::$data['wikipedia'][$articleTitle];
         }
-        $pool = $this->getCachePool('wikipedia');
-        $cacheItem = $pool->getItem($articleTitle);
+        $cache = $this->getCachePool('wikipedia');
+        $cacheItem = $cache->getItem($articleTitle);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -322,7 +322,7 @@ final class Twig extends AbstractExtension
         }
         self::$data['commons'][$articleTitle] = $response['extract_html'];
         $cacheItem->set(self::$data['commons'][$articleTitle]);
-        $pool->save($cacheItem);
+        $cache->save($cacheItem);
         return self::$data['commons'][$articleTitle];
     }
 
