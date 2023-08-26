@@ -202,7 +202,7 @@ final class Twig extends AbstractExtension
             return self::$data['wikidata'][$wikidataId];
         }
         $cache = $this->getCachePool('wikidata');
-        $cacheItem = $cache->getItem($wikidataId);
+        $cacheItem = $cache->getItem('wikidata' . $wikidataId);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -237,7 +237,7 @@ final class Twig extends AbstractExtension
         $config = $this->site->getConfig()->flickr;
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
         $cache = $this->getCachePool('flickr');
-        $cacheItem = $cache->getItem('basildon-flickr-' . $photoId);
+        $cacheItem = $cache->getItem('flickr' . $photoId);
         if ($cacheItem->isHit()) {
             self::$data['flickr'][$photoId] = $cacheItem->get();
         } else {
@@ -274,7 +274,7 @@ final class Twig extends AbstractExtension
             return self::$data['commons'][$filename];
         }
         $cache = $this->getCachePool('commons');
-        $cacheItem = $cache->getItem($filename);
+        $cacheItem = $cache->getItem('commons' . $filename);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -309,7 +309,7 @@ final class Twig extends AbstractExtension
             return self::$data['wikipedia'][$articleTitle];
         }
         $cache = $this->getCachePool('wikipedia');
-        $cacheItem = $cache->getItem($articleTitle);
+        $cacheItem = $cache->getItem('wikipedia' . $articleTitle);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
