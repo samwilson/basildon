@@ -5,12 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use Kevinrob\GuzzleCache\CacheMiddleware;
-use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
-use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
-use League\Flysystem\Adapter\Local;
 use Mediawiki\Api\MediawikiApi;
 use stdClass;
 use Symfony\Component\Finder\Finder;
@@ -27,13 +21,9 @@ final class Site
     /** @var Page[] */
     protected $pages;
 
-    /** @var int Cache TTL in seconds. */
-    protected $ttl;
-
-    public function __construct(string $dir, ?int $cacheTtl = null)
+    public function __construct(string $dir)
     {
         $this->dir = rtrim($dir, '/');
-        $this->ttl = $cacheTtl ?? 60;
     }
 
     /**
@@ -44,11 +34,6 @@ final class Site
     public function getDir(): string
     {
         return $this->dir;
-    }
-
-    public function getTtl(): int
-    {
-        return $this->ttl;
     }
 
     /**
@@ -157,17 +142,6 @@ final class Site
      */
     public function getMediawikiApi(string $apiUrl): MediawikiApi
     {
-        $stack = HandlerStack::create();
-        $cacheDir = $this->getDir() . '/cache/mediawikiapi/' . preg_replace('/[^a-z0-9]/', '', $apiUrl);
-        $stack->push(
-            new CacheMiddleware(
-                new GreedyCacheStrategy(
-                    new FlysystemStorage(new Local($cacheDir)),
-                    $this->ttl
-                )
-            ),
-            'mediawiki-api-cache'
-        );
-        return new MediawikiApi($apiUrl, new Client(['handler' => $stack]));
+        return new MediawikiApi($apiUrl);
     }
 }

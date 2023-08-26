@@ -20,14 +20,14 @@ use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\MarkdownConverter;
 use Mediawiki\Api\FluentRequest;
+use Psr\Cache\CacheItemPoolInterface;
 use Samwilson\CommonMarkLatex\LatexRendererExtension;
 use Samwilson\CommonMarkShortcodes\Shortcode;
 use Samwilson\CommonMarkShortcodes\ShortcodeExtension;
 use Samwilson\PhpFlickr\PhotosApi;
 use Samwilson\PhpFlickr\PhpFlickr;
-use Stash\Driver\FileSystem;
-use Stash\Pool;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Filesystem\Filesystem;
 use Throwable;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -107,7 +107,7 @@ final class Twig extends AbstractExtension
         $environment->addExtension(new LatexRendererExtension());
         $environment->addExtension(new AutolinkExtension());
         $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
-            $filesystem = new SymfonyFilesystem();
+            $filesystem = new Filesystem();
             foreach ($event->getDocument()->iterator() as $node) {
                 if (!$node instanceof Image) {
                     continue;
@@ -166,31 +166,26 @@ final class Twig extends AbstractExtension
      */
     public function functionTexUrl(string $url): string
     {
-        CommandBase::writeln('TeX file download: ' . basename($url));
-
         // Set up file and directory names.
         $filename = md5($url) . '.' . pathinfo($url, PATHINFO_EXTENSION);
         $outputFilepath = $this->site->getDir() . '/cache/tex/_urls/' . $filename;
 
-        // Check cache and return if the file exists and was modified within the permitted time-frame.
-        $minCacheTime = time() - $this->site->getTtl();
-        if (file_exists($outputFilepath) && filemtime($outputFilepath) >= $minCacheTime) {
-            return $outputFilepath;
-        }
+        if (!file_exists($outputFilepath)) {
+            CommandBase::writeln('TeX file download: ' . basename($url));
+            Util::mkdir(dirname($outputFilepath));
 
-        Util::mkdir(dirname($outputFilepath));
-
-        // Download to a local directory if it's not already there.
-        if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
-            try {
-                (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
-            } catch (Throwable $exception) {
-                throw new Exception("Unable to download: $url");
+            // Download to a local directory if it's not already there.
+            if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
+                try {
+                    (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
+                } catch (Throwable $exception) {
+                    throw new Exception("Unable to download: $url");
+                }
             }
-        }
 
-        if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
-            throw new Exception("Download failed: $url");
+            if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
+                throw new Exception("Download failed: $url");
+            }
         }
 
         // Return the relative path to the downloaded file.
@@ -206,6 +201,11 @@ final class Twig extends AbstractExtension
         if (isset(self::$data['wikidata'][$wikidataId])) {
             return self::$data['wikidata'][$wikidataId];
         }
+        $cache = $this->getCachePool('wikidata');
+        $cacheItem = $cache->getItem('wikidata' . $wikidataId);
+        if ($cacheItem->isHit()) {
+            return $cacheItem->get();
+        }
         $api = $this->site->getMediawikiApi('https://www.wikidata.org/w/api.php');
         $request = FluentRequest::factory()
             ->setAction('wbgetentities')
@@ -213,6 +213,8 @@ final class Twig extends AbstractExtension
         CommandBase::writeln('Wikidata fetch info: ' . $wikidataId);
         $result = $api->getRequest($request);
         self::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
+        $cacheItem->set(self::$data['wikidata'][$wikidataId]);
+        $cache->save($cacheItem);
         return self::$data['wikidata'][$wikidataId];
     }
 
@@ -234,24 +236,32 @@ final class Twig extends AbstractExtension
         }
         $config = $this->site->getConfig()->flickr;
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
-        $pool = new Pool(new FileSystem(['path' => $this->site->getDir() . '/cache/flickr']));
-        $flickr->setCache($pool);
-        $shortUrl = $flickr->urls()->getShortUrl($photoId);
-        CommandBase::writeln("Flickr fetch info: $photoId $shortUrl");
-        $info = $flickr->photos()->getInfo($photoId);
-        self::$data['flickr'][$photoId] = [
-            'id' => $info['id'],
-            'title' => $info['title'],
-            'description' => $info['description'],
-            'urls' => [
-                'photopage' => $info['urls']['url'][0]['_content'],
-                'short' => $shortUrl,
-                'medium_image' => $flickr->urls()->getImageUrl($info, PhotosApi::SIZE_MEDIUM_800),
-            ],
-            'dates' => $info['dates'],
-            'owner' => $info['owner'],
-            'license' => $flickr->photosLicenses()->getInfo()[$info['license']],
-        ];
+        $cache = $this->getCachePool('flickr');
+        $cacheItem = $cache->getItem('flickr' . $photoId);
+        if ($cacheItem->isHit()) {
+            self::$data['flickr'][$photoId] = $cacheItem->get();
+        } else {
+            $flickr->setCache($cache);
+            $shortUrl = $flickr->urls()->getShortUrl($photoId);
+            CommandBase::writeln("Flickr fetch info: $photoId $shortUrl");
+            $info = $flickr->photos()->getInfo($photoId);
+            self::$data['flickr'][$photoId] = [
+                'id' => $info['id'],
+                'title' => $info['title'],
+                'description' => $info['description'],
+                'urls' => [
+                    'photopage' => $info['urls']['url'][0]['_content'],
+                    'short' => $shortUrl,
+                    'medium_image' => $flickr->urls()->getImageUrl($info, PhotosApi::SIZE_MEDIUM_800),
+                ],
+                'dates' => $info['dates'],
+                'owner' => $info['owner'],
+                'license' => $flickr->photosLicenses()->getInfo()[$info['license']],
+            ];
+            $cacheItem->set(self::$data['flickr'][$photoId]);
+            $cache->save($cacheItem);
+        }
+
         return self::$data['flickr'][$photoId];
     }
 
@@ -262,6 +272,11 @@ final class Twig extends AbstractExtension
     {
         if (isset(self::$data['commons'][$filename])) {
             return self::$data['commons'][$filename];
+        }
+        $cache = $this->getCachePool('commons');
+        $cacheItem = $cache->getItem('commons' . $filename);
+        if ($cacheItem->isHit()) {
+            return $cacheItem->get();
         }
         $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
         $fileInfoResponse = $api->getRequest(FluentRequest::factory()
@@ -283,6 +298,8 @@ final class Twig extends AbstractExtension
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
         self::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
+        $cacheItem->set(self::$data['commons'][$filename]);
+        $cache->save($cacheItem);
         return self::$data['commons'][$filename];
     }
 
@@ -290,6 +307,11 @@ final class Twig extends AbstractExtension
     {
         if (isset(self::$data['wikipedia'][$articleTitle])) {
             return self::$data['wikipedia'][$articleTitle];
+        }
+        $cache = $this->getCachePool('wikipedia');
+        $cacheItem = $cache->getItem('wikipedia' . $articleTitle);
+        if ($cacheItem->isHit()) {
+            return $cacheItem->get();
         }
         CommandBase::writeln("Wikipedia fetch extract: $articleTitle");
         $url = "https://$lang.wikipedia.org/api/rest_v1/page/summary/" . str_replace(' ', '_', $articleTitle);
@@ -299,6 +321,8 @@ final class Twig extends AbstractExtension
             throw new Exception("Unable to get extract of Wikipedia article: $articleTitle");
         }
         self::$data['commons'][$articleTitle] = $response['extract_html'];
+        $cacheItem->set(self::$data['commons'][$articleTitle]);
+        $cache->save($cacheItem);
         return self::$data['commons'][$articleTitle];
     }
 
@@ -417,5 +441,10 @@ final class Twig extends AbstractExtension
         $environment->addExtension(new FootnoteExtension());
         $environment->addExtension(new ShortcodeExtension());
         return $environment;
+    }
+
+    private function getCachePool(string $subdir): CacheItemPoolInterface
+    {
+        return new FilesystemAdapter($subdir, 0, $this->site->getDir() . '/cache/');
     }
 }
