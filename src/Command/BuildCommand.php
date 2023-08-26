@@ -26,7 +26,6 @@ final class BuildCommand extends CommandBase
         $this->setName('build');
         $this->setDescription('Build a website.');
         $this->addOption('lunr', 'l', InputOption::VALUE_NONE, 'Build Lunr index?');
-        $this->addOption('ttl', 't', InputOption::VALUE_REQUIRED, 'Set the cache TTL in seconds.', (string) (60 * 5));
         $this->addOption(
             'page',
             'p',

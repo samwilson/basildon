@@ -21,13 +21,9 @@ final class Site
     /** @var Page[] */
     protected $pages;
 
-    /** @var int Cache TTL in seconds. */
-    protected $ttl;
-
-    public function __construct(string $dir, ?int $cacheTtl = null)
+    public function __construct(string $dir)
     {
         $this->dir = rtrim($dir, '/');
-        $this->ttl = $cacheTtl ?? 60;
     }
 
     /**
@@ -38,11 +34,6 @@ final class Site
     public function getDir(): string
     {
         return $this->dir;
-    }
-
-    public function getTtl(): int
-    {
-        return $this->ttl;
     }
 
     /**

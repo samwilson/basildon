@@ -39,7 +39,6 @@ abstract class CommandBase extends Command
             self::$io->error('Directory not found: ' . $input->getArgument('dir'));
             return null;
         }
-        $ttl = $input->hasOption('ttl') ? (int) $input->getOption('ttl') : null;
-        return new Site($dir, $ttl);
+        return new Site($dir);
     }
 }
