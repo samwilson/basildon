@@ -1,2 +1,6 @@
 * text=auto eol=lf
 
+docs export-ignore
+example export-ignore
+phpunit.xml export-ignore
+tests export-ignore
