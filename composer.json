@@ -11,7 +11,7 @@
         "getdkan/lunr.php": "^1.0",
         "league/flysystem": "^1.0",
         "myclabs/php-enum": "^1.5",
-        "samwilson/commonmark-latex": "^0.3",
+        "samwilson/commonmark-latex": "^0.4",
         "samwilson/commonmark-shortcodes": "^0.3",
         "samwilson/phpflickr": "^4.13",
         "symfony/cache": "^5.0",
