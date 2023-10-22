@@ -37,6 +37,8 @@ these are explained on this page.
    See the example in [/example/templates/tag.html.twig](https://github.com/samwilson/basildon/blob/main/example/templates/tag.html.twig)
 6. `wikipedia(lang, title)` — Returns an HTML extract of the given article.
    For example: `{{wikipedia('en', 'Tag (metadata)')|raw}}`
+7. `get_json(url)` — Fetch JSON data from any URL.
+   For example: `{{get_json('https://api.wikitree.com/api.php?action=getProfile&key=Hall-22337').0.profile.LongName}}`
 
 ## Filters and escapers
 
