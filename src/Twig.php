@@ -50,6 +50,7 @@ final class Twig extends AbstractExtension
         'commons' => [],
         'wikidata' => [],
         'flickr' => [],
+        'json' => [],
     ];
 
     public function __construct(Database $db, Site $site, Page $page)
@@ -83,6 +84,7 @@ final class Twig extends AbstractExtension
             new TwigFunction('date_create', [$this, 'functionDateCreate']),
             new TwigFunction('strtotime', 'strtotime'),
             new TwigFunction('json_decode', 'json_decode'),
+            new TwigFunction('get_json', [$this, 'functionGetJson']),
             new TwigFunction('tex_url', [$this, 'functionTexUrl']),
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
@@ -305,25 +307,35 @@ final class Twig extends AbstractExtension
 
     public function functionWikipedia(string $lang, string $articleTitle): string
     {
-        if (isset(self::$data['wikipedia'][$articleTitle])) {
-            return self::$data['wikipedia'][$articleTitle];
+        $url = "https://$lang.wikipedia.org/api/rest_v1/page/summary/" . str_replace(' ', '_', $articleTitle);
+        $response = $this->functionGetJson($url);
+        if (!isset($response['extract_html'])) {
+            throw new Exception("Unable to get extract of Wikipedia article: $articleTitle");
         }
-        $cache = $this->getCachePool('wikipedia');
-        $cacheItem = $cache->getItem('wikipedia' . $articleTitle);
+        return $response['extract_html'];
+    }
+
+    public function functionGetJson(string $url): mixed
+    {
+        $cacheKey = md5($url);
+        if (isset(self::$data['json'][$cacheKey])) {
+            return self::$data['json'][$cacheKey];
+        }
+        $cache = $this->getCachePool('json_' . parse_url($url, PHP_URL_HOST));
+        $cacheItem = $cache->getItem($cacheKey);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-        CommandBase::writeln("Wikipedia fetch extract: $articleTitle");
-        $url = "https://$lang.wikipedia.org/api/rest_v1/page/summary/" . str_replace(' ', '_', $articleTitle);
+        CommandBase::writeln("Get JSON: $url");
         $json = (new Client())->get($url)->getBody()->getContents();
         $response = json_decode($json, true);
         if (!$response) {
-            throw new Exception("Unable to get extract of Wikipedia article: $articleTitle");
+            throw new Exception("Unable to get JSON from URL: $url");
         }
-        self::$data['commons'][$articleTitle] = $response['extract_html'];
-        $cacheItem->set(self::$data['commons'][$articleTitle]);
+        self::$data['json'][$cacheKey] = $response;
+        $cacheItem->set(self::$data['json'][$cacheKey]);
         $cache->save($cacheItem);
-        return self::$data['commons'][$articleTitle];
+        return self::$data['json'][$cacheKey];
     }
 
     /**
