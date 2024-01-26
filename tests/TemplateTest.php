@@ -64,7 +64,7 @@ The body text.
 
 \begin{document}
 
-Test shortcodes. A file from Wikimedia Commons:
+\\emph{Test \\textsc{shortcodes}.} A file from Wikimedia Commons:
 
 
 

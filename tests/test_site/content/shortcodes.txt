@@ -1,3 +1,5 @@
-Test shortcodes. A file from Wikimedia Commons:
+*Test {small-caps|shortcodes}.* A file from Wikimedia Commons:
 
-{{{commons |file=Test.png }}}
+{{{commons |file=Test.png
+*Test caption.*
+}}}

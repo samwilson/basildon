@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f6000d53c76272785830ef5c7d160a1",
+    "content-hash": "346e54246f459ce541c0473f028fa7f2",
     "packages": [
         {
             "name": "addwiki/mediawiki-api-base",
@@ -1732,16 +1732,16 @@
         },
         {
             "name": "samwilson/commonmark-latex",
-            "version": "0.4.1",
+            "version": "0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/samwilson/commonmark-latex.git",
-                "reference": "6eebac03c1b891721d28d241304cd7b5258124ef"
+                "reference": "931312f6acf183e5b40a713bc196ba6b5aaffed0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samwilson/commonmark-latex/zipball/6eebac03c1b891721d28d241304cd7b5258124ef",
-                "reference": "6eebac03c1b891721d28d241304cd7b5258124ef",
+                "url": "https://api.github.com/repos/samwilson/commonmark-latex/zipball/931312f6acf183e5b40a713bc196ba6b5aaffed0",
+                "reference": "931312f6acf183e5b40a713bc196ba6b5aaffed0",
                 "shasum": ""
             },
             "require": {
@@ -1771,22 +1771,22 @@
             "description": "A LaTeX renderer for CommonMark.",
             "support": {
                 "issues": "https://github.com/samwilson/commonmark-latex/issues",
-                "source": "https://github.com/samwilson/commonmark-latex/tree/0.4.1"
+                "source": "https://github.com/samwilson/commonmark-latex/tree/0.4.2"
             },
-            "time": "2023-09-23T10:18:20+00:00"
+            "time": "2024-01-11T08:46:31+00:00"
         },
         {
             "name": "samwilson/commonmark-shortcodes",
-            "version": "0.3.1",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/samwilson/commonmark-shortcodes.git",
-                "reference": "97852f437838c5b3f9f268c02196ee29d7d82947"
+                "reference": "0899b75027e8d8411a62b1e84abff5efcc2a6b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samwilson/commonmark-shortcodes/zipball/97852f437838c5b3f9f268c02196ee29d7d82947",
-                "reference": "97852f437838c5b3f9f268c02196ee29d7d82947",
+                "url": "https://api.github.com/repos/samwilson/commonmark-shortcodes/zipball/0899b75027e8d8411a62b1e84abff5efcc2a6b6b",
+                "reference": "0899b75027e8d8411a62b1e84abff5efcc2a6b6b",
                 "shasum": ""
             },
             "require": {
@@ -1816,9 +1816,9 @@
             "description": "Adds shortcodes to Markdown, for the CommonMark package.",
             "support": {
                 "issues": "https://github.com/samwilson/commonmark-shortcodes/issues",
-                "source": "https://github.com/samwilson/commonmark-shortcodes/tree/0.3.1"
+                "source": "https://github.com/samwilson/commonmark-shortcodes/tree/0.5.0"
             },
-            "time": "2023-09-26T02:42:18+00:00"
+            "time": "2024-01-26T08:08:10+00:00"
         },
         {
             "name": "samwilson/phpflickr",
@@ -4964,16 +4964,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.7.3",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "3219c6ee25c9ea71e3d9bbaf39c67c9ebd499419"
+                "reference": "fad452781b3d774e3337b0c0b245dd8e5a4455fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/3219c6ee25c9ea71e3d9bbaf39c67c9ebd499419",
-                "reference": "3219c6ee25c9ea71e3d9bbaf39c67c9ebd499419",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/fad452781b3d774e3337b0c0b245dd8e5a4455fc",
+                "reference": "fad452781b3d774e3337b0c0b245dd8e5a4455fc",
                 "shasum": ""
             },
             "require": {
@@ -5016,9 +5016,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.7.3"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.8.0"
             },
-            "time": "2023-08-12T11:01:26+00:00"
+            "time": "2024-01-11T11:49:22+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -5388,16 +5388,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.15",
+            "version": "9.6.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "05017b80304e0eb3f31d90194a563fd53a6021f1"
+                "reference": "3767b2c56ce02d01e3491046f33466a1ae60a37f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/05017b80304e0eb3f31d90194a563fd53a6021f1",
-                "reference": "05017b80304e0eb3f31d90194a563fd53a6021f1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3767b2c56ce02d01e3491046f33466a1ae60a37f",
+                "reference": "3767b2c56ce02d01e3491046f33466a1ae60a37f",
                 "shasum": ""
             },
             "require": {
@@ -5471,7 +5471,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.15"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.16"
             },
             "funding": [
                 {
@@ -5487,7 +5487,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-01T16:55:19+00:00"
+            "time": "2024-01-19T07:03:14+00:00"
         },
         {
             "name": "roslov/psr12ext",
@@ -6626,16 +6626,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.8.0",
+            "version": "3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "5805f7a4e4958dbb5e944ef1e6edae0a303765e7"
+                "reference": "14f5fff1e64118595db5408e946f3a22c75807f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5805f7a4e4958dbb5e944ef1e6edae0a303765e7",
-                "reference": "5805f7a4e4958dbb5e944ef1e6edae0a303765e7",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/14f5fff1e64118595db5408e946f3a22c75807f7",
+                "reference": "14f5fff1e64118595db5408e946f3a22c75807f7",
                 "shasum": ""
             },
             "require": {
@@ -6645,11 +6645,11 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.3.4"
             },
             "bin": [
-                "bin/phpcs",
-                "bin/phpcbf"
+                "bin/phpcbf",
+                "bin/phpcs"
             ],
             "type": "library",
             "extra": {
@@ -6702,7 +6702,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-12-08T12:32:31+00:00"
+            "time": "2024-01-11T20:47:48+00:00"
         },
         {
             "name": "symfony/var-dumper",
