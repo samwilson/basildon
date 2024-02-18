@@ -1,0 +1,10 @@
+---
+title: Feed aggregation
+template: feeds
+feed_urls:
+  - http://www.theguardian.com/uk/technology/rss
+  - http://rss.slashdot.org/Slashdot/slashdotMain
+  - https://samwilson.id.au/news.rss
+---
+
+Basildon supports news feed aggregation.

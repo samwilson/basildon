@@ -1,0 +1,18 @@
+{% extends 'index.html.twig' %}
+
+{% block main %}
+
+    <h2>{{ page.metadata.title }}</h2>
+
+    {{ page.body|md2html|raw }}
+
+    <ol>
+    {% for feed in get_feeds( page.metadata.feed_urls ) %}
+        <li>
+            {{feed.get_date}}: <a href="{{feed.get_permalink}}">{{feed.get_title}}</a>
+            (from <a href="{{feed.get_feed.get_permalink}}">{{feed.get_feed.get_title}}</a>)
+        </li>
+    {% endfor %}
+    </ol>
+
+{% endblock %}

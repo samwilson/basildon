@@ -39,6 +39,11 @@ these are explained on this page.
    For example: `{{wikipedia('en', 'Tag (metadata)')|raw}}`
 7. `get_json(url)` — Fetch JSON data from any URL.
    For example: `{{get_json('https://api.wikitree.com/api.php?action=getProfile&key=Hall-22337').0.profile.LongName}}`
+7. `get_feeds(urls)` — Fetch RSS or Atom feed items.
+   The `urls` parameter can be a single URL string or an array,
+   and the URLs can be of the feed or the website for which to attempt autodiscovery.
+   An array is returned, each element of which is a Simplepie [Item](https://github.com/simplepie/simplepie/blob/1.8.0/src/Item.php).
+   For example: `{{get_json('https://samwilson.id.au/news.rss')}}`
 
 ## Filters and escapers
 
