@@ -26,7 +26,10 @@ use Samwilson\CommonMarkShortcodes\Shortcode;
 use Samwilson\CommonMarkShortcodes\ShortcodeExtension;
 use Samwilson\PhpFlickr\PhotosApi;
 use Samwilson\PhpFlickr\PhpFlickr;
+use SimplePie\Item;
+use SimplePie\SimplePie;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Filesystem\Filesystem;
 use Throwable;
 use Twig\Environment;
@@ -85,6 +88,7 @@ final class Twig extends AbstractExtension
             new TwigFunction('strtotime', 'strtotime'),
             new TwigFunction('json_decode', 'json_decode'),
             new TwigFunction('get_json', [$this, 'functionGetJson']),
+            new TwigFunction('get_feeds', [$this, 'functionGetFeeds']),
             new TwigFunction('tex_url', [$this, 'functionTexUrl']),
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
@@ -336,6 +340,19 @@ final class Twig extends AbstractExtension
         $cacheItem->set(self::$data['json'][$cacheKey]);
         $cache->save($cacheItem);
         return self::$data['json'][$cacheKey];
+    }
+
+    /**
+     * @param string|string[] $feedUrls
+     * @return ?Item[]
+     */
+    public function functionGetFeeds($feedUrls): ?array
+    {
+        $simplepie = new SimplePie();
+        $simplepie->set_cache(new Psr16Cache($this->getCachePool('feeds')));
+        $simplepie->set_feed_url($feedUrls);
+        $simplepie->init();
+        return $simplepie->get_items();
     }
 
     /**
