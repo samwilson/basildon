@@ -34,12 +34,16 @@ these are explained on this page.
    To get the full details of the returned structure,
    see e.g. [wikidata.org/wiki/Special:EntityData/Q42.json](https://www.wikidata.org/wiki/Special:EntityData/Q42.json).
 5. `wikidata_query(sparql)` — Returns the result of the Sparql query from Wikidata.
-   See the example in [/example/templates/tag.html.twig](https://github.com/samwilson/basildon/blob/main/example/templates/tag.html.twig)
-6. `wikipedia(lang, title)` — Returns an HTML extract of the given article.
+   See the example in [/example/templates/tag.html.twig](https://github.com/samwilson/basildon/blob/main/example/templates/tag.html.twig).
+6. `commons_query(sparql)` — Returns the result of a Sparql query on Wikimedia Commons.
+   This requires an authentication token to be added to `config.yaml`.
+   Instructions for retrieving this token can be found [on Commons](https://commons.wikimedia.org/wiki/Commons:SPARQL_query_service/API_endpoint),
+   and an example for how to use the function is in [/example/templates/shortcodes/commons_depicts_count.html.twig](https://github.com/samwilson/basildon/blob/main/example/templates/shortcodes/commons_depicts_count.html.twig).
+7. `wikipedia(lang, title)` — Returns an HTML extract of the given article.
    For example: `{{wikipedia('en', 'Tag (metadata)')|raw}}`
-7. `get_json(url)` — Fetch JSON data from any URL.
+8. `get_json(url)` — Fetch JSON data from any URL.
    For example: `{{get_json('https://api.wikitree.com/api.php?action=getProfile&key=Hall-22337').0.profile.LongName}}`
-7. `get_feeds(urls)` — Fetch RSS or Atom feed items.
+9. `get_feeds(urls)` — Fetch RSS or Atom feed items.
    The `urls` parameter can be a single URL string or an array,
    and the URLs can be of the feed or the website for which to attempt autodiscovery.
    An array is returned, each element of which is a Simplepie [Item](https://github.com/simplepie/simplepie/blob/1.8.0/src/Item.php).

@@ -1,0 +1,6 @@
+{% set query %}
+SELECT (count(?file) as ?count) WHERE {
+    ?file wdt:P180 wd:{{shortcode.attrs.1}}
+}
+{% endset %}
+{{commons_query(query).count|number_format}}

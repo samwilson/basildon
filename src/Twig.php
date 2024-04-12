@@ -11,6 +11,8 @@ use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\SetCookie;
 use GuzzleHttp\RequestOptions;
 use League\CommonMark\Environment\Environment as CommonMarkEnvironment;
 use League\CommonMark\Event\DocumentPreRenderEvent;
@@ -94,6 +96,7 @@ final class Twig extends AbstractExtension
             new TwigFunction('commons', [$this, 'functionCommons']),
             new TwigFunction('wikipedia', [$this, 'functionWikipedia']),
             new TwigFunction('wikidata_query', [$this, 'functionWikidataQuery']),
+            new TwigFunction('commons_query', [$this, 'functionCommonsQuery']),
             new TwigFunction('flickr', [$this, 'functionFlickr']),
             new TwigFunction('qrcode', [$this, 'functionQrCode']),
         ];
@@ -230,6 +233,42 @@ final class Twig extends AbstractExtension
     public function functionWikidataQuery(string $sparql): array
     {
         return (new WikidataQuery($sparql))->fetch();
+    }
+
+    /**
+     * https://commons.wikimedia.org/wiki/Commons:SPARQL_query_service/API_endpoint
+     *
+     * @return string[][]
+     */
+    public function functionCommonsQuery(string $sparql): array
+    {
+        $url = 'https://commons-query.wikimedia.org/sparql?format=json&query=' . urlencode($sparql);
+        $client = new Client();
+        $config = $this->site->getConfig();
+        if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
+            throw new Exception(
+                "You must set `commons.wcqs_auth_token` in the site's config file."
+                . ' See https://w.wiki/9jke for how to retrieve the value for it.'
+            );
+        }
+        $cookie = new SetCookie([
+            'Name' => 'wcqsOauth',
+            'Value' => $config->commons->wcqs_auth_token,
+            'Domain' => 'commons-query.wikimedia.org',
+        ]);
+        $requestOptions = [
+            'cookies' => new CookieJar(true, [$cookie]),
+        ];
+        $response = $client->request('GET', $url, $requestOptions);
+        $json = $response->getBody()->getContents();
+        $data = json_decode($json, true);
+        $out = [];
+        foreach ($data['results']['bindings'] ?? [] as $binding) {
+            foreach ($binding as $name => $b) {
+                $out[$name] = $b['value'];
+            }
+        }
+        return $out;
     }
 
     /**
