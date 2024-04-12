@@ -3,4 +3,4 @@ SELECT (count(?file) as ?count) WHERE {
     ?file wdt:P180 wd:{{shortcode.attrs.1}}
 }
 {% endset %}
-{{commons_query(query).count|number_format}}
+{{commons_query(query).0.count|number_format}}

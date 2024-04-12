@@ -242,7 +242,11 @@ final class Twig extends AbstractExtension
      */
     public function functionCommonsQuery(string $sparql): array
     {
-        $url = 'https://commons-query.wikimedia.org/sparql?format=json&query=' . urlencode($sparql);
+        $cache = $this->getCachePool('commons_query');
+        $cacheItem = $cache->getItem('commons_query_' . md5($sparql));
+        if ($cacheItem->isHit()) {
+            return $cacheItem->get();
+        }
         $client = new Client();
         $config = $this->site->getConfig();
         if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
@@ -257,17 +261,25 @@ final class Twig extends AbstractExtension
             'Domain' => 'commons-query.wikimedia.org',
         ]);
         $requestOptions = [
+            'query' => [
+                'format' => 'json',
+                'query' => $sparql,
+            ],
             'cookies' => new CookieJar(true, [$cookie]),
         ];
-        $response = $client->request('GET', $url, $requestOptions);
+        $response = $client->request('GET', 'https://commons-query.wikimedia.org/sparql', $requestOptions);
         $json = $response->getBody()->getContents();
         $data = json_decode($json, true);
         $out = [];
         foreach ($data['results']['bindings'] ?? [] as $binding) {
+            $row = [];
             foreach ($binding as $name => $b) {
-                $out[$name] = $b['value'];
+                $row[$name] = $b['value'];
             }
+            $out[] = $row;
         }
+        $cacheItem->set($out);
+        $cache->save($cacheItem);
         return $out;
     }
 
