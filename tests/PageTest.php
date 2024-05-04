@@ -165,6 +165,11 @@ final class PageTest extends TestCase
                 ['template' => 'lorem'],
                 'Ipsum.',
             ],
+            'empty Yaml and no body' => [
+                "---\n---\n",
+                ['template' => 'index'],
+                '',
+            ],
         ];
     }
 }

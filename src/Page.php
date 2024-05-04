@@ -158,7 +158,7 @@ final class Page
                 );
                 $parsedMetadata = $defaultMetadata;
             }
-            $metadata = array_merge($defaultMetadata, $parsedMetadata);
+            $metadata = array_merge($defaultMetadata, $parsedMetadata ?? []);
             $body = substr($contents, $frontmatterClosePos + $hyphenCount);
         } else {
             $metadata = $defaultMetadata;
