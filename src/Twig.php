@@ -34,7 +34,6 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Filesystem\Filesystem;
 use Throwable;
-use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -441,11 +440,10 @@ final class Twig extends AbstractExtension
     /**
      * Escape a TeX string.
      *
-     * @param Environment $env The Twig environment. Not used.
      * @param string|null $string The string to escape.
      * @param string $charset The charset of the string. Not used.
      */
-    public function escapeTex(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
+    public function escapeTex(?string $string = '', string $charset = 'utf-8'): string
     {
         if ($string === null) {
             return '';
@@ -482,11 +480,10 @@ final class Twig extends AbstractExtension
     /**
      * Escape a CSV cell value by wrapping it in quotes if required, and escaping double-quotes.
      *
-     * @param Environment $env The Twig environment.
      * @param string|null $string The string to escape.
      * @param string $charset The charset of the string.
      */
-    public function escapeCsv(Environment $env, ?string $string = '', string $charset = 'utf-8'): string
+    public function escapeCsv(?string $string = '', string $charset = 'utf-8'): string
     {
         if ($string === null) {
             return '';

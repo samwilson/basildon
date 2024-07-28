@@ -10,9 +10,9 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
-use Twig\Extension\EscaperExtension;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\Runtime\EscaperRuntime;
 
 /**
  * A Template belongs to a Site and can be used to render Pages to various formats.
@@ -137,11 +137,9 @@ final class Template
         $twig->addExtension(new DebugExtension());
         $twigExtension = new Twig($this->db, $this->site, $page);
         $twig->addExtension($twigExtension);
-        $escaper = $twig->getExtension(EscaperExtension::class);
-        if ($escaper instanceof EscaperExtension) {
-            $escaper->setEscaper('tex', [$twigExtension, 'escapeTex']);
-            $escaper->setEscaper('csv', [$twigExtension, 'escapeCsv']);
-        }
+        $escaperRuntime = $twig->getRuntime(EscaperRuntime::class);
+        $escaperRuntime->setEscaper('tex', [$twigExtension, 'escapeTex']);
+        $escaperRuntime->setEscaper('csv', [$twigExtension, 'escapeCsv']);
         return $twig;
     }
 }
