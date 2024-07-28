@@ -9,8 +9,6 @@ use App\Page;
 use App\Site;
 use App\Twig;
 use PHPUnit\Framework\TestCase;
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 
 final class TwigTest extends TestCase
 {
@@ -31,9 +29,8 @@ final class TwigTest extends TestCase
     {
         $site = new Site(__DIR__ . '/test_site');
         $twig = new Twig($this->db, $site, new Page($site, '/simple'));
-        $env = new Environment(new ArrayLoader());
         $escapeMethod = 'escape' . ucfirst($strategy);
-        self::assertSame($out, $twig->$escapeMethod($env, $in));
+        self::assertSame($out, $twig->$escapeMethod($in));
     }
 
     /**
