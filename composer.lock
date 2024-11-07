@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f2c07e36f24c96b219aec8c1622cf29",
+    "content-hash": "ef6729d3d7e4a40998c991b7d08b99ff",
     "packages": [
         {
             "name": "addwiki/mediawiki-api-base",
@@ -385,39 +385,6 @@
                 }
             ],
             "time": "2022-10-26T08:48:17+00:00"
-        },
-        {
-            "name": "getdkan/lunr.php",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GetDKAN/lunr.php.git",
-                "reference": "ed8b63eed358d67c737d41fc350f4821a22050e0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GetDKAN/lunr.php/zipball/ed8b63eed358d67c737d41fc350f4821a22050e0",
-                "reference": "ed8b63eed358d67c737d41fc350f4821a22050e0",
-                "shasum": ""
-            },
-            "require": {
-                "markfullmer/porter2": "^1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "LunrPHP\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "support": {
-                "issues": "https://github.com/GetDKAN/lunr.php/issues",
-                "source": "https://github.com/GetDKAN/lunr.php/tree/master"
-            },
-            "time": "2019-10-02T02:18:04+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1077,49 +1044,6 @@
                 }
             ],
             "time": "2024-09-21T08:32:55+00:00"
-        },
-        {
-            "name": "markfullmer/porter2",
-            "version": "1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/markfullmer/porter2.git",
-                "reference": "99b356c203cd52af62c57a8f9f1f7a9784e75352"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/markfullmer/porter2/zipball/99b356c203cd52af62c57a8f9f1f7a9784e75352",
-                "reference": "99b356c203cd52af62c57a8f9f1f7a9784e75352",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "markfullmer\\porter2\\": [
-                        "src/",
-                        "test/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "markfullmer",
-                    "email": "mfullmer@gmail.com"
-                }
-            ],
-            "description": "Stem words using the English Porter 2 algorithm",
-            "support": {
-                "issues": "https://github.com/markfullmer/porter2/issues",
-                "source": "https://github.com/markfullmer/porter2/tree/master"
-            },
-            "time": "2017-05-12T22:10:48+00:00"
         },
         {
             "name": "myclabs/php-enum",
