@@ -8,7 +8,6 @@
         "ext-sqlite3": "*",
         "addwiki/mediawiki-api-base": "^2.7",
         "endroid/qr-code": "^4.1",
-        "getdkan/lunr.php": "^1.0",
         "league/flysystem": "^1.0",
         "myclabs/php-enum": "^1.5",
         "psr/simple-cache": "^1.0",

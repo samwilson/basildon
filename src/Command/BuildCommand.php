@@ -8,8 +8,6 @@ use App\Database;
 use App\Page;
 use App\Template;
 use App\Util;
-use LunrPHP\BuildLunrIndex;
-use PDO;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -56,7 +54,6 @@ final class BuildCommand extends CommandBase
         parent::configure();
         $this->setName('build');
         $this->setDescription('Build a website.');
-        $this->addOption('lunr', 'l', InputOption::VALUE_NONE, 'Build Lunr index?');
         $this->addOption(
             'page',
             'p',
@@ -115,30 +112,6 @@ final class BuildCommand extends CommandBase
             self::writeln('<info>Page: ' . $page->getId() . '</info>');
             $template = new Template($db, $site, $page->getTemplateName());
             $template->render($page);
-        }
-
-        // Build Lunr index as search.json.
-        if ($input->getOption('lunr')) {
-            self::writeln('Building search index...');
-            $lunrBuilder = new BuildLunrIndex();
-            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::trimmer');
-            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stop_word_filter');
-            $lunrBuilder->addPipeline('LunrPHP\LunrDefaultPipelines::stemmer');
-            $lunrBuilder->ref(Database::COL_NAME_ID);
-            foreach ($db->getColumns($site) as $column) {
-                $lunrBuilder->field($column);
-            }
-            $rows = $db->query('SELECT * from pages')->fetchAll(PDO::FETCH_ASSOC);
-            $processBar = self::$io->createProgressBar(count($rows));
-            foreach ($rows as $row) {
-                $processBar->advance();
-                $lunrBuilder->add($row);
-            }
-            $processBar->finish();
-            self::writeln('');
-            $lunrIndexFilename = $site->getDir() . '/output/lunr.json';
-            file_put_contents($lunrIndexFilename, json_encode($lunrBuilder->output()));
-            self::writeln('...index built: /lunr.json (' . round(filesize($lunrIndexFilename) / 1024) . 'KB)');
         }
 
         // Copy all other content files.
