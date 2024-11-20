@@ -25,7 +25,7 @@ these are explained on this page.
 1. `commons(file_name)` – Get information about a [Wikimedia Commons](https://commons.wikimedia.org/) file.
 2. `flickr(photo_id)` – Get information about a [Flickr](https://www.flickr.com/) photo.
    To use this, you need to set the `flickr.api_key` and `flickr.api_secret` values
-   in your site's `config.local.yaml` file.
+   in your site's `basildon.local.yaml` file.
 3. `qrcode(text)` – Returns an asset-directory path to a QR code SVG file,
    such as `/assets/8a482ae2afb51a1de85b7eb9087f7cc2.svg`.
    For example: `<img src="{{ page.link(qrcode('string')) }}" />`
@@ -36,7 +36,7 @@ these are explained on this page.
 5. `wikidata_query(sparql)` — Returns the result of the Sparql query from Wikidata.
    See the example in [/example/templates/tag.html.twig](https://github.com/samwilson/basildon/blob/main/example/templates/tag.html.twig).
 6. `commons_query(sparql)` — Returns the result of a Sparql query on Wikimedia Commons.
-   This requires an authentication token to be added to `config.yaml`.
+   This requires an authentication token to be added to `basildon.yaml`.
    Instructions for retrieving this token can be found [on Commons](https://commons.wikimedia.org/wiki/Commons:SPARQL_query_service/API_endpoint),
    and an example for how to use the function is in [/example/templates/shortcodes/commons_depicts_count.html.twig](https://github.com/samwilson/basildon/blob/main/example/templates/shortcodes/commons_depicts_count.html.twig).
 7. `wikipedia(lang, title)` — Returns an HTML extract of the given article.

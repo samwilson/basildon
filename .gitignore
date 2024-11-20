@@ -9,6 +9,6 @@ tests/test_site/output/
 .idea/
 *.code-workspace
 .phpunit.result.cache
-*config.local.yaml
+*basildon.local.yaml
 .netlify/
 package.json
