@@ -88,16 +88,16 @@ final class Site
             return $this->config;
         }
 
-        // Load config.yaml
-        $configFile = $this->getDir() . '/config.yaml';
+        // Load basildon.yaml
+        $configFile = $this->getDir() . '/basildon.yaml';
         if (!file_exists($configFile)) {
             $this->config = new stdClass();
             return $this->config;
         }
         $config = file_get_contents($configFile);
 
-        // Also load config.local.yaml
-        $configLocal = $this->getDir() . '/config.local.yaml';
+        // Also load basildon.local.yaml
+        $configLocal = $this->getDir() . '/basildon.local.yaml';
         if (file_exists($configLocal)) {
             $config .= file_get_contents($configLocal);
         }

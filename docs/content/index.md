@@ -11,7 +11,7 @@ This documentation is also available as [a PDF](basildon-docs.pdf).
 
 ## Quick start
 
-Prerequisites: [PHP](https://www.php.net/) (version 7.3 or higher) and [Composer](https://getcomposer.org/).
+Prerequisites: [PHP](https://www.php.net/) (version 7.4 or higher) and [Composer](https://getcomposer.org/).
 
 1. `composer create-project samwilson/basildon-skeleton mysite`
 2. `cd mysite`
