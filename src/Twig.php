@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use Addwiki\Mediawiki\Api\Client\Action\Request\ActionRequest;
 use App\Command\CommandBase;
 use DateTime;
 use DateTimeZone;
@@ -21,7 +22,6 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\MarkdownConverter;
-use Mediawiki\Api\FluentRequest;
 use Psr\Cache\CacheItemPoolInterface;
 use Samwilson\CommonMarkLatex\LatexRendererExtension;
 use Samwilson\CommonMarkShortcodes\Shortcode;
@@ -215,11 +215,10 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         $api = $this->site->getMediawikiApi('https://www.wikidata.org/w/api.php');
-        $request = FluentRequest::factory()
-            ->setAction('wbgetentities')
+        $request = ActionRequest::simpleGet('wbgetentities')
             ->setParam('ids', $wikidataId);
         CommandBase::writeln('Wikidata fetch info: ' . $wikidataId);
-        $result = $api->getRequest($request);
+        $result = $api->request($request);
         self::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
         $cacheItem->set(self::$data['wikidata'][$wikidataId]);
         $cache->save($cacheItem);
@@ -335,8 +334,7 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
-        $fileInfoResponse = $api->getRequest(FluentRequest::factory()
-            ->setAction('query')
+        $fileInfoResponse = $api->request(ActionRequest::simpleGet('query')
             ->addParams([
                 'prop' => 'imageinfo',
                 'iiprop' => 'url',
@@ -349,8 +347,7 @@ final class Twig extends AbstractExtension
             throw new Exception('Commons file does not exist: ' . $filename);
         }
         CommandBase::writeln("Commons fetch info: $filename");
-        $mediaInfoResponse = $api->getRequest(FluentRequest::factory()
-            ->setAction('wbgetentities')
+        $mediaInfoResponse = $api->request(ActionRequest::simpleGet('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
         self::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
