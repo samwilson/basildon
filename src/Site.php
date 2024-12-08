@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use Addwiki\Mediawiki\Api\Client\Action\ActionApi;
 use Exception;
-use Mediawiki\Api\MediawikiApi;
 use stdClass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -140,8 +140,8 @@ final class Site
     /**
      * @param string $apiUrl The URL to api.php for a MediaWiki wiki.
      */
-    public function getMediawikiApi(string $apiUrl): MediawikiApi
+    public function getMediawikiApi(string $apiUrl): ActionApi
     {
-        return new MediawikiApi($apiUrl);
+        return new ActionApi($apiUrl);
     }
 }

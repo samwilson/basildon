@@ -6,7 +6,7 @@
         "ext-json": "*",
         "ext-pdo": "*",
         "ext-sqlite3": "*",
-        "addwiki/mediawiki-api-base": "^2.7",
+        "addwiki/mediawiki-api-base": "^3",
         "endroid/qr-code": "^4.1",
         "league/flysystem": "^1.0",
         "myclabs/php-enum": "^1.5",
