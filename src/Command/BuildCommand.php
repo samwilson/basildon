@@ -114,33 +114,21 @@ final class BuildCommand extends CommandBase
             $template->render($page);
         }
 
-        // Copy all other content files.
-        $images = new Finder();
+        // Copy all non-page content files.
+        $files = new Finder();
         $dir = $site->getDir();
-        $images->files()
+        $files->files()
             ->in($dir . '/content')
-            ->name('/.*\.(jpg|png|gif|svg|pdf)$/');
-        foreach ($images as $image) {
-            $assetRelativePath = substr($image->getRealPath(), strlen($dir . '/content'));
-            self::writeln('Image: ' . $assetRelativePath);
-            Util::mkdir(dirname($dir . '/output' . $assetRelativePath));
-            copy($image->getRealPath(), $dir . '/output' . $assetRelativePath);
-        }
-
-        // Copy all assets.
-        // @TODO Add processing (LESS etc.).
-        $assetsDir = $site->getDir() . '/assets';
-        if (is_dir($assetsDir)) {
-            $assets = new Finder();
-            $assets->files()
-                ->in($dir . '/assets')
-                ->name('/.*\.(css|js|jpg|png|gif|svg|pdf)/');
-            $assetsOutputDir = $dir . '/output/assets';
-            Util::mkdir($assetsOutputDir);
-            foreach ($assets as $asset) {
-                self::writeln('Asset: /assets/' . $asset->getFilename());
-                copy($asset->getRealPath(), $assetsOutputDir . '/' . $asset->getFilename());
-            }
+            ->notName('*' . $site->getExt());
+        foreach ($files as $file) {
+            $fileRelativePath = substr($file->getRealPath(), strlen($dir . '/content'));
+            $srcPath = $file->getRealPath();
+            $destPath = $dir . '/output' . $fileRelativePath;
+            // if (filesize($srcPath) !== filesize($destPath) || md5_file($srcPath) !== md5_file($destPath) ) {
+            // }
+            self::writeln('Copying file: ' . $fileRelativePath);
+            Util::mkdir(dirname($destPath));
+            copy($srcPath, $destPath);
         }
 
         $outDir = $site->getDir() . '/output/';

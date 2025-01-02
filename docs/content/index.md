@@ -40,13 +40,14 @@ The structure within that directory can be anything.
 
 *[Read more about Templates.](templates.html)*
 
-## Assets (stylesheets and scripts)
+## Assets (stylesheets, scripts, etc.)
 
-Every stylesheet and script in the `assets/` directory
-will be copied to `output/assets/`.
+Every non-page file (CSS, JS, images, etc.) in the `content/` directory
+will be copied to `output/`.
+("Non-page" means anything with a file extension that
+doesn't match the default as defined by the `ext` key in `basildon.yaml`.)
 
-Images should be in the `content/` directory;
-for more information, see the [Content documentation page](content.html).
+For more information, see the [Content documentation page](content.html).
 
 ## Output
 
