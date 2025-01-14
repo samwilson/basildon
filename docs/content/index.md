@@ -42,12 +42,11 @@ The structure within that directory can be anything.
 
 ## Assets (stylesheets, scripts, etc.)
 
-Every non-page file (CSS, JS, images, etc.) in the `content/` directory
+All files (CSS, JS, images, etc.) in the `assets/` directory,
+and all non-page files in the `content/` directory,
 will be copied to `output/`.
 ("Non-page" means anything with a file extension that
 doesn't match the default as defined by the `ext` key in `basildon.yaml`.)
-
-For more information, see the [Content documentation page](content.html).
 
 ## Output
 

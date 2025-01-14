@@ -114,23 +114,26 @@ final class BuildCommand extends CommandBase
             $template->render($page);
         }
 
-        // Copy all non-page content files.
+        // Copy all other content files.
         $files = new Finder();
         $dir = $site->getDir();
         $files->files()
             ->in($dir . '/content')
             ->notName('*' . $site->getExt());
-        foreach ($files as $file) {
-            $fileRelativePath = substr($file->getRealPath(), strlen($dir . '/content'));
-            $srcPath = $file->getRealPath();
-            $destPath = $dir . '/output' . $fileRelativePath;
-            // if (filesize($srcPath) !== filesize($destPath) || md5_file($srcPath) !== md5_file($destPath) ) {
-            // }
-            self::writeln('Copying file: ' . $fileRelativePath);
-            Util::mkdir(dirname($destPath));
-            copy($srcPath, $destPath);
+        $this->copyFilesToOutput($dir, $files);
+
+        // Copy all assets.
+        // @TODO Add processing (LESS etc.).
+        $assetsDir = $dir . '/assets';
+        if (is_dir($assetsDir)) {
+            $assets = new Finder();
+            $assets->files()
+                ->in($assetsDir)
+                ->name('/.*\.(css|js|jpg|png|gif|svg|pdf)/');
+            $this->copyFilesToOutput($dir, $assets);
         }
 
+        // Report build details.
         $outDir = $site->getDir() . '/output/';
         $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
         $outputSizeCmd->run();
@@ -142,5 +145,19 @@ final class BuildCommand extends CommandBase
             'Output size: ' . substr($outputSize, 0, strpos($outputSize, "\t")),
         ]);
         return 0;
+    }
+
+    /**
+     * @param string $dir Full filesystem path to the site directory.
+     * @param Finder $files The files to copy.
+     */
+    private function copyFilesToOutput(string $dir, Finder $files): void
+    {
+        foreach ($files as $file) {
+            $fileRelativePath = substr($file->getRealPath(), strlen($dir . '/content'));
+            self::writeln('Copying content file: ' . $fileRelativePath);
+            Util::mkdir(dirname($dir . '/output' . $fileRelativePath));
+            copy($file->getRealPath(), $dir . '/output' . $fileRelativePath);
+        }
     }
 }

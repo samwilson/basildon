@@ -403,7 +403,7 @@ final class Twig extends AbstractExtension
     }
 
     /**
-     * @return string Relative URL string, of the form '/assets/qrcodes/hash.svg'.
+     * @return string Relative URL string, of the form '/qrcodes/hash.svg'.
      */
     public function functionQrCode(string $text): string
     {
