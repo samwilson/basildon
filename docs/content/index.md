@@ -48,6 +48,9 @@ will be copied to `output/`.
 ("Non-page" means anything with a file extension that
 doesn't match the default as defined by the `ext` key in `basildon.yaml`.)
 
+Images (and other files) can be in either the `assets/` or `content/` directories,
+depending on how they're used in the site.
+
 ## Output
 
 All output is in the `output/` directory of a site.

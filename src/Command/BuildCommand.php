@@ -120,7 +120,7 @@ final class BuildCommand extends CommandBase
         $files->files()
             ->in($dir . '/content')
             ->notName('*' . $site->getExt());
-        $this->copyFilesToOutput($dir, $files);
+        $this->copyFilesToOutput($dir . '/content', $dir . '/output', $files);
 
         // Copy all assets.
         // @TODO Add processing (LESS etc.).
@@ -130,7 +130,7 @@ final class BuildCommand extends CommandBase
             $assets->files()
                 ->in($assetsDir)
                 ->name('/.*\.(css|js|jpg|png|gif|svg|pdf)/');
-            $this->copyFilesToOutput($dir, $assets);
+            $this->copyFilesToOutput($assetsDir, $dir . '/output', $assets);
         }
 
         // Report build details.
@@ -148,16 +148,17 @@ final class BuildCommand extends CommandBase
     }
 
     /**
-     * @param string $dir Full filesystem path to the site directory.
+     * @param string $inDir Full filesystem path of the source directory, with no trailing slash.
+     * @param string $outDir Full filesystem path of the destination directory, with no trailing slash.
      * @param Finder $files The files to copy.
      */
-    private function copyFilesToOutput(string $dir, Finder $files): void
+    private function copyFilesToOutput(string $inDir, string $outDir, Finder $files): void
     {
         foreach ($files as $file) {
-            $fileRelativePath = substr($file->getRealPath(), strlen($dir . '/content'));
-            self::writeln('Copying content file: ' . $fileRelativePath);
-            Util::mkdir(dirname($dir . '/output' . $fileRelativePath));
-            copy($file->getRealPath(), $dir . '/output' . $fileRelativePath);
+            $fileRelativePath = substr($file->getRealPath(), strlen($inDir));
+            self::writeln('Copying file: ' . $fileRelativePath);
+            Util::mkdir(dirname($outDir . $fileRelativePath));
+            copy($file->getRealPath(), $outDir . $fileRelativePath);
         }
     }
 }
