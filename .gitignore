@@ -1,7 +1,6 @@
 vendor/
 example/cache/
-example/output/*
-!example/output/_redirects
+example/output/
 docs/cache/
 docs/output/
 tests/test_site/cache/

@@ -59,14 +59,3 @@ All output is in the `output/` directory of a site.
 This directory is ready to be uploaded to a web server as the top level of the site.
 
 The `output/` directory is emptied on every run of Basildon.
-However, sometimes you need to be able to keep files or directories that persist.
-For example, you might want `output/` to be its own Git repository for Github Pages,
-or to add a `_redirects` file for Netlify, or any number of other things.
-This is possible with the `output_exclude` config key,
-which takes an array of regular expressions to be matched against relative paths
-(these paths include the leading slash, similar to page IDs).
-For example:
-
-    output_exclude:
-      - "|/_redirects|"
-      - "|/\\.git.*|"
