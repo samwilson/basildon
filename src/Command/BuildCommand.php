@@ -115,34 +115,25 @@ final class BuildCommand extends CommandBase
         }
 
         // Copy all other content files.
-        $images = new Finder();
+        $files = new Finder();
         $dir = $site->getDir();
-        $images->files()
+        $files->files()
             ->in($dir . '/content')
-            ->name('/.*\.(jpg|png|gif|svg|pdf)$/');
-        foreach ($images as $image) {
-            $assetRelativePath = substr($image->getRealPath(), strlen($dir . '/content'));
-            self::writeln('Image: ' . $assetRelativePath);
-            Util::mkdir(dirname($dir . '/output' . $assetRelativePath));
-            copy($image->getRealPath(), $dir . '/output' . $assetRelativePath);
-        }
+            ->notName('*' . $site->getExt());
+        $this->copyFilesToOutput($dir . '/content', $dir . '/output', $files);
 
         // Copy all assets.
         // @TODO Add processing (LESS etc.).
-        $assetsDir = $site->getDir() . '/assets';
+        $assetsDir = $dir . '/assets';
         if (is_dir($assetsDir)) {
             $assets = new Finder();
             $assets->files()
-                ->in($dir . '/assets')
+                ->in($assetsDir)
                 ->name('/.*\.(css|js|jpg|png|gif|svg|pdf)/');
-            $assetsOutputDir = $dir . '/output/assets';
-            Util::mkdir($assetsOutputDir);
-            foreach ($assets as $asset) {
-                self::writeln('Asset: /assets/' . $asset->getFilename());
-                copy($asset->getRealPath(), $assetsOutputDir . '/' . $asset->getFilename());
-            }
+            $this->copyFilesToOutput($assetsDir, $dir . '/output', $assets);
         }
 
+        // Report build details.
         $outDir = $site->getDir() . '/output/';
         $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
         $outputSizeCmd->run();
@@ -154,5 +145,20 @@ final class BuildCommand extends CommandBase
             'Output size: ' . substr($outputSize, 0, strpos($outputSize, "\t")),
         ]);
         return 0;
+    }
+
+    /**
+     * @param string $inDir Full filesystem path of the source directory, with no trailing slash.
+     * @param string $outDir Full filesystem path of the destination directory, with no trailing slash.
+     * @param Finder $files The files to copy.
+     */
+    private function copyFilesToOutput(string $inDir, string $outDir, Finder $files): void
+    {
+        foreach ($files as $file) {
+            $fileRelativePath = substr($file->getRealPath(), strlen($inDir));
+            self::writeln('Copying file: ' . $fileRelativePath);
+            Util::mkdir(dirname($outDir . $fileRelativePath));
+            copy($file->getRealPath(), $outDir . $fileRelativePath);
+        }
     }
 }

@@ -56,7 +56,7 @@ final class TwigTest extends TestCase
         $site = new Site(__DIR__ . '/test_site');
         $twig = new Twig($this->db, $site, new Page($site, '/simple'));
         $out = $twig->functionQrCode('Lorem');
-        self::assertSame('/assets/qrcodes/db6ff2ffe2df7b8cfc0d9542bdce27dc.svg', $out);
+        self::assertSame('/qrcodes/db6ff2ffe2df7b8cfc0d9542bdce27dc.svg', $out);
     }
 
     /**

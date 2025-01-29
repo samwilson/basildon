@@ -403,12 +403,12 @@ final class Twig extends AbstractExtension
     }
 
     /**
-     * @return string Relative URL string, of the form '/assets/qrcodes/hash.svg'.
+     * @return string Relative URL string, of the form '/qrcodes/hash.svg'.
      */
     public function functionQrCode(string $text): string
     {
         $qrFilename = md5($text) . '.svg';
-        $assetPath = '/assets/qrcodes/' . $qrFilename;
+        $assetPath = '/qrcodes/' . $qrFilename;
         $filePath = $this->site->getDir() . '/output' . $assetPath;
         $cachePath = $this->site->getDir() . '/cache/qrcodes/' . $qrFilename;
         // If it's already been used in this run, nothing neds to be done.

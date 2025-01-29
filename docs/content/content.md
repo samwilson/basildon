@@ -8,7 +8,8 @@ All pages of a site live in the content directory:
 each is a separate text file, and the file names and directory hierarchy are not prescribed.
 Content files have two parts: one, a Yaml-formatted frontmatter, delimited by three hyphens; and two, a main body that can be in any format.
 The file extension should match the format of the body; often this is Markdown (`.md`), but it doesn't have to be
-— you could easily have all your content files be HTML if that suits your site better.
+— you could easily have all your content files be HTML if that suits your site better
+(change it via the `ext` key in `basildon.yaml`).
 
 An example of a page file at `content/topics/goats.md`:
 

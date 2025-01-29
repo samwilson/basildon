@@ -26,8 +26,8 @@ these are explained on this page.
 2. `flickr(photo_id)` – Get information about a [Flickr](https://www.flickr.com/) photo.
    To use this, you need to set the `flickr.api_key` and `flickr.api_secret` values
    in your site's `basildon.local.yaml` file.
-3. `qrcode(text)` – Returns an asset-directory path to a QR code SVG file,
-   such as `/assets/8a482ae2afb51a1de85b7eb9087f7cc2.svg`.
+3. `qrcode(text)` – Returns an output-directory path to a QR code SVG file,
+   such as `/qrcodes/8a482ae2afb51a1de85b7eb9087f7cc2.svg`.
    For example: `<img src="{{ page.link(qrcode('string')) }}" />`
 4. `wikidata(qid)` – Returns information about the given [Wikidata](https://www.wikidata.org/) item.
    For example, `{{ wikidata('Q42').descriptions.en.value }}` will return something like "English writer and humorist".
