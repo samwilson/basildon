@@ -10,9 +10,9 @@ use PHPUnit\Framework\TestCase;
 final class UtilTest extends TestCase
 {
     /**
-     * @covers App\Util::cleanDir()
+     * @covers App\Util::rmdir()
      */
-    public function testCleanDir(): void
+    public function testRmdir(): void
     {
         $testDir = __DIR__ . '/utiltest';
         if (!file_exists($testDir)) {
@@ -20,27 +20,27 @@ final class UtilTest extends TestCase
         }
         $this->assertDirectoryExists($testDir);
 
-        // Cleaning an empty directory doesn't delete the directory.
-        Util::cleanDir($testDir);
+        // Cleaning an empty directory doesn't remove the directory.
+        Util::rmdir($testDir);
         $this->assertDirectoryExists($testDir);
         $this->assertEmpty(glob($testDir . '/*'));
 
-        // Add a file, and clean again.
+        // Add a file, and remove again.
         touch($testDir . '/test.txt');
         $this->assertCount(1, glob($testDir . '/*'));
-        Util::cleanDir($testDir);
+        Util::rmdir($testDir);
         $this->assertEmpty(glob($testDir . '/*'));
 
-        // Add three files and a directory, and exclude some.
+        // Add three files and a directory, and remove.
         touch($testDir . '/test1.txt');
         touch($testDir . '/excluded.txt');
         mkdir($testDir . '/excluded/');
         touch($testDir . '/excluded/lower.txt');
         $this->assertCount(3, glob($testDir . '/*'));
-        Util::cleanDir($testDir, ['/excluded.*/']);
-        $this->assertCount(2, glob($testDir . '/*'));
+        Util::rmdir($testDir);
+        $this->assertEmpty(glob($testDir . '/*'));
 
         // Clean up.
-        Util::cleanDir($testDir);
+        Util::rmdir($testDir);
     }
 }

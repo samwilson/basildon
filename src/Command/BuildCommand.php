@@ -79,7 +79,7 @@ final class BuildCommand extends CommandBase
         }
 
         // Clean output.
-        Util::cleanDir($site->getDir() . '/output', $site->getConfig()->output_exclude ?? []);
+        Util::rmdir($site->getDir() . '/output');
 
         // First gather all data.
         $dbFile = $site->getDir() . '/cache/database/db.sqlite3';
@@ -123,13 +123,11 @@ final class BuildCommand extends CommandBase
         $this->copyFilesToOutput($dir . '/content', $dir . '/output', $files);
 
         // Copy all assets.
-        // @TODO Add processing (LESS etc.).
         $assetsDir = $dir . '/assets';
         if (is_dir($assetsDir)) {
             $assets = new Finder();
             $assets->files()
-                ->in($assetsDir)
-                ->name('/.*\.(css|js|jpg|png|gif|svg|pdf)/');
+                ->in($assetsDir);
             $this->copyFilesToOutput($assetsDir, $dir . '/output', $assets);
         }
 

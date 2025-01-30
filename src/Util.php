@@ -18,14 +18,13 @@ final class Util
     }
 
     /**
-     * Delete most of the contents of a directory.
+     * Delete a directory and all of its contents.
      *
      * @link https://stackoverflow.com/a/7288067/99667
      *
      * @param string $dir The directory to remove.
-     * @param string[] $exclude Array of regular expressions with which to *not* delete some files.
      */
-    public static function cleanDir(string $dir, array $exclude = []): void
+    public static function rmdir(string $dir): void
     {
         if (!is_dir($dir)) {
             return;
@@ -34,13 +33,6 @@ final class Util
         $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
         \assert($rii instanceof \DirectoryIterator);
         foreach ($rii as $file) {
-            $relativePathname = substr($file->getPathname(), strlen($dir));
-            foreach ($exclude as $pattern) {
-                if (preg_match($pattern, $relativePathname)) {
-                    // If we match on any exclusion, don't proceed with deleting this file or directory.
-                    continue 2;
-                }
-            }
             if ($file->isDir()) {
                 rmdir($file->getPathname());
             } else {
