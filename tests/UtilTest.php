@@ -47,8 +47,10 @@ final class UtilTest extends TestCase
     /**
      * @covers \App\Util::xmlToArray()
      * @dataProvider provideXmlToArray
+     *
+     * @param mixed[] $array
      */
-    public function testXmlToArray(string $xml, mixed $array): void
+    public function testXmlToArray(string $xml, array $array): void
     {
         $this->assertSame($array, Util::xmlToArray($xml));
     }
