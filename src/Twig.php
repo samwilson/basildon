@@ -30,7 +30,6 @@ use Samwilson\PhpFlickr\PhotosApi;
 use Samwilson\PhpFlickr\PhpFlickr;
 use SimplePie\Item;
 use SimplePie\SimplePie;
-use SimpleXMLElement;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Filesystem\Filesystem;
@@ -374,10 +373,15 @@ final class Twig extends AbstractExtension
         return $this->getJsonOrXml('json', $url);
     }
 
-    public function functionGetXml(?string $url): ?SimpleXMLElement
+    /**
+     * @return mixed[]
+     */
+    public function functionGetXml(?string $url): array
     {
-        $xml = $this->getJsonOrXml('xml', $url);
-        return new SimpleXMLElement($xml);
+        if (!$url) {
+            return [];
+        }
+        return Util::xmlToArray($this->getJsonOrXml('xml', $url));
     }
 
     /**
