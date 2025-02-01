@@ -7,6 +7,7 @@ namespace App;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use SimpleXMLElement;
 
 final class Util
 {
@@ -39,5 +40,19 @@ final class Util
                 unlink($file->getPathname());
             }
         }
+    }
+
+    /**
+     * Convert XML into an array structure suitable for use in Twig.
+     *
+     * @param string $xml The XML input.
+     * @return mixed[]
+     */
+    public static function xmlToArray(string $xml): array
+    {
+        $json = json_encode((array) new SimpleXMLElement($xml));
+        // Change the '@attributes' key to have an underscore, for easier use in Twig.
+        $newJson = preg_replace('/"@attributes":/', '"_attributes":', $json);
+        return json_decode($newJson, true);
     }
 }

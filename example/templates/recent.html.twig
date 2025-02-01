@@ -12,6 +12,8 @@
 
     <p>Another JSON example: {{get_json('https://api.wikitree.com/api.php?action=getProfile&key=Hall-22337').0.profile.LongName}}</p>
 
+    <p>An XML example: {{ get_xml('https://archive.org/download/raobrules1960/raobrules1960_files.xml').file.1._attributes.name }}</p>
+
     <ol>
     {% for p in database.query('SELECT * FROM pages WHERE date IS NOT NULL ORDER BY date DESC LIMIT 10') %}
         <li>

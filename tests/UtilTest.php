@@ -43,4 +43,35 @@ final class UtilTest extends TestCase
         // Clean up.
         Util::rmdir($testDir);
     }
+
+    /**
+     * @covers \App\Util::xmlToArray()
+     * @dataProvider provideXmlToArray
+     *
+     * @param mixed[] $array
+     */
+    public function testXmlToArray(string $xml, array $array): void
+    {
+        $this->assertSame($array, Util::xmlToArray($xml));
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function provideXmlToArray(): array
+    {
+        return [
+            [
+                '<foo><p></p></foo>',
+                ['p' => []],
+            ],
+            [
+                '<root><p class="blah"><span>Lorem</span></p></root>',
+                ['p' => [
+                    '_attributes' => ['class' => 'blah'],
+                    'span' => 'Lorem',
+                ]],
+            ],
+        ];
+    }
 }

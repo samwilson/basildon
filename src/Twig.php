@@ -55,6 +55,7 @@ final class Twig extends AbstractExtension
         'wikidata' => [],
         'flickr' => [],
         'json' => [],
+        'xml' => [],
     ];
 
     public function __construct(Database $db, Site $site, Page $page)
@@ -90,6 +91,7 @@ final class Twig extends AbstractExtension
             new TwigFunction('json_decode', 'json_decode'),
             new TwigFunction('get_json', [$this, 'functionGetJson']),
             new TwigFunction('get_feeds', [$this, 'functionGetFeeds']),
+            new TwigFunction('get_xml', [$this, 'functionGetXml']),
             new TwigFunction('tex_url', [$this, 'functionTexUrl']),
             new TwigFunction('wikidata', [$this, 'functionWikidata']),
             new TwigFunction('commons', [$this, 'functionCommons']),
@@ -366,27 +368,20 @@ final class Twig extends AbstractExtension
         return $response['extract_html'];
     }
 
-    public function functionGetJson(string $url): mixed
+    public function functionGetJson(?string $url): mixed
     {
-        $cacheKey = md5($url);
-        if (isset(self::$data['json'][$cacheKey])) {
-            return self::$data['json'][$cacheKey];
+        return $this->getJsonOrXml('json', $url);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function functionGetXml(?string $url): array
+    {
+        if (!$url) {
+            return [];
         }
-        $cache = $this->getCachePool('json_' . parse_url($url, PHP_URL_HOST));
-        $cacheItem = $cache->getItem($cacheKey);
-        if ($cacheItem->isHit()) {
-            return $cacheItem->get();
-        }
-        CommandBase::writeln("Get JSON: $url");
-        $json = (new Client())->get($url)->getBody()->getContents();
-        $response = json_decode($json, true);
-        if (!$response) {
-            throw new Exception("Unable to get JSON from URL: $url");
-        }
-        self::$data['json'][$cacheKey] = $response;
-        $cacheItem->set(self::$data['json'][$cacheKey]);
-        $cache->save($cacheItem);
-        return self::$data['json'][$cacheKey];
+        return Util::xmlToArray($this->getJsonOrXml('xml', $url));
     }
 
     /**
@@ -520,5 +515,38 @@ final class Twig extends AbstractExtension
     private function getCachePool(string $subdir): CacheItemPoolInterface
     {
         return new FilesystemAdapter($subdir, 0, $this->site->getDir() . '/cache/');
+    }
+
+    private function getJsonOrXml(string $format, ?string $url): mixed
+    {
+        if ($url === null) {
+            return null;
+        }
+        $cacheKey = md5($url);
+        if (isset(self::$data[$format][$cacheKey])) {
+            return self::$data[$format][$cacheKey];
+        }
+        $cache = $this->getCachePool($format . '_' . parse_url($url, PHP_URL_HOST));
+        $cacheItem = $cache->getItem($cacheKey);
+        if ($cacheItem->isHit()) {
+            return $cacheItem->get();
+        }
+        CommandBase::writeln("Get $format data: $url");
+        $json = (new Client())->get($url)->getBody()->getContents();
+        $response = false;
+        if ($format === 'xml') {
+            $client = new Client();
+            $response = $client->request('GET', $url);
+            $response = $response->getBody()->getContents();
+        } elseif ($format === 'json') {
+            $response = json_decode($json, true);
+        }
+        if (!$response) {
+            throw new Exception("Unable to get $format from URL: $url");
+        }
+        self::$data[$format][$cacheKey] = $response;
+        $cacheItem->set(self::$data[$format][$cacheKey]);
+        $cache->save($cacheItem);
+        return self::$data[$format][$cacheKey];
     }
 }
