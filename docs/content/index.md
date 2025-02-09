@@ -27,7 +27,7 @@ Each file comprises two parts:
 * and a text body after the frontmatter, in any format
   (the file's extension should match this, e.g. the default `.md` for Markdown).
 
-*[Read more about Content.](content.html)*
+*{link|content|Read more about Content.}*
 
 ## Templates
 
@@ -38,7 +38,7 @@ Formats do have to have a file extension though (that's how they're identified, 
 All templates live in the `templates/` directory of a site.
 The structure within that directory can be anything.
 
-*[Read more about Templates.](templates.html)*
+*{link|templates|Read more about Templates.}*
 
 ## Assets (stylesheets, scripts, etc.)
 

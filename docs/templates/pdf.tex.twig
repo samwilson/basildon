@@ -20,6 +20,7 @@
 
         {% set sec = database.query( 'SELECT * FROM pages WHERE id="'~p~'"' ).fetch %}
 
+        \label{ {{sec.id}} }
         \section{ {{ sec.subtitle }} }
 
         {{ sec.body|md2latex|raw }}

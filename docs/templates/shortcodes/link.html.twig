@@ -1,0 +1,5 @@
+{% set label = shortcode.attrs.1 %}
+{% if shortcode.attrs.2 is defined and shortcode.attrs.2 -%}
+    {% set label = shortcode.attrs.2 -%}
+{% endif -%}
+<a href="{{page.link(shortcode.attrs.1)}}.html">{{label}}</a>

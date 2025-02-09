@@ -25,8 +25,8 @@ there are some useful Markdown additions that can be used in content pages.
 The rest of this page explains these.
 
 All the metadata from content files is read into an [SQLite](https://www.sqlite.org) database when a site is built,
-which can be queried in [templates](templates.html) (see that page for more information about how).
-The database can also be modified and the changes [written back to the content files](writing.html).
+which can be queried in {link|templates} (see that page for more information about how).
+The database can also be modified and the changes {link|writing|written back to the content files}.
 
 ## Images
 
@@ -41,7 +41,7 @@ should be referenced like this:
 * From `lorem/ipsum.md` as `![Alt text](../images/file.png)`.
 
 For information about other assets such as stylesheets and scripts,
-see [the *Assets* section](index.html) of the documentation overview.
+see {link|index|the *Assets* section} of the documentation overview.
 
 ## Shortcodes
 
@@ -118,7 +118,7 @@ In `templates/shortcodes/commons.html.twig`:
         <figcaption>{{ commons.labels.en.value }}</figcaption>
     </figure>
 
-Note that this is also using the `commons()` Twig function, which is [documented separately](./templates.html).
+Note that this is also using the `commons()` Twig function, which is {link|templates|documented separately}.
 
 ### Example: Flickr
 
