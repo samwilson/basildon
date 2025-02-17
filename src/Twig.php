@@ -21,6 +21,7 @@ use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
+use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\MarkdownConverter;
 use Psr\Cache\CacheItemPoolInterface;
 use Samwilson\CommonMarkLatex\LatexRendererExtension;
@@ -74,7 +75,9 @@ final class Twig extends AbstractExtension
             new TwigFilter('basename', 'basename'),
             new TwigFilter('dirname', 'dirname'),
             new TwigFilter('md2html', [$this, 'filterMarkdownToHtml']),
+            new TwigFilter('md2html_inline', [$this, 'filterMarkdownToHtmlInline']),
             new TwigFilter('md2latex', [$this, 'filterMarkdownToLatex']),
+            new TwigFilter('md2latex_inline', [$this, 'filterMarkdownToLatexInline']),
         ];
     }
 
@@ -106,16 +109,27 @@ final class Twig extends AbstractExtension
     public function filterMarkdownToHtml(string $input): string
     {
         $environment = $this->getCommonMarkEnvironment('html');
-        $environment->addExtension(new AutolinkExtension());
+        $environment->addExtension(new CommonMarkCoreExtension());
         $converter = new MarkdownConverter($environment);
         return $converter->convert($input)->getContent();
+    }
+
+    public function filterMarkdownToHtmlInline(?string $input): string
+    {
+        if (!$input) {
+            return '';
+        }
+        $environment = $this->getCommonMarkEnvironment('html');
+        $environment->addExtension(new InlinesOnlyExtension());
+        $converter = new MarkdownConverter($environment);
+        return trim($converter->convert($input)->getContent());
     }
 
     public function filterMarkdownToLatex(string $input): string
     {
         $environment = $this->getCommonMarkEnvironment('tex');
+        $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new LatexRendererExtension());
-        $environment->addExtension(new AutolinkExtension());
         $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
             $filesystem = new Filesystem();
             foreach ($event->getDocument()->iterator() as $node) {
@@ -143,6 +157,18 @@ final class Twig extends AbstractExtension
         });
         $converter = new MarkdownConverter($environment);
         return $converter->convert($input)->getContent();
+    }
+
+    public function filterMarkdownToLatexInline(?string $input): string
+    {
+        if (!$input) {
+            return '';
+        }
+        $environment = $this->getCommonMarkEnvironment('tex');
+        $environment->addExtension(new LatexRendererExtension());
+        $environment->addExtension(new InlinesOnlyExtension());
+        $converter = new MarkdownConverter($environment);
+        return trim($converter->convert($input)->getContent());
     }
 
     /**
@@ -506,9 +532,9 @@ final class Twig extends AbstractExtension
         $environment = new CommonMarkEnvironment([
             'shortcodes' => ['shortcodes' => $shortcodes],
         ]);
-        $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new FootnoteExtension());
         $environment->addExtension(new ShortcodeExtension());
+        $environment->addExtension(new AutolinkExtension());
         return $environment;
     }
 

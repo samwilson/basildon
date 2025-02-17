@@ -13,3 +13,5 @@ This is a second post in January.
 With a goat! (Commons has {commons_depicts_count|Q2934} files that depict goats.)
 
 {{{commons|file=RoveZiege_00037.jpg}}}
+
+This post also has {code|inline *code* with emphasis}.
