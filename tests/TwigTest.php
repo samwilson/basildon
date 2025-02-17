@@ -93,4 +93,15 @@ final class TwigTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @covers Twig::filterMarkdownToHtmlInline()
+     */
+    public function testFilterMarkdownToHtmlInline(): void
+    {
+        $site = new Site(__DIR__ . '/test_site');
+        $twig = new Twig($this->db, $site, new Page($site, '/simple'));
+        $html = $twig->filterMarkdownToHtmlInline('foo *bar*');
+        $this->assertSame('foo <em>bar</em>', $html);
+    }
 }
