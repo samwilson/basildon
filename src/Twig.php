@@ -106,8 +106,11 @@ final class Twig extends AbstractExtension
         ];
     }
 
-    public function filterMarkdownToHtml(string $input): string
+    public function filterMarkdownToHtml(?string $input): string
     {
+        if (!$input) {
+            return '';
+        }
         $environment = $this->getCommonMarkEnvironment('html');
         $environment->addExtension(new CommonMarkCoreExtension());
         $converter = new MarkdownConverter($environment);
@@ -125,8 +128,11 @@ final class Twig extends AbstractExtension
         return trim($converter->convert($input)->getContent());
     }
 
-    public function filterMarkdownToLatex(string $input): string
+    public function filterMarkdownToLatex(?string $input): string
     {
+        if (!$input) {
+            return '';
+        }
         $environment = $this->getCommonMarkEnvironment('tex');
         $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new LatexRendererExtension());
