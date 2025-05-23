@@ -133,6 +133,10 @@ final class BuildCommand extends CommandBase
 
         // Report build details.
         $outDir = $site->getDir() . '/output/';
+        if (!is_dir($outDir)) {
+            self::$io->warning('No output produced.');
+            return Command::FAILURE;
+        }
         $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
         $outputSizeCmd->run();
         $outputSize = $outputSizeCmd->getOutput();
@@ -142,7 +146,7 @@ final class BuildCommand extends CommandBase
             'Total time: ' . $this->getTimeElapsed($timeStart),
             'Output size: ' . substr($outputSize, 0, strpos($outputSize, "\t")),
         ]);
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
