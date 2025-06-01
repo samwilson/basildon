@@ -55,6 +55,9 @@
         }
     },
     "scripts": {
+        "clean": [
+            "rm -r example/cache/ example/output/ docs/cache/ docs/output/ tests/test_site/cache/ tests/test_site/output/"
+        ],
         "test": [
             "composer validate",
             "composer normalize --dry-run",
@@ -62,9 +65,6 @@
             "phpcs -s",
             "phpunit",
             "phan --allow-polyfill-parser"
-        ],
-        "clean": [
-            "rm -r example/cache/ example/output/ docs/cache/ docs/output/ tests/test_site/cache/ tests/test_site/output/"
         ]
     }
 }
