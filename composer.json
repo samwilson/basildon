@@ -8,11 +8,10 @@
         "ext-sqlite3": "*",
         "addwiki/mediawiki-api-base": "^3",
         "endroid/qr-code": "^4.1",
-        "league/flysystem": "^1.0",
         "myclabs/php-enum": "^1.5",
         "psr/simple-cache": "^1.0",
         "samwilson/commonmark-latex": "^0.4",
-        "samwilson/commonmark-shortcodes": "^0.5",
+        "samwilson/commonmark-shortcodes": "^0.6",
         "samwilson/phpflickr": "^5",
         "simplepie/simplepie": "^1.8",
         "symfony/cache": "^5.0",
@@ -56,6 +55,9 @@
         }
     },
     "scripts": {
+        "clean": [
+            "rm -r example/cache/ example/output/ docs/cache/ docs/output/ tests/test_site/cache/ tests/test_site/output/"
+        ],
         "test": [
             "composer validate",
             "composer normalize --dry-run",
