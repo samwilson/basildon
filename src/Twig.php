@@ -357,7 +357,7 @@ final class Twig extends AbstractExtension
     /**
      * @return mixed[]
      */
-    public function functionCommons(string $filename): array
+    public function functionCommons(string $filename, ?int $pageNum = null): array
     {
         if (isset(self::$data['commons'][$filename])) {
             return self::$data['commons'][$filename];
@@ -368,14 +368,18 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
-        $fileInfoResponse = $api->request(ActionRequest::simpleGet('query')
-            ->addParams([
-                'prop' => 'imageinfo',
-                'iiprop' => 'url',
-                'iiurlwidth' => $this->site->getConfig()->embedWidth ?? 800,
-                'titles' => 'File:' . $filename,
-                'redirects' => true,
-            ]));
+        $urlWidth = $this->site->getConfig()->embedWidth ?? 800;
+        $params = [
+            'prop' => 'imageinfo',
+            'iiprop' => 'url',
+            'iiurlwidth' => $urlWidth,
+            'titles' => 'File:' . $filename,
+            'redirects' => true,
+        ];
+        if ($pageNum) {
+            $params['iiurlparam'] = "page$pageNum-{$urlWidth}px";
+        }
+        $fileInfoResponse = $api->request(ActionRequest::simpleGet('query', $params));
         $fileInfo = array_shift($fileInfoResponse['query']['pages']);
         if (!isset($fileInfo['pageid'])) {
             throw new Exception('Commons file does not exist: ' . $filename);
