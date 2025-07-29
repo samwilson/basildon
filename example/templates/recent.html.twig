@@ -23,4 +23,9 @@
     {% endfor %}
     </ol>
 
+    <p>
+        Page 3 of a PDF with <code>commons('example.pdf', 3).imageinfo.0.thumburl</code>:
+        <img src="{{ commons('example.pdf', 3).imageinfo.0.thumburl }}">
+    </p>
+
 {% endblock %}

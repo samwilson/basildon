@@ -22,7 +22,8 @@ these are explained on this page.
 
 ## Functions
 
-1. `commons(file_name)` – Get information about a [Wikimedia Commons](https://commons.wikimedia.org/) file.
+1. `commons(file_name, [page_num])` – Get information about a [Wikimedia Commons](https://commons.wikimedia.org/) file.
+   The optional `page_num` parameter is used to get the thumnail URLs of a PDF's page.
 2. `flickr(photo_id)` – Get information about a [Flickr](https://www.flickr.com/) photo.
    To use this, you need to set the `flickr.api_key` and `flickr.api_secret` values
    in your site's `basildon.local.yaml` file.
