@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App;
 
+use DirectoryIterator;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SimpleXMLElement;
+
+use function assert;
 
 final class Util
 {
@@ -32,7 +35,7 @@ final class Util
         }
         $rdi = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
         $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
-        \assert($rii instanceof \DirectoryIterator);
+        assert($rii instanceof DirectoryIterator);
         foreach ($rii as $file) {
             if ($file->isDir()) {
                 rmdir($file->getPathname());
