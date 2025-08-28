@@ -11,7 +11,6 @@ use DateTimeZone;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
-use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use GuzzleHttp\RequestOptions;
@@ -219,7 +218,7 @@ final class Twig extends AbstractExtension
             // Download to a local directory if it's not already there.
             if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
                 try {
-                    (new Client())->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
+                    $this->site->getHttpClient()->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
                 } catch (Throwable $exception) {
                     throw new Exception("Unable to download: $url");
                 }
@@ -264,7 +263,7 @@ final class Twig extends AbstractExtension
      */
     public function functionWikidataQuery(string $sparql): array
     {
-        return (new WikidataQuery($sparql))->fetch();
+        return (new WikidataQuery($sparql, $this->site->getHttpClient()))->fetch();
     }
 
     /**
@@ -279,7 +278,6 @@ final class Twig extends AbstractExtension
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-        $client = new Client();
         $config = $this->site->getConfig();
         if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
             throw new Exception(
@@ -299,7 +297,8 @@ final class Twig extends AbstractExtension
             ],
             'cookies' => new CookieJar(true, [$cookie]),
         ];
-        $response = $client->request('GET', 'https://commons-query.wikimedia.org/sparql', $requestOptions);
+        $url = 'https://commons-query.wikimedia.org/sparql';
+        $response = $this->site->getHttpClient()->request('GET', $url, $requestOptions);
         $json = $response->getBody()->getContents();
         $data = json_decode($json, true);
         $out = [];
@@ -568,10 +567,10 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         CommandBase::writeln("Get $format data: $url");
-        $json = (new Client())->get($url)->getBody()->getContents();
+        $client = $this->site->getHttpClient();
+        $json = $client->get($url)->getBody()->getContents();
         $response = false;
         if ($format === 'xml') {
-            $client = new Client();
             $response = $client->request('GET', $url);
             $response = $response->getBody()->getContents();
         } elseif ($format === 'json') {

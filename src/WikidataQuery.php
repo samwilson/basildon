@@ -12,14 +12,17 @@ final class WikidataQuery
     /** @var string The Sparql query to run. */
     protected $query;
 
+    private Client $client;
+
     /**
      * WikidataQuery constructor.
      *
      * @param string $query The Sparql query to execute.
      */
-    public function __construct($query)
+    public function __construct($query, Client $client)
     {
         $this->query = $query;
+        $this->client = $client;
     }
 
     /**
@@ -45,8 +48,7 @@ final class WikidataQuery
     protected function getXml(string $query): SimpleXMLElement
     {
         $url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=' . urlencode($query);
-        $client = new Client();
-        $response = $client->request('GET', $url);
+        $response = $this->client->request('GET', $url);
         return new SimpleXMLElement($response->getBody()->getContents());
     }
 

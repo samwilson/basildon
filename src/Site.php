@@ -138,16 +138,20 @@ final class Site
         return $config->lang ?? 'en';
     }
 
+    public function getHttpClient(): Client
+    {
+        return new Client([
+            'headers' => [
+                'User-Agent' => 'Basildon https://basildon.samwilson.id.au - ' . $this->getTitle(),
+            ],
+        ]);
+    }
+
     /**
      * @param string $apiUrl The URL to api.php for a MediaWiki wiki.
      */
     public function getMediawikiApi(string $apiUrl): ActionApi
     {
-        $client = new Client([
-            'headers' => [
-                'User-Agent' => 'Basildon https://basildon.samwilson.id.au - ' . $this->getTitle(),
-            ],
-        ]);
-        return new ActionApi($apiUrl, null, $client);
+        return new ActionApi($apiUrl, null, $this->getHttpClient());
     }
 }
