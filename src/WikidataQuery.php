@@ -18,6 +18,7 @@ final class WikidataQuery
      * WikidataQuery constructor.
      *
      * @param string $query The Sparql query to execute.
+     * @param Client $client HTTP client.
      */
     public function __construct($query, Client $client)
     {
