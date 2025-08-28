@@ -6,6 +6,7 @@ namespace App;
 
 use Addwiki\Mediawiki\Api\Client\Action\ActionApi;
 use Exception;
+use GuzzleHttp\Client;
 use stdClass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -137,11 +138,20 @@ final class Site
         return $config->lang ?? 'en';
     }
 
+    public function getHttpClient(): Client
+    {
+        return new Client([
+            'headers' => [
+                'User-Agent' => 'Basildon https://basildon.samwilson.id.au - ' . $this->getTitle(),
+            ],
+        ]);
+    }
+
     /**
      * @param string $apiUrl The URL to api.php for a MediaWiki wiki.
      */
     public function getMediawikiApi(string $apiUrl): ActionApi
     {
-        return new ActionApi($apiUrl);
+        return new ActionApi($apiUrl, null, $this->getHttpClient());
     }
 }
