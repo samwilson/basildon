@@ -25,6 +25,13 @@ return [
         'vendor/',
     ],
 
+    // A list of files that will be excluded from parsing and analysis and will not be read at all.
+    // This is useful for excluding hopelessly unanalyzable files that can't be removed for whatever reason.
+    'exclude_file_list' => [
+        // @todo Remove when https://github.com/phan/phan/issues/5071 is fixed.
+        'vendor/simplepie/simplepie/src/Cache/Psr16.php',
+    ],
+
     // A regex used to match every file name that you want to
     // exclude from parsing. Actual value will exclude every
     // "test", "tests", "Test" and "Tests" folders found in
