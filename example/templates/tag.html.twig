@@ -41,6 +41,19 @@
             {% endfor %}
         </ol>
 
+        <h2>Another Wikidata query showing all scholarly articles that mention the topic of this tag:</h2>
+        {% set query_result_2 = wikidata_query('
+            SELECT ?item ?itemLabel ?itemDescription ?date WHERE {
+                ?item wdt:P921 wd:Q2934 .
+                ?item wdt:P577 ?date .
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            } LIMIT 5', 'query-scholarly.wikidata.org') %}
+        <ol>
+            {% for res in query_result_2 %}
+                <li>{{ res.date }} <a href="{{ res.item }}">{{ res.itemLabel }}</a></li>
+            {% endfor %}
+        </ol>
+
     {% endif %}
 
 {% endblock %}
