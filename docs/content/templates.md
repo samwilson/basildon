@@ -34,7 +34,8 @@ these are explained on this page.
    For example, `{{ wikidata('Q42').descriptions.en.value }}` will return something like "English writer and humorist".
    To get the full details of the returned structure,
    see e.g. [wikidata.org/wiki/Special:EntityData/Q42.json](https://www.wikidata.org/wiki/Special:EntityData/Q42.json).
-5. `wikidata_query(sparql)` — Returns the result of the Sparql query from Wikidata.
+5. `wikidata_query(sparql, [query_service])` — Returns the result of the Sparql query from Wikidata or any other Wikidata Query Service.
+   The optional second parameter is for supplying the domain name of the query service; it defaults to `query.wikidata.org`.
    See the example in [/example/templates/tag.html.twig](https://github.com/samwilson/basildon/blob/main/example/templates/tag.html.twig).
 6. `commons_query(sparql)` — Returns the result of a Sparql query on Wikimedia Commons.
    This requires an authentication token to be added to `basildon.yaml`.

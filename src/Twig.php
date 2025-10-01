@@ -261,9 +261,9 @@ final class Twig extends AbstractExtension
     /**
      * @return string[][]
      */
-    public function functionWikidataQuery(string $sparql): array
+    public function functionWikidataQuery(string $sparql, string $endpoint = 'query.wikidata.org'): array
     {
-        return (new WikidataQuery($sparql, $this->site->getHttpClient()))->fetch();
+        return (new WikidataQuery($sparql, $this->site->getHttpClient(), $endpoint))->fetch();
     }
 
     /**

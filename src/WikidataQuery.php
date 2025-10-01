@@ -9,21 +9,22 @@ use SimpleXMLElement;
 
 final class WikidataQuery
 {
-    /** @var string The Sparql query to run. */
-    protected $query;
-
+    protected string $query;
     private Client $client;
+    private string $queryService;
 
     /**
      * WikidataQuery constructor.
      *
      * @param string $query The Sparql query to execute.
      * @param Client $client HTTP client.
+     * @param string $queryService The domain name of the Wikidata Query Service to use (without protocol).
      */
-    public function __construct($query, Client $client)
+    public function __construct($query, Client $client, string $queryService)
     {
         $this->query = $query;
         $this->client = $client;
+        $this->queryService = $queryService;
     }
 
     /**
@@ -48,7 +49,7 @@ final class WikidataQuery
      */
     protected function getXml(string $query): SimpleXMLElement
     {
-        $url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=' . urlencode($query);
+        $url = 'https://' . $this->queryService . '/bigdata/namespace/wdq/sparql?query=' . urlencode($query);
         $response = $this->client->request('GET', $url);
         return new SimpleXMLElement($response->getBody()->getContents());
     }
