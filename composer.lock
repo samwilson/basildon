@@ -4456,16 +4456,16 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.5.2",
+            "version": "6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "ac0d369c09653cf7af561f6d91a705bc617a87b8"
+                "reference": "68ba7677532803cc0c5900dd5a4d730537f2b2f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/ac0d369c09653cf7af561f6d91a705bc617a87b8",
-                "reference": "ac0d369c09653cf7af561f6d91a705bc617a87b8",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/68ba7677532803cc0c5900dd5a4d730537f2b2f3",
+                "reference": "68ba7677532803cc0c5900dd5a4d730537f2b2f3",
                 "shasum": ""
             },
             "require": {
@@ -4525,9 +4525,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.5.2"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.6.0"
             },
-            "time": "2025-09-09T09:42:27+00:00"
+            "time": "2025-10-10T11:34:09+00:00"
         },
         {
             "name": "localheinz/diff",
@@ -4873,16 +4873,16 @@
         },
         {
             "name": "phan/phan",
-            "version": "5.5.1",
+            "version": "5.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phan/phan.git",
-                "reference": "2b6a846eff1a65dd0229ffa2370b4c35a96b7f3c"
+                "reference": "25d7e8d185a4c78e7423c188fb28bba5dbde20c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phan/phan/zipball/2b6a846eff1a65dd0229ffa2370b4c35a96b7f3c",
-                "reference": "2b6a846eff1a65dd0229ffa2370b4c35a96b7f3c",
+                "url": "https://api.github.com/repos/phan/phan/zipball/25d7e8d185a4c78e7423c188fb28bba5dbde20c1",
+                "reference": "25d7e8d185a4c78e7423c188fb28bba5dbde20c1",
                 "shasum": ""
             },
             "require": {
@@ -4947,9 +4947,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phan/phan/issues",
-                "source": "https://github.com/phan/phan/tree/5.5.1"
+                "source": "https://github.com/phan/phan/tree/5.5.2"
             },
-            "time": "2025-08-05T20:10:06+00:00"
+            "time": "2025-10-04T18:04:38+00:00"
         },
         {
             "name": "phar-io/manifest",
