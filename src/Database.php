@@ -89,7 +89,6 @@ final class Database
      */
     public function query(string $sql, array $params = []): PDOStatement
     {
-        //return self::$pdo->query($sql);
         if (is_array($params) && count($params) > 0) {
             $stmt = self::$pdo->prepare($sql);
             foreach ($params as $placeholder => $value) {
