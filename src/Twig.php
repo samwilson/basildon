@@ -558,13 +558,10 @@ final class Twig extends AbstractExtension
         return new FilesystemAdapter($subdir, 0, $this->site->getDir() . '/cache/');
     }
 
-    /**
-     * @return mixed[]
-     */
-    private function getJsonOrXml(string $format, ?string $url): array
+    private function getJsonOrXml(string $format, ?string $url): mixed
     {
         if ($url === null) {
-            return [];
+            return null;
         }
         $cacheKey = md5($url);
         if (isset(self::$data[$format][$cacheKey])) {
