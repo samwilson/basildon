@@ -403,9 +403,15 @@ final class Twig extends AbstractExtension
         return $response['extract_html'];
     }
 
-    public function functionGetJson(?string $url): mixed
+    /**
+     * @return mixed[]
+     */
+    public function functionGetJson(?string $url): array
     {
-        return $this->getJsonOrXml('json', $url);
+        if (!$url) {
+            return [];
+        }
+        return json_decode($this->getJsonOrXml('json', $url), true);
     }
 
     /**
@@ -552,10 +558,13 @@ final class Twig extends AbstractExtension
         return new FilesystemAdapter($subdir, 0, $this->site->getDir() . '/cache/');
     }
 
-    private function getJsonOrXml(string $format, ?string $url): mixed
+    /**
+     * @return mixed[]
+     */
+    private function getJsonOrXml(string $format, ?string $url): array
     {
         if ($url === null) {
-            return null;
+            return [];
         }
         $cacheKey = md5($url);
         if (isset(self::$data[$format][$cacheKey])) {
@@ -568,18 +577,7 @@ final class Twig extends AbstractExtension
         }
         CommandBase::writeln("Get $format data: $url");
         $client = $this->site->getHttpClient();
-        $json = $client->get($url)->getBody()->getContents();
-        $response = false;
-        if ($format === 'xml') {
-            $response = $client->request('GET', $url);
-            $response = $response->getBody()->getContents();
-        } elseif ($format === 'json') {
-            $response = json_decode($json, true);
-        }
-        if (!$response) {
-            throw new Exception("Unable to get $format from URL: $url");
-        }
-        self::$data[$format][$cacheKey] = $response;
+        self::$data[$format][$cacheKey] = $client->get($url)->getBody()->getContents();
         $cacheItem->set(self::$data[$format][$cacheKey]);
         $cache->save($cacheItem);
         return self::$data[$format][$cacheKey];
