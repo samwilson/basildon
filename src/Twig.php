@@ -563,7 +563,8 @@ final class Twig extends AbstractExtension
         if ($url === null) {
             return null;
         }
-        $cacheKey = md5($url);
+        $cacheKeyVersion = 2;
+        $cacheKey = md5($url) . '_' . $cacheKeyVersion;
         if (isset(self::$data[$format][$cacheKey])) {
             return self::$data[$format][$cacheKey];
         }
