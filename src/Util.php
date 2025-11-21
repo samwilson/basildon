@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use DirectoryIterator;
+use Exception;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -54,6 +55,9 @@ final class Util
     public static function xmlToArray(string $xml): array
     {
         $json = json_encode((array) new SimpleXMLElement($xml));
+        if (!$json) {
+            throw new Exception('Unable to encode JSON based on XML: ' . substr($xml, 0, 300));
+        }
         // Change the '@attributes' key to have an underscore, for easier use in Twig.
         $newJson = preg_replace('/"@attributes":/', '"_attributes":', $json);
         return json_decode($newJson, true);
