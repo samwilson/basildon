@@ -325,7 +325,8 @@ final class Twig extends AbstractExtension
         $config = $this->site->getConfig()->flickr;
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
         $cache = $this->getCachePool('flickr');
-        $cacheItem = $cache->getItem('flickr' . $photoId);
+        $cacheVersion = 2;
+        $cacheItem = $cache->getItem('flickr' . $photoId . '_' . $cacheVersion);
         if ($cacheItem->isHit()) {
             self::$data['flickr'][$photoId] = $cacheItem->get();
         } else {
@@ -345,6 +346,7 @@ final class Twig extends AbstractExtension
                 'dates' => $info['dates'],
                 'owner' => $info['owner'],
                 'license' => $flickr->photosLicenses()->getInfo()[$info['license']],
+                'largest_size' => $flickr->photos()->getLargestSize($photoId),
             ];
             $cacheItem->set(self::$data['flickr'][$photoId]);
             $cache->save($cacheItem);

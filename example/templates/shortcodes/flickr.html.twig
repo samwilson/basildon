@@ -1,7 +1,9 @@
 {% set flickr = flickr(shortcode.attr('id')) %}
 
 <figure itemscope itemtype="http://schema.org/ImageObject">
-    <a href="{{ flickr.urls.photopage }}"><img src="{{ flickr.urls.medium_image }}" /></a>
+    <a href="{{ flickr.urls.photopage }}">
+        <img src="{{ flickr.urls.medium_image }}" width="{{ flickr.largest_size.width }}" height="{{ flickr.largest_size.height }}" />
+    </a>
     <figcaption>
         <strong itemprop="name">{{ flickr.title }}</strong>
         <span itemprop="description">{{ flickr.description }}</span>
