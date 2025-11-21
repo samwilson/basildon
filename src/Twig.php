@@ -411,7 +411,11 @@ final class Twig extends AbstractExtension
         if (!$url) {
             return [];
         }
-        return json_decode($this->getJsonOrXml('json', $url), true);
+        $json = json_decode($this->getJsonOrXml('json', $url), true);
+        if ($json === null) {
+            throw new Exception("Unable to decode JSON from $url");
+        }
+        return $json;
     }
 
     /**
