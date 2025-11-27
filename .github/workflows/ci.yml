@@ -43,5 +43,6 @@ jobs:
 
     - name: Docker build
       uses: docker/build-push-action@v6
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.php == '8.4' }}
       with:
         call: check
