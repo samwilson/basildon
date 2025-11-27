@@ -1,5 +1,4 @@
 FROM debian:latest
-MAINTAINER Sam Wilson sam@samwilson.id.au
 
 RUN apt -y update
 RUN apt -y upgrade
