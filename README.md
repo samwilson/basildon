@@ -1,7 +1,7 @@
 Basildon, a static site generator
 =================================
 
-For all information, see [basildon.netlify.app](https://basildon.netlify.app/).
+For all information, see [basildon.samwilson.id.au](https://basildon.samwilson.id.au).
 
 [![StaticGen](https://img.shields.io/badge/StaticGen-Basildon-00C7B7)](https://www.staticgen.com/basildon)
 [![Packagist](https://img.shields.io/packagist/v/samwilson/basildon)](https://packagist.org/packages/samwilson/basildon)
