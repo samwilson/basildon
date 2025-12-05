@@ -50,7 +50,7 @@ these are explained on this page.
    and the URLs can be of the feed or the website for which to attempt autodiscovery.
    An array is returned, each element of which is a Simplepie [Item](https://github.com/simplepie/simplepie/blob/1.8.0/src/Item.php).
    For example: `{{get_json('https://samwilson.id.au/news.rss')}}`
-10. `cancel(reason)` — Stop all template rendering and display an error.
+10. `cancel(reason)` — Stop all template rendering and display the reason for cancelling.
 
 ## Filters and escapers
 
