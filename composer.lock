@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ec7a2083f902de9590d81c5b0b18360",
+    "content-hash": "5bbbdea5af05a413678f4636b53982ac",
     "packages": [
         {
             "name": "addwiki/mediawiki-api-base",
@@ -5885,21 +5885,22 @@
         },
         {
             "name": "roslov/psr12ext",
-            "version": "11.0.0",
+            "version": "14.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roslov/psr12ext.git",
-                "reference": "2b45eff743597fd171b2cbe57816053108c687a6"
+                "reference": "6d8d8c64ec76233c2635b96bf202e3557e04b606"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roslov/psr12ext/zipball/2b45eff743597fd171b2cbe57816053108c687a6",
-                "reference": "2b45eff743597fd171b2cbe57816053108c687a6",
+                "url": "https://api.github.com/repos/roslov/psr12ext/zipball/6d8d8c64ec76233c2635b96bf202e3557e04b606",
+                "reference": "6d8d8c64ec76233c2635b96bf202e3557e04b606",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2|^8.0",
-                "slevomat/coding-standard": "^8.15"
+                "php": "^7.4|^8.0",
+                "slevomat/coding-standard": "^8.25",
+                "squizlabs/php_codesniffer": "^4.0"
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
@@ -5916,13 +5917,14 @@
             "keywords": [
                 "codesniffer",
                 "dev",
-                "psr12"
+                "psr12",
+                "slevomat"
             ],
             "support": {
                 "issues": "https://github.com/roslov/psr12ext/issues",
                 "source": "https://github.com/roslov/psr12ext"
             },
-            "time": "2024-04-12T13:49:46+00:00"
+            "time": "2025-11-22T12:31:53+00:00"
         },
         {
             "name": "sabre/event",
@@ -7407,7 +7409,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -7416,7 +7418,7 @@
         "ext-simplexml": "*",
         "ext-sqlite3": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "7.4"
     },
