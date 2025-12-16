@@ -34,6 +34,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Filesystem\Filesystem;
 use Throwable;
+use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -91,6 +92,7 @@ final class Twig extends AbstractExtension
             new TwigFunction('date_create', [$this, 'functionDateCreate']),
             new TwigFunction('strtotime', 'strtotime'),
             new TwigFunction('json_decode', 'json_decode'),
+            new TwigFunction('cancel', [$this, 'functionCancel']),
             new TwigFunction('get_json', [$this, 'functionGetJson']),
             new TwigFunction('get_feeds', [$this, 'functionGetFeeds']),
             new TwigFunction('get_xml', [$this, 'functionGetXml']),
@@ -174,6 +176,11 @@ final class Twig extends AbstractExtension
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
         return trim($converter->convert($input)->getContent());
+    }
+
+    public function functionCancel(string $msg): void
+    {
+        throw new Error("Template rendering cancelled: $msg");
     }
 
     /**

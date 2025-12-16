@@ -6,6 +6,8 @@ subtitle: A static website generator
 **Basildon** is a simple static website generator
 written in PHP and supporting Markdown content, Twig templates,
 SQLite, and outputs of HTML and PDF (via LaTeX).
+Its homepage is at [basildon.samwilson.id.au](https://basildon.samwilson.id.au)
+and all source code is [on GitHub](https://github.com/samwilson/basildon).
 
 This documentation is also available as [a PDF](basildon-docs.pdf).
 

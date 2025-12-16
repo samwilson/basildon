@@ -1,5 +1,6 @@
 * text=auto eol=lf
 
+.git* export-ignore
 docs export-ignore
 example export-ignore
 phpunit.xml export-ignore

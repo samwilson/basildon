@@ -8,6 +8,7 @@ use App\Command\CommandBase;
 use Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
+use Twig\Cache\FilesystemCache;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Extra\Intl\IntlExtension;
@@ -132,6 +133,8 @@ final class Template
         $twig = new Environment($loader, [
             'debug' => true,
             'strict_variables' => true,
+            'cache' => new FilesystemCache($this->site->getDir() . '/cache/twig/'),
+            'use_yield' => true,
         ]);
         $twig->addExtension(new IntlExtension());
         $twig->addExtension(new DebugExtension());
