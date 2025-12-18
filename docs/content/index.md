@@ -61,3 +61,11 @@ All output is in the `output/` directory of a site.
 This directory is ready to be uploaded to a web server as the top level of the site.
 
 The `output/` directory is emptied on every run of Basildon.
+
+## Docker
+
+It's also possible to run Basildon via the [freosam/basildon](https://hub.docker.com/r/freosam/basildon) Docker image:
+
+```
+docker run --volume .:/project freosam/basildon build .
+```

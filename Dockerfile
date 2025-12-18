@@ -6,5 +6,8 @@ RUN apt -y install php composer php-sqlite3 php-xml php-json texlive latexmk
 
 COPY . /basildon/
 
-ENTRYPOINT [ "/basildon/bin/basildon" ]
-CMD [ "" ]
+ENV PATH "$PATH:/basildon/bin"
+
+WORKDIR /project
+
+ENTRYPOINT [ "basildon" ]
