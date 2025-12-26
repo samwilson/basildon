@@ -227,7 +227,8 @@ final class Twig extends AbstractExtension
                 try {
                     $this->site->getHttpClient()->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
                 } catch (Throwable $exception) {
-                    throw new Exception("Unable to download: $url");
+                    unlink($outputFilepath);
+                    throw new Exception("Unable to download $url -- " . $exception->getMessage());
                 }
             }
 
@@ -365,7 +366,7 @@ final class Twig extends AbstractExtension
     /**
      * @return mixed[]
      */
-    public function functionCommons(string $filename, ?int $pageNum = null): array
+    public function functionCommons(string $filename, ?int $pageNum = null, ?int $width = 960): array
     {
         if (isset(self::$data['commons'][$filename])) {
             return self::$data['commons'][$filename];
@@ -376,7 +377,7 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
-        $urlWidth = $this->site->getConfig()->embedWidth ?? 800;
+        $urlWidth = $width ?: 960;
         $params = [
             'prop' => 'imageinfo',
             'iiprop' => 'url',
