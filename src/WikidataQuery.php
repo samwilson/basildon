@@ -39,6 +39,7 @@ final class WikidataQuery
         foreach ($result->results->result as $res) {
             $out[] = $this->getBindings($res);
         }
+
         return $out;
     }
 
@@ -51,6 +52,7 @@ final class WikidataQuery
     {
         $url = 'https://' . $this->queryService . '/bigdata/namespace/wdq/sparql?query=' . urlencode($query);
         $response = $this->client->request('GET', $url);
+
         return new SimpleXMLElement($response->getBody()->getContents());
     }
 
@@ -58,6 +60,7 @@ final class WikidataQuery
      * Restructure the XML that comes back from the Wikidata Query Service
      *
      * @param SimpleXMLElement $xml The XML for one result item.
+     *
      * @return string[]
      */
     protected function getBindings(SimpleXMLElement $xml): array
@@ -72,6 +75,7 @@ final class WikidataQuery
                 $out[(string) $binding['name']] = (string) $binding->uri;
             }
         }
+
         return $out;
     }
 }

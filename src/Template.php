@@ -66,6 +66,7 @@ final class Template
                 . '(e.g. for HTML, create ' . $templatesDir . '/' . $this->name . '.html.twig)'
             );
         }
+
         return $formats;
     }
 
@@ -82,6 +83,7 @@ final class Template
             'site' => $page->getSite(),
             'page' => $page,
         ], $params ?? []);
+
         return $this->getTwig($page)->render($this->name . ".$format.twig", $allParams);
     }
 
@@ -143,6 +145,7 @@ final class Template
         $escaperRuntime = $twig->getRuntime(EscaperRuntime::class);
         $escaperRuntime->setEscaper('tex', [$twigExtension, 'escapeTex']);
         $escaperRuntime->setEscaper('csv', [$twigExtension, 'escapeCsv']);
+
         return $twig;
     }
 }

@@ -57,6 +57,7 @@ final class Site
             $pages[$page->getId()] = $page;
         }
         $this->pages = $pages;
+
         return $this->pages;
     }
 
@@ -80,6 +81,7 @@ final class Site
             $tplName = $file->getRelativePath() . '/' . $nameParts[1];
             $templates[] = new Template($db, $this, $tplName);
         }
+
         return $templates;
     }
 
@@ -93,6 +95,7 @@ final class Site
         $configFile = $this->getDir() . '/basildon.yaml';
         if (!file_exists($configFile)) {
             $this->config = new stdClass();
+
             return $this->config;
         }
         $config = file_get_contents($configFile);
@@ -107,6 +110,7 @@ final class Site
         if ($this->config === null) {
             $this->config = new stdClass();
         }
+
         return $this->config;
     }
 
@@ -120,12 +124,14 @@ final class Site
         if (!$ext) {
             return '.md';
         }
+
         return '.' . ltrim($ext, '.');
     }
 
     public function getTitle(): string
     {
         $config = $this->getConfig();
+
         return $config->title ?? 'Untitled site';
     }
 
@@ -135,6 +141,7 @@ final class Site
     public function getLang(): string
     {
         $config = $this->getConfig();
+
         return $config->lang ?? 'en';
     }
 

@@ -52,6 +52,7 @@ final class BuildCommand extends CommandBase
     protected function configure(): void
     {
         parent::configure();
+
         $this->setName('build');
         $this->setDescription('Build a website.');
         $this->addOption(
@@ -135,6 +136,7 @@ final class BuildCommand extends CommandBase
         $outDir = $site->getDir() . '/output/';
         if (!is_dir($outDir)) {
             self::$io->warning('No output produced.');
+
             return Command::FAILURE;
         }
         $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
@@ -146,6 +148,7 @@ final class BuildCommand extends CommandBase
             'Total time: ' . $this->getTimeElapsed($timeStart),
             'Output size: ' . substr($outputSize, 0, strpos($outputSize, "\t")),
         ]);
+
         return Command::SUCCESS;
     }
 
