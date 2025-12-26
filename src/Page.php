@@ -156,7 +156,7 @@ final class Page
                 $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
             } catch (Throwable $throwable) {
                 CommandBase::writeln(
-                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage(),
+                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage()
                 );
                 $parsedMetadata = $defaultMetadata;
             }

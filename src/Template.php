@@ -63,7 +63,7 @@ final class Template
         if (empty($formats)) {
             throw new Exception(
                 'No formats found for template: ' . $this->name . "\n"
-                . '(e.g. for HTML, create ' . $templatesDir . '/' . $this->name . '.html.twig)',
+                . '(e.g. for HTML, create ' . $templatesDir . '/' . $this->name . '.html.twig)'
             );
         }
 

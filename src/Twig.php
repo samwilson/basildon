@@ -298,7 +298,7 @@ final class Twig extends AbstractExtension
         if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
             throw new Exception(
                 "You must set `commons.wcqs_auth_token` in the site's config file."
-                . ' See https://w.wiki/9jke for how to retrieve the value for it.',
+                . ' See https://w.wiki/9jke for how to retrieve the value for it.'
             );
         }
         $cookie = new SetCookie([
@@ -568,11 +568,11 @@ final class Twig extends AbstractExtension
             $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
             $page = $this->page;
             $shortcodes[$shortcodeName] = static function (
-                Shortcode $shortcode,
+                Shortcode $shortcode
             ) use (
                 $shortcodeTemplate,
                 $format,
-                $page,
+                $page
             ) {
                 return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
             };

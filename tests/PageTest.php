@@ -72,7 +72,7 @@ final class PageTest extends TestCase
         self::assertSame('The body text.', $page->getBody());
         self::assertSame(
             "---\ntemplate: index\ntitle: 'The title'\ntags:\n    - one\n    - two\n---\nThe body text.\n",
-            $page->getContents(),
+            $page->getContents()
         );
 
         // Change a metadata field.
@@ -82,7 +82,7 @@ final class PageTest extends TestCase
         self::assertSame(
             "---\ntemplate: index\ntitle: 'The title'\n"
             . "tags:\n    - one\n    - two\n    - 'new tag'\n---\nThe body text.\n",
-            $page->getContents(),
+            $page->getContents()
         );
         self::assertSame($metaNew, $page->getMetadata());
 

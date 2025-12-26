@@ -60,13 +60,13 @@ final class BuildCommand extends CommandBase
             'p',
             InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
             'ID of a single page to render.',
-            [],
+            []
         );
         $this->addOption(
             'skip',
             's',
             InputOption::VALUE_NONE,
-            'Skip processing of site pages, and use existing database.',
+            'Skip processing of site pages, and use existing database.'
         );
     }
 

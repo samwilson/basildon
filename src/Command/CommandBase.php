@@ -29,7 +29,7 @@ abstract class CommandBase extends Command
         $this->addArgument(
             'dir',
             InputArgument::REQUIRED,
-            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc.",
+            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc."
         );
     }
 
