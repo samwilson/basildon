@@ -115,6 +115,7 @@ final class Twig extends AbstractExtension
         $environment = $this->getCommonMarkEnvironment('html');
         $environment->addExtension(new CommonMarkCoreExtension());
         $converter = new MarkdownConverter($environment);
+
         return $converter->convert($input)->getContent();
     }
 
@@ -126,6 +127,7 @@ final class Twig extends AbstractExtension
         $environment = $this->getCommonMarkEnvironment('html');
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
+
         return trim($converter->convert($input)->getContent());
     }
 
@@ -163,6 +165,7 @@ final class Twig extends AbstractExtension
             }
         });
         $converter = new MarkdownConverter($environment);
+
         return $converter->convert($input)->getContent();
     }
 
@@ -175,6 +178,7 @@ final class Twig extends AbstractExtension
         $environment->addExtension(new LatexRendererExtension());
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
+
         return trim($converter->convert($input)->getContent());
     }
 
@@ -196,6 +200,7 @@ final class Twig extends AbstractExtension
             $dateTime = date_create($dateTime);
         }
         $dateTime->setTimezone($timezone);
+
         return $dateTime;
     }
 
@@ -228,6 +233,7 @@ final class Twig extends AbstractExtension
                     $this->site->getHttpClient()->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
                 } catch (Throwable $exception) {
                     unlink($outputFilepath);
+
                     throw new Exception("Unable to download $url -- " . $exception->getMessage());
                 }
             }
@@ -239,6 +245,7 @@ final class Twig extends AbstractExtension
 
         // Return the relative path to the downloaded file.
         $depth = count(explode('/', $this->page->getId()));
+
         return str_repeat('../', $depth - 2) . '_urls/' . $filename;
     }
 
@@ -263,6 +270,7 @@ final class Twig extends AbstractExtension
         self::$data['wikidata'][$wikidataId] = $result['entities'][$wikidataId];
         $cacheItem->set(self::$data['wikidata'][$wikidataId]);
         $cache->save($cacheItem);
+
         return self::$data['wikidata'][$wikidataId];
     }
 
@@ -290,7 +298,7 @@ final class Twig extends AbstractExtension
         if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
             throw new Exception(
                 "You must set `commons.wcqs_auth_token` in the site's config file."
-                . ' See https://w.wiki/9jke for how to retrieve the value for it.'
+                . ' See https://w.wiki/9jke for how to retrieve the value for it.',
             );
         }
         $cookie = new SetCookie([
@@ -319,6 +327,7 @@ final class Twig extends AbstractExtension
         }
         $cacheItem->set($out);
         $cache->save($cacheItem);
+
         return $out;
     }
 
@@ -400,6 +409,7 @@ final class Twig extends AbstractExtension
         self::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
         $cacheItem->set(self::$data['commons'][$filename]);
         $cache->save($cacheItem);
+
         return self::$data['commons'][$filename];
     }
 
@@ -410,6 +420,7 @@ final class Twig extends AbstractExtension
         if (!isset($response['extract_html'])) {
             throw new Exception("Unable to get extract of Wikipedia article: $articleTitle");
         }
+
         return $response['extract_html'];
     }
 
@@ -425,6 +436,7 @@ final class Twig extends AbstractExtension
         if ($json === null) {
             throw new Exception("Unable to decode JSON from $url");
         }
+
         return $json;
     }
 
@@ -436,11 +448,13 @@ final class Twig extends AbstractExtension
         if (!$url) {
             return [];
         }
+
         return Util::xmlToArray($this->getJsonOrXml('xml', $url));
     }
 
     /**
      * @param string|string[] $feedUrls
+     *
      * @return ?Item[]
      */
     public function functionGetFeeds($feedUrls): ?array
@@ -449,6 +463,7 @@ final class Twig extends AbstractExtension
         $simplepie->set_cache(new Psr16Cache($this->getCachePool('feeds')));
         $simplepie->set_feed_url($feedUrls);
         $simplepie->init();
+
         return $simplepie->get_items();
     }
 
@@ -471,6 +486,7 @@ final class Twig extends AbstractExtension
         // If it's already cached, copy it to output and use it.
         if (file_exists($cachePath)) {
             copy($cachePath, $filePath);
+
             return $assetPath;
         }
         // Create cached file.
@@ -481,6 +497,7 @@ final class Twig extends AbstractExtension
             ->saveToFile($cachePath);
         // Copy it to output.
         copy($cachePath, $filePath);
+
         return $assetPath;
     }
 
@@ -521,6 +538,7 @@ final class Twig extends AbstractExtension
             '\textquotedbl\ $1',
             '\textquotedbl $1',
         ];
+
         return preg_replace($pat, $rep, $string);
     }
 
@@ -539,6 +557,7 @@ final class Twig extends AbstractExtension
         if (strpos($out, '"') !== false || strpos($out, ',') !== false) {
             $out = '"' . $out . '"';
         }
+
         return $out;
     }
 
@@ -549,11 +568,11 @@ final class Twig extends AbstractExtension
             $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
             $page = $this->page;
             $shortcodes[$shortcodeName] = static function (
-                Shortcode $shortcode
+                Shortcode $shortcode,
             ) use (
                 $shortcodeTemplate,
                 $format,
-                $page
+                $page,
             ) {
                 return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
             };
@@ -564,6 +583,7 @@ final class Twig extends AbstractExtension
         $environment->addExtension(new FootnoteExtension());
         $environment->addExtension(new ShortcodeExtension());
         $environment->addExtension(new AutolinkExtension());
+
         return $environment;
     }
 
@@ -592,6 +612,7 @@ final class Twig extends AbstractExtension
         self::$data[$format][$cacheKey] = $client->get($url)->getBody()->getContents();
         $cacheItem->set(self::$data[$format][$cacheKey]);
         $cache->save($cacheItem);
+
         return self::$data[$format][$cacheKey];
     }
 }

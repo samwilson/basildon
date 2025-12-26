@@ -25,10 +25,11 @@ abstract class CommandBase extends Command
     protected function configure(): void
     {
         parent::configure();
+
         $this->addArgument(
             'dir',
             InputArgument::REQUIRED,
-            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc."
+            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc.",
         );
     }
 
@@ -37,8 +38,10 @@ abstract class CommandBase extends Command
         $dir = realpath($input->getArgument('dir'));
         if (!$dir || !is_dir($dir)) {
             self::$io->error('Directory not found: ' . $input->getArgument('dir'));
+
             return null;
         }
+
         return new Site($dir);
     }
 }

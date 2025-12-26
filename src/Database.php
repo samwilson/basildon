@@ -48,6 +48,7 @@ final class Database
         asort($keys);
         $keys = array_values(array_unique(array_filter(array_map('strtolower', $keys))));
         $this->keys = $keys;
+
         return $this->keys;
     }
 
@@ -115,6 +116,7 @@ final class Database
                 throw new PDOException($e->getMessage() . ' -- Unable to execute SQL: <code>' . $sql . '</code>');
             }
         }
+
         return $stmt;
     }
 }

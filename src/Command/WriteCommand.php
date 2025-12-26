@@ -16,6 +16,7 @@ final class WriteCommand extends CommandBase
     protected function configure(): void
     {
         parent::configure();
+
         $this->setName('write');
         $this->setDescription('Write page contents from the database back into the Markdown files.');
     }
@@ -44,6 +45,7 @@ final class WriteCommand extends CommandBase
             // Write the new data.
             $page->write(array_filter($parsedMetadata), $newBody);
         }
+
         return Command::SUCCESS;
     }
 }

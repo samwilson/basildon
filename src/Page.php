@@ -90,6 +90,7 @@ final class Page
             return '';
         }
         $this->contents = file_get_contents($this->getFilename());
+
         return $this->contents;
     }
 
@@ -127,6 +128,7 @@ final class Page
         $trimmedBody = trim($newBody);
         if ($newMetadata == $this->getMetadata() && $trimmedBody == $this->getBody()) {
             CommandBase::writeln('No change required');
+
             return;
         }
 
@@ -154,7 +156,7 @@ final class Page
                 $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
             } catch (Throwable $throwable) {
                 CommandBase::writeln(
-                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage()
+                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage(),
                 );
                 $parsedMetadata = $defaultMetadata;
             }
@@ -164,6 +166,7 @@ final class Page
             $metadata = $defaultMetadata;
             $body = $contents;
         }
+
         return [
             'metadata' => $metadata,
             'body' => trim($body),

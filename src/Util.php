@@ -50,6 +50,7 @@ final class Util
      * Convert XML into an array structure suitable for use in Twig.
      *
      * @param string $xml The XML input.
+     *
      * @return mixed[]
      */
     public static function xmlToArray(string $xml): array
@@ -60,6 +61,7 @@ final class Util
         }
         // Change the '@attributes' key to have an underscore, for easier use in Twig.
         $newJson = preg_replace('/"@attributes":/', '"_attributes":', $json);
+
         return json_decode($newJson, true);
     }
 }
