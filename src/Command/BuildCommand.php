@@ -34,7 +34,7 @@ final class BuildCommand extends CommandBase
         ];
         $amounts = [];
         foreach ($parts as $partName => $partSize) {
-            $amount = ($total - ( $total % $partSize ) ) / $partSize;
+            $amount = ($total - ( (int) round($total) % $partSize ) ) / $partSize;
             $total = $total - ( $amount * $partSize);
             if ($amount) {
                 $amounts[] = $amount . ' ' . $partName . ($amount > 1 ? 's' : '');
