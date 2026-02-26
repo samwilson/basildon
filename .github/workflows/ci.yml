@@ -40,7 +40,6 @@ jobs:
       run: |
         composer test
         ./bin/basildon build docs/
-        ./bin/basildon build example/
 
     - name: Docker build
       uses: docker/build-push-action@v6

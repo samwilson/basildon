@@ -339,9 +339,6 @@ final class Twig extends AbstractExtension
         if (isset(self::$data['flickr'][$photoId])) {
             return self::$data['flickr'][$photoId];
         }
-        if (!isset($this->site->getConfig()->flickr)) {
-            return [];
-        }
         $config = $this->site->getConfig()->flickr;
         $flickr = new PhpFlickr($config->api_key, $config->api_secret);
         $cache = $this->getCachePool('flickr');
