@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use DateTime;
+use DateTimeInterface;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -73,7 +73,7 @@ final class Database
                     $value = $page->getId();
                 } elseif ($key === 'body') {
                     $value = $page->getBody();
-                } elseif ($value instanceof DateTime) {
+                } elseif ($value instanceof DateTimeInterface) {
                     // ISO 8601 format.
                     $value = $value->format('c');
                 } elseif (is_array($value)) {

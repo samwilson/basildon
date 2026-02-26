@@ -7,7 +7,7 @@
 
 {% if page.metadata.date is defined %}
 \date{
-    {% if instanceof(page.metadata.date, 'DateTime') %}
+    {% if instanceof(page.metadata.date, 'DateTimeInterface') %}
         {{ page.metadata.date.format('j F Y') }}
     {% else %}
         {{ page.metadata.date }}
