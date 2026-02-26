@@ -460,14 +460,15 @@ final class Twig extends AbstractExtension
     public function functionGetFeeds($feedUrls): ?array
     {
         $simplePies = [];
-        foreach ( $feedUrls as $feedUrl ) {
+        foreach ($feedUrls as $feedUrl) {
             $simplePie = new SimplePie();
             $simplePie->set_cache(new Psr16Cache($this->getCachePool('feeds')));
             $simplePie->set_feed_url($feedUrl);
             $simplePie->init();
             $simplePies[] = $simplePie;
         }
-        return SimplePie::merge_items( $simplePies );
+
+        return SimplePie::merge_items($simplePies);
     }
 
     /**
