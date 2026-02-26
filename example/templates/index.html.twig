@@ -23,7 +23,7 @@
                 {% for key, value in page.metadata %}
                     <dt>{{ key }}</dt>
                     <dd>
-                        {% if instanceof(value, 'DateTime') %}
+                        {% if instanceof(value, 'DateTimeInterface') %}
                             {{ value.format('c') }}
                         {% elseif value is iterable %}
                             <ul>
