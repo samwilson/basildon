@@ -11,9 +11,9 @@ use PDOStatement;
 
 final class Database
 {
-    public const string COL_NAME_ID = 'id';
+    public const COL_NAME_ID = 'id';
 
-    public const string COL_NAME_BODY = 'body';
+    public const COL_NAME_BODY = 'body';
 
     /** @var string[]|null */
     protected ?array $keys = null;

@@ -3,6 +3,7 @@
     <rule ref="./vendor/roslov/psr12ext/PSR12Ext/ruleset.xml">
         <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed" />
         <!-- Exclude these type hints until we drop support for PHP 8.3. -->
+        <exclude name="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint.MissingNativeTypeHint" />
         <exclude name="SlevomatCodingStandard.PHP.UselessParentheses.UselessParentheses" />
         <!-- @todo Fix these. -->
         <exclude name="SlevomatCodingStandard.Classes.ClassLength.ClassTooLong" />
