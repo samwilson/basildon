@@ -20,14 +20,12 @@ use Twig\Runtime\EscaperRuntime;
  */
 final class Template
 {
-    /** @var Site */
-    protected $site;
+    protected Site $site;
 
     /** @var string The filesystem name of this template. */
-    protected $name;
+    protected string $name;
 
-    /** @var Database */
-    private $db;
+    private Database $db;
 
     public function __construct(Database $db, Site $site, string $name)
     {
@@ -63,7 +61,7 @@ final class Template
         if (empty($formats)) {
             throw new Exception(
                 'No formats found for template: ' . $this->name . "\n"
-                . '(e.g. for HTML, create ' . $templatesDir . '/' . $this->name . '.html.twig)'
+                . '(e.g. for HTML, create ' . $templatesDir . '/' . $this->name . '.html.twig)',
             );
         }
 

@@ -41,17 +41,14 @@ use Twig\TwigFunction;
 
 final class Twig extends AbstractExtension
 {
-    /** @var Database */
-    protected $db;
+    protected Database $db;
 
-    /** @var Site */
-    protected $site;
+    protected Site $site;
 
-    /** @var Page */
-    protected $page;
+    protected Page $page;
 
     /** @var mixed[] Runtime cache of API-retrieved info. */
-    protected static $data = [
+    protected static array $data = [
         'commons' => [],
         'wikidata' => [],
         'flickr' => [],
@@ -187,11 +184,7 @@ final class Twig extends AbstractExtension
         throw new Error("Template rendering cancelled: $msg");
     }
 
-    /**
-     * @param string|DateTime $dateTime
-     * @param string|DateTimeZone $timezone
-     */
-    public function functionDateCreate($dateTime, $timezone = 'Z'): DateTime
+    public function functionDateCreate(string|DateTime $dateTime, string|DateTimeZone $timezone = 'Z'): DateTime
     {
         if (!$timezone instanceof DateTimeZone) {
             $timezone = new DateTimeZone((string) $timezone);
@@ -204,10 +197,7 @@ final class Twig extends AbstractExtension
         return $dateTime;
     }
 
-    /**
-     * @param mixed $a
-     */
-    public function functionInstanceof($a, string $b): bool
+    public function functionInstanceof(mixed $a, string $b): bool
     {
         return $a instanceof $b;
     }
@@ -298,7 +288,7 @@ final class Twig extends AbstractExtension
         if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
             throw new Exception(
                 "You must set `commons.wcqs_auth_token` in the site's config file."
-                . ' See https://w.wiki/9jke for how to retrieve the value for it.'
+                . ' See https://w.wiki/9jke for how to retrieve the value for it.',
             );
         }
         $cookie = new SetCookie([
@@ -457,7 +447,7 @@ final class Twig extends AbstractExtension
      *
      * @return ?Item[]
      */
-    public function functionGetFeeds($feedUrls): ?array
+    public function functionGetFeeds(string|array $feedUrls): ?array
     {
         $simplePies = [];
         foreach ($feedUrls as $feedUrl) {
@@ -572,11 +562,11 @@ final class Twig extends AbstractExtension
             $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
             $page = $this->page;
             $shortcodes[$shortcodeName] = static function (
-                Shortcode $shortcode
+                Shortcode $shortcode,
             ) use (
                 $shortcodeTemplate,
                 $format,
-                $page
+                $page,
             ) {
                 return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
             };
