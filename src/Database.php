@@ -11,15 +11,14 @@ use PDOStatement;
 
 final class Database
 {
-    public const COL_NAME_ID = 'id';
+    public const string COL_NAME_ID = 'id';
 
-    public const COL_NAME_BODY = 'body';
+    public const string COL_NAME_BODY = 'body';
 
-    /** @var string[] */
-    protected $keys;
+    /** @var string[]|null */
+    protected ?array $keys = null;
 
-    /** @var PDO */
-    protected static $pdo;
+    protected static PDO $pdo;
 
     /**
      * @param string $dsn A valid SQLite DSN. Usually the full filesystem path to the database file.
@@ -38,7 +37,7 @@ final class Database
      */
     public function getColumns(Site $site): array
     {
-        if ($this->keys) {
+        if (is_array($this->keys)) {
             return $this->keys;
         }
         $keys = [self::COL_NAME_ID, self::COL_NAME_BODY];

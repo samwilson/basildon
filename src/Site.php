@@ -13,14 +13,13 @@ use Symfony\Component\Yaml\Yaml;
 
 final class Site
 {
-    /** @var string */
-    protected $dir;
+    protected string $dir;
 
-    /** @var stdClass Runtime cache for the site config. */
-    protected $config;
+    /** @var stdClass|null Runtime cache for the site config. */
+    protected ?stdClass $config = null;
 
-    /** @var Page[] */
-    protected $pages;
+    /** @var Page[]|null */
+    protected ?array $pages = null;
 
     public function __construct(string $dir)
     {

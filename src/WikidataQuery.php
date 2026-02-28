@@ -20,7 +20,7 @@ final class WikidataQuery
      * @param Client $client HTTP client.
      * @param string $queryService The domain name of the Wikidata Query Service to use (without protocol).
      */
-    public function __construct($query, Client $client, string $queryService)
+    public function __construct(string $query, Client $client, string $queryService)
     {
         $this->query = $query;
         $this->client = $client;

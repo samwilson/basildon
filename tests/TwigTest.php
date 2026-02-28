@@ -12,8 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 final class TwigTest extends TestCase
 {
-    /** @var Database */
-    private $db;
+    private Database $db;
 
     public function setUp(): void
     {

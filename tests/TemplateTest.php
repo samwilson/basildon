@@ -11,11 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 final class TemplateTest extends TestCase
 {
-    /** @var Database */
-    private $db;
+    private Database $db;
 
-    /** @var Site */
-    private $site;
+    private Site $site;
 
     public function setUp(): void
     {

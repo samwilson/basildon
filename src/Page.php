@@ -10,14 +10,11 @@ use Throwable;
 
 final class Page
 {
-    /** @var Site */
-    protected $site;
+    protected Site $site;
 
-    /** @var string */
-    protected $id;
+    protected string $id;
 
-    /** @var ?string */
-    protected $contents;
+    protected ?string $contents = null;
 
     public function __construct(Site $site, string $id)
     {
@@ -156,7 +153,7 @@ final class Page
                 $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
             } catch (Throwable $throwable) {
                 CommandBase::writeln(
-                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage()
+                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage(),
                 );
                 $parsedMetadata = $defaultMetadata;
             }

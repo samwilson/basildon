@@ -12,8 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class CommandBase extends Command
 {
-    /** @var SymfonyStyle */
-    public static $io;
+    public static ?SymfonyStyle $io = null;
 
     public static function writeln(string $line): void
     {
@@ -29,7 +28,7 @@ abstract class CommandBase extends Command
         $this->addArgument(
             'dir',
             InputArgument::REQUIRED,
-            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc."
+            "The site's root directory, containing <comment>content/</comment>, <comment>assets/</comment>, etc.",
         );
     }
 
@@ -37,7 +36,9 @@ abstract class CommandBase extends Command
     {
         $dir = realpath($input->getArgument('dir'));
         if (!$dir || !is_dir($dir)) {
-            self::$io->error('Directory not found: ' . $input->getArgument('dir'));
+            if (self::$io instanceof SymfonyStyle) {
+                self::$io->error('Directory not found: ' . $input->getArgument('dir'));
+            }
 
             return null;
         }
