@@ -8,6 +8,10 @@ use App\Database;
 use App\Page;
 use App\Site;
 use App\Twig;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 
 final class TwigTest extends TestCase
@@ -102,5 +106,49 @@ final class TwigTest extends TestCase
         $twig = new Twig($this->db, $site, new Page($site, '/simple'));
         $html = $twig->filterMarkdownToHtmlInline('foo *bar*');
         $this->assertSame('foo <em>bar</em>', $html);
+    }
+
+    /**
+     * @covers Twig::functionDateCreate()
+     * @dataProvider provideDateCreate
+     */
+    public function testDateCreate(
+        string|DateTimeInterface $datetime,
+        string|DateTimeZone $timezone,
+        string $expected,
+    ): void {
+        $site = new Site(__DIR__ . '/test_site');
+        $twig = new Twig($this->db, $site, new Page($site, '/simple'));
+        $date = $twig->functionDateCreate($datetime, $timezone);
+        $this->assertEquals($expected, $date->format('c'));
+    }
+
+    /**
+     * @return mixed[][]
+     */
+    public static function provideDateCreate(): array
+    {
+        return [
+            [
+                '2026-03-08 12:34 Z',
+                'Australia/Perth',
+                '2026-03-08T20:34:00+08:00',
+            ],
+            [
+                new DateTimeImmutable('2026-03-08 12:34 Z'),
+                'Australia/Perth',
+                '2026-03-08T20:34:00+08:00',
+            ],
+            [
+                new DateTime('2026-03-08 12:34 Z'),
+                'Australia/Perth',
+                '2026-03-08T20:34:00+08:00',
+            ],
+            [
+                '2026-03-08 12:34 Z',
+                new DateTimeZone('Australia/Perth'),
+                '2026-03-08T20:34:00+08:00',
+            ],
+        ];
     }
 }
