@@ -23,6 +23,7 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
+use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\MarkdownConverter;
 use Psr\Cache\CacheItemPoolInterface;
 use Samwilson\CommonMarkLatex\LatexRendererExtension;
@@ -584,6 +585,7 @@ final class Twig extends AbstractExtension
         $environment->addExtension(new FootnoteExtension());
         $environment->addExtension(new ShortcodeExtension());
         $environment->addExtension(new AutolinkExtension());
+        $environment->addExtension(new TableExtension());
 
         return $environment;
     }
