@@ -7,6 +7,8 @@ namespace App;
 use Addwiki\Mediawiki\Api\Client\Action\Request\ActionRequest;
 use App\Command\CommandBase;
 use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use DateTimeZone;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\SvgWriter;
@@ -184,10 +186,15 @@ final class Twig extends AbstractExtension
         throw new Error("Template rendering cancelled: $msg");
     }
 
-    public function functionDateCreate(string|DateTime $dateTime, string|DateTimeZone $timezone = 'Z'): DateTime
-    {
+    public function functionDateCreate(
+        string|DateTimeInterface $dateTime,
+        string|DateTimeZone $timezone = 'Z',
+    ): DateTime {
         if (!$timezone instanceof DateTimeZone) {
             $timezone = new DateTimeZone((string) $timezone);
+        }
+        if ($dateTime instanceof DateTimeImmutable) {
+            $dateTime = DateTime::createFromImmutable($dateTime);
         }
         if (!$dateTime instanceof DateTime) {
             $dateTime = date_create($dateTime);
