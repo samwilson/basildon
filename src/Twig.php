@@ -6,6 +6,8 @@ namespace App;
 
 use Addwiki\Mediawiki\Api\Client\Action\Request\ActionRequest;
 use App\Command\CommandBase;
+use App\CommonMark\HeadingOffsetExtension;
+use App\CommonMark\HeadingOffsetProcessor;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -107,36 +109,36 @@ final class Twig extends AbstractExtension
         ];
     }
 
-    public function filterMarkdownToHtml(?string $input): string
+    public function filterMarkdownToHtml(?string $input, int $headingOffset = 0): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('html');
+        $environment = $this->getCommonMarkEnvironment('html', $headingOffset);
         $environment->addExtension(new CommonMarkCoreExtension());
         $converter = new MarkdownConverter($environment);
 
         return $converter->convert($input)->getContent();
     }
 
-    public function filterMarkdownToHtmlInline(?string $input): string
+    public function filterMarkdownToHtmlInline(?string $input, int $headingOffset = 0): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('html');
+        $environment = $this->getCommonMarkEnvironment('html', $headingOffset);
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
 
         return trim($converter->convert($input)->getContent());
     }
 
-    public function filterMarkdownToLatex(?string $input): string
+    public function filterMarkdownToLatex(?string $input, int $headingOffset = 0): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('tex');
+        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset);
         $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new LatexRendererExtension());
         $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
@@ -169,12 +171,12 @@ final class Twig extends AbstractExtension
         return $converter->convert($input)->getContent();
     }
 
-    public function filterMarkdownToLatexInline(?string $input): string
+    public function filterMarkdownToLatexInline(?string $input, int $headingOffset = 0): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('tex');
+        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset);
         $environment->addExtension(new LatexRendererExtension());
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
@@ -563,7 +565,7 @@ final class Twig extends AbstractExtension
         return $out;
     }
 
-    private function getCommonMarkEnvironment(string $format): CommonMarkEnvironment
+    private function getCommonMarkEnvironment(string $format, int $headingOffset): CommonMarkEnvironment
     {
         $shortcodes = [];
         foreach ($this->site->getTemplates($this->db, 'shortcodes') as $shortcodeTemplate) {
@@ -581,11 +583,15 @@ final class Twig extends AbstractExtension
         }
         $environment = new CommonMarkEnvironment([
             'shortcodes' => ['shortcodes' => $shortcodes],
+            'basildon' => [
+                'heading_offset' => $headingOffset,
+            ],
         ]);
         $environment->addExtension(new FootnoteExtension());
         $environment->addExtension(new ShortcodeExtension());
         $environment->addExtension(new AutolinkExtension());
         $environment->addExtension(new TableExtension());
+        $environment->addExtension(new HeadingOffsetExtension());
 
         return $environment;
     }
