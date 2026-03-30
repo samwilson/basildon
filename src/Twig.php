@@ -7,7 +7,6 @@ namespace App;
 use Addwiki\Mediawiki\Api\Client\Action\Request\ActionRequest;
 use App\Command\CommandBase;
 use App\CommonMark\HeadingOffsetExtension;
-use App\CommonMark\HeadingOffsetProcessor;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;

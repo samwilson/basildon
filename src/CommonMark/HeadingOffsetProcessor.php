@@ -23,13 +23,10 @@ final class HeadingOffsetProcessor implements EnvironmentAwareInterface
     public function __invoke(DocumentParsedEvent $event): void
     {
         $headingOffset = (int) $this->config->get('basildon/heading_offset');
-
         foreach ($event->getDocument()->iterator(NodeIterator::FLAG_BLOCKS_ONLY) as $node) {
-            if (! $node instanceof Heading) {
-                continue;
+            if ($node instanceof Heading) {
+                $node->setLevel($node->getLevel() + $headingOffset);
             }
-
-            $node->setLevel($node->getLevel() + $headingOffset);
         }
     }
 }
