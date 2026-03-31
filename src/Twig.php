@@ -582,9 +582,7 @@ final class Twig extends AbstractExtension
         }
         $environment = new CommonMarkEnvironment([
             'shortcodes' => ['shortcodes' => $shortcodes],
-            'basildon' => [
-                'heading_offset' => $headingOffset,
-            ],
+            'basildon' => ['heading_offset' => $headingOffset],
         ]);
         $environment->addExtension(new FootnoteExtension());
         $environment->addExtension(new ShortcodeExtension());
