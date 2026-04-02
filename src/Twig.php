@@ -108,36 +108,36 @@ final class Twig extends AbstractExtension
         ];
     }
 
-    public function filterMarkdownToHtml(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToHtml(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('html', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment($pageId, 'html', $headingOffset);
         $environment->addExtension(new CommonMarkCoreExtension());
         $converter = new MarkdownConverter($environment);
 
         return $converter->convert($input)->getContent();
     }
 
-    public function filterMarkdownToHtmlInline(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToHtmlInline(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('html', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment($pageId, 'html', $headingOffset);
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
 
         return trim($converter->convert($input)->getContent());
     }
 
-    public function filterMarkdownToLatex(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToLatex(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment($pageId, 'tex', $headingOffset);
         $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new LatexRendererExtension());
         $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
@@ -170,12 +170,12 @@ final class Twig extends AbstractExtension
         return $converter->convert($input)->getContent();
     }
 
-    public function filterMarkdownToLatexInline(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToLatexInline(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment($pageId, 'tex', $headingOffset);
         $environment->addExtension(new LatexRendererExtension());
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
@@ -261,7 +261,7 @@ final class Twig extends AbstractExtension
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-        $api = $this->site->getMediawikiApi('https://www.wikidata.org/w/api.php');
+        $api = $this->site->getWikimediaApi('https://www.wikidata.org/w/api.php');
         $request = ActionRequest::simpleGet('wbgetentities')
             ->setParam('ids', $wikidataId);
         CommandBase::writeln('Wikidata fetch info: ' . $wikidataId);
@@ -294,15 +294,15 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         $config = $this->site->getConfig();
-        if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
+        if (!isset($config->wikimedia->wcqs_auth_token) || !$config->wikimedia->wcqs_auth_token) {
             throw new Exception(
-                "You must set `commons.wcqs_auth_token` in the site's config file."
+                'You must set `wikimedia.wcqs_auth_token` in the `basildon.local.yaml` file.'
                 . ' See https://w.wiki/9jke for how to retrieve the value for it.',
             );
         }
         $cookie = new SetCookie([
             'Name' => 'wcqsOauth',
-            'Value' => $config->commons->wcqs_auth_token,
+            'Value' => $config->wikimedia->wcqs_auth_token,
             'Domain' => 'commons-query.wikimedia.org',
         ]);
         $requestOptions = [
@@ -384,7 +384,7 @@ final class Twig extends AbstractExtension
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-        $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
+        $api = $this->site->getWikimediaApi('https://commons.wikimedia.org/w/api.php');
         $urlWidth = $width ?: 960;
         $params = [
             'prop' => 'imageinfo',
@@ -564,12 +564,15 @@ final class Twig extends AbstractExtension
         return $out;
     }
 
-    private function getCommonMarkEnvironment(string $format, int $headingOffset): CommonMarkEnvironment
-    {
+    private function getCommonMarkEnvironment(
+        ?string $pageId,
+        string $format,
+        int $headingOffset,
+    ): CommonMarkEnvironment {
         $shortcodes = [];
         foreach ($this->site->getTemplates($this->db, 'shortcodes') as $shortcodeTemplate) {
             $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
-            $page = $this->page;
+            $page = $pageId ? $this->site->getPages()[$pageId] : $this->page;
             $shortcodes[$shortcodeName] = static function (
                 Shortcode $shortcode,
             ) use (
