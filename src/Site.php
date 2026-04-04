@@ -170,8 +170,7 @@ final class Site
         if (isset($this->getConfig()->wikimedia->username) && isset($this->getConfig()->wikimedia->password)) {
             $config = $this->getConfig()->wikimedia;
             $auth = new UserAndPassword($config->username, $config->password);
-            $host = parse_url($apiUrl, PHP_URL_HOST);
-            BuildCommand::writeln("Connecting to $host as {$config->username}");
+            BuildCommand::writeln("Connecting to Wikimedia as {$config->username}");
         }
         $this->wikimediaApi = new ActionApi($apiUrl, $auth, $this->getHttpClient());
 
