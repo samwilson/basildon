@@ -26,6 +26,7 @@ use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\MarkdownConverter;
+use OutOfBoundsException;
 use Psr\Cache\CacheItemPoolInterface;
 use Samwilson\CommonMarkLatex\LatexRendererExtension;
 use Samwilson\CommonMarkShortcodes\Shortcode;
@@ -108,36 +109,36 @@ final class Twig extends AbstractExtension
         ];
     }
 
-    public function filterMarkdownToHtml(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToHtml(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('html', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment('html', $headingOffset, $pageId);
         $environment->addExtension(new CommonMarkCoreExtension());
         $converter = new MarkdownConverter($environment);
 
         return $converter->convert($input)->getContent();
     }
 
-    public function filterMarkdownToHtmlInline(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToHtmlInline(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('html', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment('html', $headingOffset, $pageId);
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
 
         return trim($converter->convert($input)->getContent());
     }
 
-    public function filterMarkdownToLatex(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToLatex(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset, $pageId);
         $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new LatexRendererExtension());
         $environment->addEventListener(DocumentPreRenderEvent::class, function (DocumentPreRenderEvent $event): void {
@@ -170,12 +171,12 @@ final class Twig extends AbstractExtension
         return $converter->convert($input)->getContent();
     }
 
-    public function filterMarkdownToLatexInline(?string $input, int $headingOffset = 0): string
+    public function filterMarkdownToLatexInline(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
         if (!$input) {
             return '';
         }
-        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset);
+        $environment = $this->getCommonMarkEnvironment('tex', $headingOffset, $pageId);
         $environment->addExtension(new LatexRendererExtension());
         $environment->addExtension(new InlinesOnlyExtension());
         $converter = new MarkdownConverter($environment);
@@ -566,12 +567,21 @@ final class Twig extends AbstractExtension
         return $out;
     }
 
-    private function getCommonMarkEnvironment(string $format, int $headingOffset): CommonMarkEnvironment
-    {
+    private function getCommonMarkEnvironment(
+        string $format,
+        int $headingOffset,
+        ?string $pageId,
+    ): CommonMarkEnvironment {
         $shortcodes = [];
         foreach ($this->site->getTemplates($this->db, 'shortcodes') as $shortcodeTemplate) {
             $shortcodeName = substr($shortcodeTemplate->getName(), strlen('shortcodes/'));
             $page = $this->page;
+            if ($pageId !== null) {
+                if (!isset($this->site->getPages()[$pageId])) {
+                    throw new OutOfBoundsException("Page does not exist: $pageId");
+                }
+                $page = $this->site->getPages()[$pageId];
+            }
             $shortcodes[$shortcodeName] = static function (
                 Shortcode $shortcode,
             ) use (
