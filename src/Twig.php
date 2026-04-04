@@ -261,7 +261,7 @@ final class Twig extends AbstractExtension
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-        $api = $this->site->getMediawikiApi('https://www.wikidata.org/w/api.php');
+        $api = $this->site->getWikimediaApi('https://www.wikidata.org/w/api.php');
         $request = ActionRequest::simpleGet('wbgetentities')
             ->setParam('ids', $wikidataId);
         CommandBase::writeln('Wikidata fetch info: ' . $wikidataId);
@@ -294,15 +294,15 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         $config = $this->site->getConfig();
-        if (!isset($config->commons->wcqs_auth_token) || !$config->commons->wcqs_auth_token) {
+        if (!isset($config->wikimedia->wcqs_auth_token) || !$config->wikimedia->wcqs_auth_token) {
             throw new Exception(
-                "You must set `commons.wcqs_auth_token` in the site's config file."
+                'You must set `wikimedia.wcqs_auth_token` in the `basildon.local.json` file.'
                 . ' See https://w.wiki/9jke for how to retrieve the value for it.',
             );
         }
         $cookie = new SetCookie([
             'Name' => 'wcqsOauth',
-            'Value' => $config->commons->wcqs_auth_token,
+            'Value' => $config->wikimedia->wcqs_auth_token,
             'Domain' => 'commons-query.wikimedia.org',
         ]);
         $requestOptions = [
@@ -386,7 +386,7 @@ final class Twig extends AbstractExtension
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-        $api = $this->site->getMediawikiApi('https://commons.wikimedia.org/w/api.php');
+        $api = $this->site->getWikimediaApi('https://commons.wikimedia.org/w/api.php');
         $urlWidth = $width ?: 960;
         $params = [
             'prop' => 'imageinfo',
