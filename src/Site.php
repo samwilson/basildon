@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App;
 
 use Addwiki\Mediawiki\Api\Client\Action\ActionApi;
+use Addwiki\Mediawiki\Api\Client\Auth\UserAndPassword;
+use App\Command\BuildCommand;
 use Exception;
 use GuzzleHttp\Client;
 use stdClass;
@@ -20,6 +22,8 @@ final class Site
 
     /** @var Page[]|null */
     protected ?array $pages = null;
+
+    private ?ActionApi $wikimediaApi = null;
 
     public function __construct(string $dir)
     {
@@ -150,14 +154,26 @@ final class Site
             'headers' => [
                 'User-Agent' => 'Basildon https://basildon.samwilson.id.au - ' . $this->getTitle(),
             ],
+            'cookies' => true,
         ]);
     }
 
     /**
      * @param string $apiUrl The URL to api.php for a MediaWiki wiki.
      */
-    public function getMediawikiApi(string $apiUrl): ActionApi
+    public function getWikimediaApi(string $apiUrl): ActionApi
     {
-        return new ActionApi($apiUrl, null, $this->getHttpClient());
+        if ($this->wikimediaApi !== null) {
+            return $this->wikimediaApi;
+        }
+        $auth = null;
+        if (isset($this->getConfig()->wikimedia->username) && isset($this->getConfig()->wikimedia->password)) {
+            $config = $this->getConfig()->wikimedia;
+            $auth = new UserAndPassword($config->username, $config->password);
+            BuildCommand::writeln("Connecting to Wikimedia as {$config->username}");
+        }
+        $this->wikimediaApi = new ActionApi($apiUrl, $auth, $this->getHttpClient());
+
+        return $this->wikimediaApi;
     }
 }
