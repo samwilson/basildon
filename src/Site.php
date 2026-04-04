@@ -167,7 +167,7 @@ final class Site
             return $this->wikimediaApi;
         }
         $auth = null;
-        if (isset($this->getConfig()->wikimedia)) {
+        if (isset($this->getConfig()->wikimedia->username) && isset($this->getConfig()->wikimedia->password)) {
             $config = $this->getConfig()->wikimedia;
             $auth = new UserAndPassword($config->username, $config->password);
             $host = parse_url($apiUrl, PHP_URL_HOST);
