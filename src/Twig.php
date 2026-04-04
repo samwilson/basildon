@@ -376,11 +376,13 @@ final class Twig extends AbstractExtension
      */
     public function functionCommons(string $filename, ?int $pageNum = null, ?int $width = 960): array
     {
-        if (isset(self::$data['commons'][$filename])) {
-            return self::$data['commons'][$filename];
+        $cacheKeyVersion = 2;
+        $cacheKey = md5("commons - $filename - $pageNum - $width - $cacheKeyVersion");
+        if (isset(self::$data['commons'][$cacheKey])) {
+            return self::$data['commons'][$cacheKey];
         }
         $cache = $this->getCachePool('commons');
-        $cacheItem = $cache->getItem('commons' . $filename);
+        $cacheItem = $cache->getItem($cacheKey);
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
@@ -405,11 +407,11 @@ final class Twig extends AbstractExtension
         $mediaInfoResponse = $api->request(ActionRequest::simpleGet('wbgetentities')
             ->addParams(['ids' => 'M' . $fileInfo['pageid']]));
         $mediaInfo = array_shift($mediaInfoResponse['entities']);
-        self::$data['commons'][$filename] = array_merge($fileInfo, $mediaInfo);
-        $cacheItem->set(self::$data['commons'][$filename]);
+        self::$data['commons'][$cacheKey] = array_merge($fileInfo, $mediaInfo);
+        $cacheItem->set(self::$data['commons'][$cacheKey]);
         $cache->save($cacheItem);
 
-        return self::$data['commons'][$filename];
+        return self::$data['commons'][$cacheKey];
     }
 
     public function functionWikipedia(string $lang, string $articleTitle): string
