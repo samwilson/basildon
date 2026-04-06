@@ -1638,16 +1638,16 @@
         },
         {
             "name": "samwilson/commonmark-latex",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/samwilson/commonmark-latex.git",
-                "reference": "6414af2171b502d0798806b384bb6cb4c4e644d3"
+                "reference": "d26ebed70a9dabd2978e1fc2012a9577d16a0d0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samwilson/commonmark-latex/zipball/6414af2171b502d0798806b384bb6cb4c4e644d3",
-                "reference": "6414af2171b502d0798806b384bb6cb4c4e644d3",
+                "url": "https://api.github.com/repos/samwilson/commonmark-latex/zipball/d26ebed70a9dabd2978e1fc2012a9577d16a0d0f",
+                "reference": "d26ebed70a9dabd2978e1fc2012a9577d16a0d0f",
                 "shasum": ""
             },
             "require": {
@@ -1679,9 +1679,9 @@
             "description": "A CommonMark extension for rendering Markdown to LaTeX.",
             "support": {
                 "issues": "https://github.com/samwilson/commonmark-latex/issues",
-                "source": "https://github.com/samwilson/commonmark-latex/tree/1.1.0"
+                "source": "https://github.com/samwilson/commonmark-latex/tree/1.2.0"
             },
-            "time": "2025-12-03T12:48:22+00:00"
+            "time": "2026-04-06T01:52:43+00:00"
         },
         {
             "name": "samwilson/commonmark-shortcodes",
@@ -7172,7 +7172,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -7181,9 +7181,9 @@
         "ext-simplexml": "*",
         "ext-sqlite3": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
