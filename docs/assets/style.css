@@ -22,7 +22,8 @@ code,
 pre {
     background-color: #eee;
     color: #000;
-    padding: 0 3px;
+    padding: 4px 3px 1px 3px;
+    border-radius: 2px;
     overflow: scroll;
 }
 
@@ -52,6 +53,21 @@ figure {
 figure img {
     max-width: 100%;
     height: auto;
+}
+
+.latex {
+    text-transform: uppercase;
+}
+.latex sup {
+    font-size: 75%;
+    vertical-align: 0.3em;
+    margin-left: -0.2em;
+    margin-right: -0.05em;
+}
+.latex sub {
+    vertical-align: -0.2ex;
+    margin-left: -0.1667em;
+    margin-right: -0.025em;
 }
 
 .footnotes { font-size: 0.75em; }

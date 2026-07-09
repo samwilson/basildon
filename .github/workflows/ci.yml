@@ -30,7 +30,7 @@ jobs:
     - name: Set up TeXLive
       uses: zauguin/install-texlive@v4
       with:
-        packages: scheme-basic latexmk listings float
+        packages: scheme-basic latexmk listings float geometry
 
     - name: Install
       run: |

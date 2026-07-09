@@ -2,4 +2,4 @@
 {%- if shortcode.attrs.2 is defined and shortcode.attrs.2 -%}
     {%- set label = shortcode.attrs.2 -%}
 {%- endif -%}
-\textsc{{'{'}}{{label}}{{'}'}} (p.\pageref{ /{{shortcode.attrs.1}} })
+\textsc{{'{'}}{{label|md2latex_inline|raw}}{{'}'}} (p.\pageref{ /{{shortcode.attrs.1}} })

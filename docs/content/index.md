@@ -4,16 +4,19 @@ subtitle: A static website generator
 ---
 
 **Basildon** is a simple static website generator
-written in PHP and supporting Markdown content, Twig templates,
-SQLite, and outputs of HTML and PDF (via LaTeX).
-Its homepage is at [basildon.samwilson.id.au](https://basildon.samwilson.id.au)
+that makes all Yaml frontmatter (from Markdown files)
+available to be queried (via SQLite) from within Twig templates.
+It outputs HTML or any other text-based format, as well as PDF (via {latex}).
+
+It is written in PHP,
+its homepage is at [basildon.samwilson.id.au](https://basildon.samwilson.id.au)
 and all source code is [on GitHub](https://github.com/samwilson/basildon).
 
 This documentation is also available as [a PDF](basildon-docs.pdf).
 
 ## Quick start
 
-Prerequisites: [PHP](https://www.php.net/) (version 7.4 or higher) and [Composer](https://getcomposer.org/).
+Prerequisites: [PHP](https://www.php.net/) (version 8.1 or higher) and [Composer](https://getcomposer.org/).
 
 1. `composer create-project samwilson/basildon-skeleton mysite`
 2. `cd mysite`
