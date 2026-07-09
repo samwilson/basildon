@@ -55,6 +55,21 @@ figure img {
     height: auto;
 }
 
+.latex {
+    text-transform: uppercase;
+}
+.latex sup {
+    font-size: 75%;
+    vertical-align: 0.3em;
+    margin-left: -0.2em;
+    margin-right: -0.05em;
+}
+.latex sub {
+    vertical-align: -0.2ex;
+    margin-left: -0.1667em;
+    margin-right: -0.025em;
+}
+
 .footnotes { font-size: 0.75em; }
 .footnotes hr { border:1px solid #bbb; border-width:1px 0 0 0; }
 .footnotes li > * { display: inline; }
