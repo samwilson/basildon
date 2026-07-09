@@ -22,7 +22,8 @@ code,
 pre {
     background-color: #eee;
     color: #000;
-    padding: 0 3px;
+    padding: 4px 3px 1px 3px;
+    border-radius: 2px;
     overflow: scroll;
 }
 
