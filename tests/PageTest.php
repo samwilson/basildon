@@ -132,7 +132,7 @@ final class PageTest extends TestCase
     /**
      * @return mixed[][]
      */
-    public function provideWriting(): array
+    public static function provideWriting(): array
     {
         return [
             'only Yaml no newline' => [

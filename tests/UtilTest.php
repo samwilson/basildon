@@ -58,7 +58,7 @@ final class UtilTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function provideXmlToArray(): array
+    public static function provideXmlToArray(): array
     {
         return [
             [
