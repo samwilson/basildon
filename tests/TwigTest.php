@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 final class TwigTest extends TestCase
 {
+    // phpcs:disable SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder
+
     private Database $db;
 
     public function setUp(): void
@@ -39,7 +41,7 @@ final class TwigTest extends TestCase
     /**
      * @return string[][]
      */
-    public function provideEscape(): array
+    public static function provideEscape(): array
     {
         return [
             'csv' => [ 'csv', 'foo', 'foo' ],
@@ -76,7 +78,7 @@ final class TwigTest extends TestCase
     /**
      * @return string[][]
      */
-    public function provideImageUrlsToLatex(): array
+    public static function provideImageUrlsToLatex(): array
     {
         return [
             [

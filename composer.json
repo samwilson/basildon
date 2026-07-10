@@ -7,7 +7,7 @@
         "ext-pdo": "*",
         "ext-simplexml": "*",
         "ext-sqlite3": "*",
-        "addwiki/mediawiki-api-base": "^3",
+        "addwiki/addwiki": "^4",
         "endroid/qr-code": "^5.1",
         "myclabs/php-enum": "^1.5",
         "psr/simple-cache": "^3.0",
@@ -64,7 +64,7 @@
             "composer normalize --dry-run",
             "parallel-lint . --exclude node_modules --exclude vendor",
             "phpcs -s",
-            "phpunit",
+            "phpunit --display-phpunit-deprecations",
             "phan --allow-polyfill-parser"
         ]
     }
