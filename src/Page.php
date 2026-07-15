@@ -57,9 +57,11 @@ final class Page
         $out = [];
 
         // Navigate back to the root.
-        for ($i = 1; $i < count($partsThis); $i++) {
+        $partCount = count($partsThis);
+        for ($i = 1; $i < $partCount; $i++) {
             $out[] = '..';
         }
+
         // Append target path.
         $out = array_merge($out, $partsTarget);
 
@@ -77,16 +79,22 @@ final class Page
 
     /**
      * The 'contents' is the full original file, both metadata and body.
+     * Will return an empty string for files that don't exist or can't be read.
      */
     public function getContents(): string
     {
         if ($this->contents !== null) {
             return $this->contents;
         }
+        $this->contents = '';
         if (!file_exists($this->getFilename())) {
-            return '';
+            return $this->contents;
         }
-        $this->contents = file_get_contents($this->getFilename());
+        $contents = file_get_contents($this->getFilename());
+        if ($contents === false) {
+            return $this->contents;
+        }
+        $this->contents = $contents;
 
         return $this->contents;
     }
