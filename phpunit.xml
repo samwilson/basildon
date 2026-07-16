@@ -6,9 +6,7 @@
          beStrictAboutOutputDuringTests="true"
          beStrictAboutCoverageMetadata="false"
          requireCoverageMetadata="true"
-         colors="true"
-         cacheDirectory=".phpunit.cache"
->
+         colors="true">
   <php>
     <env name="XDEBUG_MODE" value="coverage" />
   </php>
