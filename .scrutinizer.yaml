@@ -1,4 +1,8 @@
 build:
+  dependencies:
+    override:
+      - composer self-update --2
+      - composer install --no-interaction --prefer-dist
   nodes:
     analysis:
       project_setup:
