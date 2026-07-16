@@ -7,7 +7,9 @@ tests/test_site/cache/
 tests/test_site/output/
 .idea/
 *.code-workspace
+.phpunit.cache
 .phpunit.result.cache
+clover.xml
 *basildon.local.yaml
 .netlify/
 package.json

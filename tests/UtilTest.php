@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 final class UtilTest extends TestCase
 {
     /**
-     * @covers App\Util::rmdir()
+     * @covers \App\Util::rmdir()
      */
     public function testRmdir(): void
     {
