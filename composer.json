@@ -64,7 +64,7 @@
             "composer normalize --dry-run",
             "parallel-lint . --exclude node_modules --exclude vendor",
             "phpcs -s",
-            "XDEBUG_MODE=coverage phpunit --display-phpunit-deprecations",
+            "XDEBUG_MODE=coverage phpunit --display-all-issues",
             "phan --allow-polyfill-parser"
         ]
     }
