@@ -1,5 +1,8 @@
 build:
   environment:
+    apt_packages:
+      - texlive
+      - latexmk
     php:
       version: 8.1
   dependencies:
@@ -9,7 +12,7 @@ build:
     coverage:
       tests:
         override:
-          - command: composer test
+          - command: ./vendor/bin/phpunit
             coverage:
               file: clover.xml
               format: clover
