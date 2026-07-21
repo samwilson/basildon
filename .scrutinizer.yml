@@ -3,6 +3,8 @@ build:
     apt_packages:
       - texlive
       - latexmk
+    variables:
+      XDEBUG_MODE: coverage
     php:
       version: 8.1
   dependencies:
