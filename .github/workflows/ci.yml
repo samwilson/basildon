@@ -26,6 +26,7 @@ jobs:
       with:
         php-version: ${{matrix.php}}
         extensions: fileinfo, json, pdo, mbstring, gd, ast, sqlite, pdo_sqlite, intl
+        coverage: xdebug
 
     - name: Set up TeXLive
       uses: zauguin/install-texlive@v4

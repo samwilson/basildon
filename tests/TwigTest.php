@@ -54,7 +54,7 @@ final class TwigTest extends TestCase
     }
 
     /**
-     * @covers Twig::functionQrCode()
+     * @covers \App\Twig::functionQrCode()
      */
     public function testQrCode(): void
     {
@@ -65,7 +65,7 @@ final class TwigTest extends TestCase
     }
 
     /**
-     * @covers Twig::filterMarkdownToLatex()
+     * @covers \App\Twig::filterMarkdownToLatex()
      * @dataProvider provideImageUrlsToLatex()
      */
     public function testImageUrlsToLatex(string $pageId, string $markdown, string $latex): void
@@ -100,7 +100,7 @@ final class TwigTest extends TestCase
     }
 
     /**
-     * @covers Twig::filterMarkdownToHtmlInline()
+     * @covers \App\Twig::filterMarkdownToHtmlInline()
      */
     public function testFilterMarkdownToHtmlInline(): void
     {
@@ -111,7 +111,7 @@ final class TwigTest extends TestCase
     }
 
     /**
-     * @covers Twig::functionDateCreate()
+     * @covers \App\Twig::functionDateCreate()
      * @dataProvider provideDateCreate
      */
     public function testDateCreate(

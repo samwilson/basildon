@@ -8,7 +8,7 @@ use App\Command\BuildCommand;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers BuildCommand
+ * @covers \App\Command\BuildCommand
  */
 final class BuildCommandTest extends TestCase
 {

@@ -111,7 +111,7 @@ final class PageTest extends TestCase
     }
 
     /**
-     * @covers Page::write()
+     * @covers \App\Page::write()
      * @dataProvider provideWriting
      *
      * @param mixed[] $metadata
