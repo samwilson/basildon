@@ -38,6 +38,7 @@ use SimplePie\SimplePie;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mime\MimeTypes;
 use Throwable;
 use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
@@ -220,9 +221,26 @@ final class Twig extends AbstractExtension
     public function functionTexUrl(string $url): string
     {
         // Set up file and directory names.
-        $filename = md5($url) . '.' . pathinfo($url, PATHINFO_EXTENSION);
+        $hash = md5($url);
+        $cache = $this->getCachePool('file_types');
+        $cacheItem = $cache->getItem($hash);
+        if (!$cacheItem->isHit()) {
+            $typeResponse = $this->site->getHttpClient()->head($url)->getHeader('Content-Type')[0] ?? null;
+            if ($typeResponse) {
+                $extension = (new MimeTypes())->getExtensions($typeResponse)[0] ?? null;
+            }
+            if (!isset($extension)) {
+                $extension = pathinfo($url, PATHINFO_EXTENSION);
+            }
+            $cacheItem->set($extension);
+            $cache->save($cacheItem);
+        } else {
+            $extension = $cacheItem->get();
+        }
+        $filename = $hash . '.' . $extension;
         $outputFilepath = $this->site->getDir() . '/cache/tex/_urls/' . $filename;
 
+        // Download the file if it doesn't exist.
         if (!file_exists($outputFilepath)) {
             CommandBase::writeln('TeX file download: ' . basename($url));
             Util::mkdir(dirname($outputFilepath));
