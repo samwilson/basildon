@@ -222,8 +222,6 @@ final class Twig extends AbstractExtension
     {
         // Set up file and directory names.
         $hash = md5($url);
-
-        // Figure out the file type.
         $cache = $this->getCachePool('file_types');
         $cacheItem = $cache->getItem($hash);
         if (!$cacheItem->isHit()) {
@@ -242,6 +240,7 @@ final class Twig extends AbstractExtension
         $filename = $hash . '.' . $extension;
         $outputFilepath = $this->site->getDir() . '/cache/tex/_urls/' . $filename;
 
+        // Download the file if it doesn't exist.
         if (!file_exists($outputFilepath)) {
             CommandBase::writeln('TeX file download: ' . basename($url));
             Util::mkdir(dirname($outputFilepath));
