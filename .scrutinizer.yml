@@ -19,6 +19,9 @@ build:
               file: clover.xml
               format: clover
     analysis:
+      environment:
+        php:
+          version: 8.1
       tests:
         override:
           - php-scrutinizer-run
