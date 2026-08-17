@@ -6936,22 +6936,22 @@
         },
         {
             "name": "roslov/psr12ext",
-            "version": "14.2.0",
+            "version": "14.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roslov/psr12ext.git",
-                "reference": "b53443e4d1f5293771eb08a2d72f5c90910dd051"
+                "reference": "2e746bc71e43cced11fe42b1b6077438ae2cab13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roslov/psr12ext/zipball/b53443e4d1f5293771eb08a2d72f5c90910dd051",
-                "reference": "b53443e4d1f5293771eb08a2d72f5c90910dd051",
+                "url": "https://api.github.com/repos/roslov/psr12ext/zipball/2e746bc71e43cced11fe42b1b6077438ae2cab13",
+                "reference": "2e746bc71e43cced11fe42b1b6077438ae2cab13",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
-                "slevomat/coding-standard": "^8.28.1",
-                "squizlabs/php_codesniffer": "^4.0.1"
+                "slevomat/coding-standard": "^8.31.1",
+                "squizlabs/php_codesniffer": "^4.0.4"
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
@@ -6975,7 +6975,7 @@
                 "issues": "https://github.com/roslov/psr12ext/issues",
                 "source": "https://github.com/roslov/psr12ext"
             },
-            "time": "2026-05-05T08:58:06+00:00"
+            "time": "2026-08-10T15:48:07+00:00"
         },
         {
             "name": "sabre/event",
@@ -8348,7 +8348,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -8357,9 +8357,9 @@
         "ext-simplexml": "*",
         "ext-sqlite3": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
