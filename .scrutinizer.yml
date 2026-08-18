@@ -22,6 +22,3 @@ build:
       tests:
         override:
           - php-scrutinizer-run
-analysis:
-  php:
-    version: 8.1
