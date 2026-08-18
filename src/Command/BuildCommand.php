@@ -16,6 +16,18 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
+use function copy;
+use function count;
+use function dirname;
+use function is_dir;
+use function join;
+use function memory_get_peak_usage;
+use function microtime;
+use function round;
+use function strlen;
+use function strpos;
+use function substr;
+
 final class BuildCommand extends CommandBase
 {
     /**

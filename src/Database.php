@@ -9,6 +9,21 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
+use function array_filter;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_unique;
+use function array_values;
+use function asort;
+use function count;
+use function is_array;
+use function is_bool;
+use function is_int;
+use function is_null;
+use function join;
+use function json_encode;
+
 final class Database
 {
     public const COL_NAME_ID = 'id';

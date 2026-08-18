@@ -9,6 +9,8 @@ use App\Site;
 use App\Template;
 use PHPUnit\Framework\TestCase;
 
+use function file_get_contents;
+
 final class TemplateTest extends TestCase
 {
     private Database $db;

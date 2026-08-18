@@ -7,6 +7,8 @@ namespace Test\Command;
 use App\Command\BuildCommand;
 use PHPUnit\Framework\TestCase;
 
+use function microtime;
+
 /**
  * @covers \App\Command\BuildCommand
  */

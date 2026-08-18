@@ -8,6 +8,23 @@ use App\Command\CommandBase;
 use Symfony\Component\Yaml\Yaml;
 use Throwable;
 
+use function array_filter;
+use function array_merge;
+use function array_values;
+use function count;
+use function dirname;
+use function explode;
+use function file_exists;
+use function file_get_contents;
+use function file_put_contents;
+use function join;
+use function ltrim;
+use function preg_match;
+use function strlen;
+use function strpos;
+use function substr;
+use function trim;
+
 final class Page
 {
     protected Site $site;

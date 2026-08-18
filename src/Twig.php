@@ -45,6 +45,35 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
+use function array_merge;
+use function array_shift;
+use function basename;
+use function copy;
+use function count;
+use function date_create;
+use function dirname;
+use function explode;
+use function file_exists;
+use function filesize;
+use function fopen;
+use function is_file;
+use function json_decode;
+use function md5;
+use function parse_url;
+use function pathinfo;
+use function preg_replace;
+use function realpath;
+use function str_repeat;
+use function str_replace;
+use function strlen;
+use function strpos;
+use function substr;
+use function trim;
+use function unlink;
+
+use const PATHINFO_EXTENSION;
+use const PHP_URL_HOST;
+
 final class Twig extends AbstractExtension
 {
     protected Database $db;

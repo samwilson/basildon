@@ -7,6 +7,9 @@ namespace App;
 use GuzzleHttp\Client;
 use SimpleXMLElement;
 
+use function assert;
+use function urlencode;
+
 final class WikidataQuery
 {
     protected string $query;
