@@ -13,21 +13,13 @@ permissions:
   contents: read
 
 jobs:
-  php-security:
+  psalm:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Psalm Security Scan
-        uses: psalm/psalm-github-security-scan@f3e6fd9432bc3e44aec078572677ce9d2ef9c287
-
-      - name: Upload Security Analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v3
+        uses: docker://ghcr.io/psalm/psalm-github-actions
         with:
-          sarif_file: results.sarif
+            security_analysis: true
