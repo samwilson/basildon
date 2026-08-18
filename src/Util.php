@@ -10,6 +10,15 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SimpleXMLElement;
 
+use function is_dir;
+use function json_decode;
+use function json_encode;
+use function mkdir;
+use function preg_replace;
+use function rmdir;
+use function substr;
+use function unlink;
+
 final class Util
 {
     public static function mkdir(string $dir): void

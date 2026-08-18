@@ -7,6 +7,11 @@ namespace Test;
 use App\Util;
 use PHPUnit\Framework\TestCase;
 
+use function file_exists;
+use function glob;
+use function mkdir;
+use function touch;
+
 final class UtilTest extends TestCase
 {
     /**

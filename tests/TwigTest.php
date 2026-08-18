@@ -14,6 +14,8 @@ use DateTimeInterface;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 
+use function ucfirst;
+
 final class TwigTest extends TestCase
 {
     // phpcs:disable SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder

@@ -15,6 +15,15 @@ use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 use Twig\Runtime\EscaperRuntime;
 
+use function array_merge;
+use function basename;
+use function copy;
+use function dirname;
+use function file_exists;
+use function file_put_contents;
+use function is_dir;
+use function preg_match;
+
 /**
  * A Template belongs to a Site and can be used to render Pages to various formats.
  */

@@ -9,6 +9,9 @@ use App\Site;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
+use function file_put_contents;
+use function unlink;
+
 final class PageTest extends TestCase
 {
     /**

@@ -13,6 +13,19 @@ use stdClass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
+use function file_exists;
+use function file_get_contents;
+use function is_dir;
+use function is_object;
+use function ltrim;
+use function preg_match;
+use function rtrim;
+use function str_replace;
+use function strlen;
+use function substr;
+
+use const DIRECTORY_SEPARATOR;
+
 final class Site
 {
     protected string $dir;
