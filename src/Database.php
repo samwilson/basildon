@@ -33,7 +33,7 @@ final class Database
     /** @var string[]|null */
     private ?array $keys = null;
 
-    protected static PDO $pdo;
+    private static PDO $pdo;
 
     /**
      * @param string $dsn A valid SQLite DSN. Usually the full filesystem path to the database file.
