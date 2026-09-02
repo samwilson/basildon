@@ -31,7 +31,7 @@ final class Database
     public const COL_NAME_BODY = 'body';
 
     /** @var string[]|null */
-    protected ?array $keys = null;
+    private ?array $keys = null;
 
     protected static PDO $pdo;
 
@@ -63,7 +63,7 @@ final class Database
         $keys = array_values(array_unique(array_filter(array_map('strtolower', $keys))));
         $this->keys = $keys;
 
-        return $this->keys;
+        return $this->keys ?? [];
     }
 
     public function processSite(Site $site): void
