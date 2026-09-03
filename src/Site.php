@@ -74,7 +74,7 @@ final class Site
         }
         $this->pages = $pages;
 
-        return $this->pages;
+        return $pages;
     }
 
     /**
@@ -110,24 +110,26 @@ final class Site
         // Load basildon.yaml
         $configFile = $this->getDir() . '/basildon.yaml';
         if (!file_exists($configFile)) {
-            $this->config = new stdClass();
+            $config = new stdClass();
+            $this->config = $config;
 
-            return $this->config;
+            return $config;
         }
-        $config = file_get_contents($configFile);
+        $configData = file_get_contents($configFile);
 
         // Also load basildon.local.yaml
         $configLocal = $this->getDir() . '/basildon.local.yaml';
         if (file_exists($configLocal)) {
-            $config .= file_get_contents($configLocal);
+            $configData .= file_get_contents($configLocal);
         }
 
-        $this->config = Yaml::parse($config, Yaml::PARSE_OBJECT_FOR_MAP);
-        if ($this->config === null) {
-            $this->config = new stdClass();
+        $config = Yaml::parse($configData, Yaml::PARSE_OBJECT_FOR_MAP);
+        if ($config === null) {
+            $config = new stdClass();
         }
+        $this->config = $config;
 
-        return $this->config;
+        return $config;
     }
 
     /**
@@ -185,8 +187,9 @@ final class Site
             $auth = new UserAndPassword($config->username, $config->password);
             BuildCommand::writeln("Connecting to Wikimedia as {$config->username}");
         }
-        $this->wikimediaApi = new ActionApi($apiUrl, $auth, $this->getHttpClient());
+        $wikimediaApi = new ActionApi($apiUrl, $auth, $this->getHttpClient());
+        $this->wikimediaApi = $wikimediaApi;
 
-        return $this->wikimediaApi;
+        return $wikimediaApi;
     }
 }

@@ -103,17 +103,16 @@ final class Page
         if ($this->contents !== null) {
             return $this->contents;
         }
-        $this->contents = '';
         if (!file_exists($this->getFilename())) {
-            return $this->contents;
+            return '';
         }
         $contents = file_get_contents($this->getFilename());
         if ($contents === false) {
-            return $this->contents;
+            return '';
         }
         $this->contents = $contents;
 
-        return $this->contents;
+        return $contents;
     }
 
     /**
