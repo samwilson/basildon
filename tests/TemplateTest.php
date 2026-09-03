@@ -70,7 +70,7 @@ The body text.
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\linewidth]{_urls/3f24e07e6bafa746eff9168b61e46048.png}
+\includegraphics[width=\linewidth]{_urls/23f8c94cac3408cdf6b393d9da6c6abd.png}
 \caption{ A temporary file for testing of correct rendering of PNG image files. }
 \\end{center}
 \\end{figure}
