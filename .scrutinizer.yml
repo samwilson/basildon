@@ -1,4 +1,5 @@
 build:
+  image: default-jammy
   environment:
     apt_packages:
       - texlive
