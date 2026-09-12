@@ -63,6 +63,7 @@ use function parse_url;
 use function pathinfo;
 use function preg_replace;
 use function realpath;
+use function rename;
 use function str_repeat;
 use function str_replace;
 use function strlen;
@@ -274,19 +275,22 @@ final class Twig extends AbstractExtension
             CommandBase::writeln('TeX file download: ' . basename($url));
             Util::mkdir(dirname($outputFilepath));
 
-            // Download to a local directory if it's not already there.
-            if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
-                try {
-                    $this->site->getHttpClient()->get($url, [RequestOptions::SINK => fopen($outputFilepath, 'w+')]);
-                } catch (Throwable $exception) {
-                    unlink($outputFilepath);
-
-                    throw new Exception("Unable to download $url -- " . $exception->getMessage());
+            $outputFilepathTmp = $outputFilepath . '.part';
+            try {
+                $this->site->getHttpClient()->get($url, [RequestOptions::SINK => fopen($outputFilepathTmp, 'w+')]);
+                if (!file_exists($outputFilepathTmp) || !filesize($outputFilepathTmp)) {
+                    throw new Exception('File not downloaded');
                 }
-            }
+                // Rename the temporary file into place.
+                if (!rename($outputFilepathTmp, $outputFilepath)) {
+                    throw new Exception("Rename of $outputFilepathTmp failed");
+                }
+            } catch (Throwable $exception) {
+                if (file_exists($outputFilepathTmp)) {
+                    unlink($outputFilepathTmp);
+                }
 
-            if (!file_exists($outputFilepath) || !filesize($outputFilepath)) {
-                throw new Exception("Download failed: $url");
+                throw new Exception("Unable to download $url -- " . $exception->getMessage());
             }
         }
 
