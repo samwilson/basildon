@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "70decf7254fff87c65b69d1f92ada84c",
+    "content-hash": "5db32ff4ac79a0db77806745cef93638",
     "packages": [
         {
             "name": "addwiki/addwiki",
@@ -1429,16 +1429,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.10.1",
+            "version": "2.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "9d489ab67a02960fd8ffe624d93f751daf95439e"
+                "reference": "6efbd9c472b91db0a3350fcd601c8332c2382e1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/9d489ab67a02960fd8ffe624d93f751daf95439e",
-                "reference": "9d489ab67a02960fd8ffe624d93f751daf95439e",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/6efbd9c472b91db0a3350fcd601c8332c2382e1f",
+                "reference": "6efbd9c472b91db0a3350fcd601c8332c2382e1f",
                 "shasum": ""
             },
             "require": {
@@ -1532,7 +1532,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-07T13:44:26+00:00"
+            "time": "2026-09-21T13:07:34+00:00"
         },
         {
             "name": "league/config",
@@ -2438,23 +2438,24 @@
         },
         {
             "name": "samwilson/commonmark-shortcodes",
-            "version": "0.6.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/samwilson/commonmark-shortcodes.git",
-                "reference": "995e70c94324296ea6f9fd30317ab97054115a4d"
+                "reference": "204b620ab51633524efe296da4e7722d9ae5c868"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samwilson/commonmark-shortcodes/zipball/995e70c94324296ea6f9fd30317ab97054115a4d",
-                "reference": "995e70c94324296ea6f9fd30317ab97054115a4d",
+                "url": "https://api.github.com/repos/samwilson/commonmark-shortcodes/zipball/204b620ab51633524efe296da4e7722d9ae5c868",
+                "reference": "204b620ab51633524efe296da4e7722d9ae5c868",
                 "shasum": ""
             },
             "require": {
                 "league/commonmark": "^2"
             },
             "require-dev": {
-                "phan/phan": "^5.4",
+                "phan/phan": "^6",
+                "phpstan/phpstan": "^2",
                 "phpunit/phpunit": "^9.5",
                 "symfony/var-dumper": "^5.4",
                 "unleashedtech/php-coding-standard": "^3.1"
@@ -2477,9 +2478,9 @@
             "description": "Adds shortcodes to Markdown, for the CommonMark package.",
             "support": {
                 "issues": "https://github.com/samwilson/commonmark-shortcodes/issues",
-                "source": "https://github.com/samwilson/commonmark-shortcodes/tree/0.6.1"
+                "source": "https://github.com/samwilson/commonmark-shortcodes/tree/1.0.0"
             },
-            "time": "2025-09-14T11:24:28+00:00"
+            "time": "2026-09-13T04:28:44+00:00"
         },
         {
             "name": "samwilson/phpflickr",
@@ -8339,7 +8340,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -8348,9 +8349,9 @@
         "ext-simplexml": "*",
         "ext-sqlite3": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
