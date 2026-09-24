@@ -2,7 +2,8 @@ FROM debian:latest
 
 RUN apt -y update
 RUN apt -y upgrade
-RUN apt -y install php composer php-sqlite3 php-xml php-json texlive latexmk
+RUN apt -y install php composer php-sqlite3 php-xml php-json \
+    texlive texlive-latex-extra texlive-luatex texlive-fonts-recommended latexmk
 
 COPY . /basildon/
 RUN composer install --no-dev --optimize-autoloader --working-dir=/basildon/
