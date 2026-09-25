@@ -12,7 +12,7 @@
         "myclabs/php-enum": "^1.5",
         "psr/simple-cache": "^3.0",
         "samwilson/commonmark-latex": "^1",
-        "samwilson/commonmark-shortcodes": "^0.6",
+        "samwilson/commonmark-shortcodes": "^1",
         "samwilson/phpflickr": "^5",
         "simplepie/simplepie": "^1.8",
         "symfony/cache": "^6.0",
