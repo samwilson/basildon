@@ -171,7 +171,8 @@ final class Page
         preg_match('/^(---+)/', $contents, $hyphenMatches);
         if (isset($hyphenMatches[1])) {
             $hyphenCount = strlen($hyphenMatches[1]);
-            $frontmatterClosePos = strpos($contents, $hyphenMatches[1], $hyphenCount);
+            // Find the next occurrence of the same number of hyphens starting a line.
+            $frontmatterClosePos = strpos($contents, "\n" . $hyphenMatches[1], $hyphenCount) + 1;
             $frontmatterData = trim(substr($contents, $hyphenCount, $frontmatterClosePos - $hyphenCount));
             try {
                 $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);

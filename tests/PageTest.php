@@ -173,6 +173,11 @@ final class PageTest extends TestCase
                 ['template' => 'index'],
                 '',
             ],
+            'Three hyphens in a Yaml value' => [
+                "---\ntemplate: index\ntitle: One---Two\n---\n",
+                ['template' => 'index', 'title' => 'One---Two'],
+                '',
+            ],
         ];
     }
 }
