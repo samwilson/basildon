@@ -61,13 +61,13 @@ use function json_decode;
 use function md5;
 use function parse_url;
 use function pathinfo;
+use function preg_match;
 use function preg_replace;
 use function realpath;
 use function rename;
 use function str_repeat;
 use function str_replace;
 use function strlen;
-use function strpos;
 use function substr;
 use function trim;
 use function unlink;
@@ -611,7 +611,7 @@ final class Twig extends AbstractExtension
             return '';
         }
         $out = str_replace('"', '""', $string);
-        if (preg_match( "/[,\"\r\n]/", $out)) {
+        if (preg_match("/[,\"\r\n]/", $out)) {
             $out = '"' . $out . '"';
         }
 
