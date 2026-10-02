@@ -611,7 +611,7 @@ final class Twig extends AbstractExtension
             return '';
         }
         $out = str_replace('"', '""', $string);
-        if (strpos($out, '"') !== false || strpos($out, ',') !== false) {
+        if (preg_match( "/[,\"\r\n]/", $out)) {
             $out = '"' . $out . '"';
         }
 
