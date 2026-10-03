@@ -49,6 +49,7 @@ final class TwigTest extends TestCase
             'csv' => [ 'csv', 'foo', 'foo' ],
             'csv quotes' => [ 'csv', 'the "foo" thing', '"the ""foo"" thing"' ],
             'csv commas' => [ 'csv', 'foo, bar', '"foo, bar"' ],
+            'csv newlines' => [ 'csv', "foo\nbar", "\"foo\nbar\"" ],
             'tex special chars' => [ 'tex', 'A$B"', 'A\textdollar B"' ],
             'tex allow null' => [ 'tex', null, '' ],
             'csv allow null' => [ 'csv', null, '' ],
