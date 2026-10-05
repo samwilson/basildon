@@ -24,7 +24,6 @@ use function join;
 use function memory_get_peak_usage;
 use function microtime;
 use function round;
-use function strlen;
 use function strpos;
 use function substr;
 
@@ -133,7 +132,7 @@ final class BuildCommand extends CommandBase
         $files->files()
             ->in($dir . '/content')
             ->notName('*' . $site->getExt());
-        $this->copyFilesToOutput($dir . '/content', $dir . '/output', $files);
+        $this->copyFilesToOutput($dir . '/output', $files);
 
         // Copy all assets.
         $assetsDir = $dir . '/assets';
@@ -141,7 +140,7 @@ final class BuildCommand extends CommandBase
             $assets = new Finder();
             $assets->files()
                 ->in($assetsDir);
-            $this->copyFilesToOutput($assetsDir, $dir . '/output', $assets);
+            $this->copyFilesToOutput($dir . '/output', $assets);
         }
 
         // Report build details.
@@ -165,17 +164,17 @@ final class BuildCommand extends CommandBase
     }
 
     /**
-     * @param string $inDir Full filesystem path of the source directory, with no trailing slash.
      * @param string $outDir Full filesystem path of the destination directory, with no trailing slash.
      * @param Finder $files The files to copy.
      */
-    private function copyFilesToOutput(string $inDir, string $outDir, Finder $files): void
+    private function copyFilesToOutput(string $outDir, Finder $files): void
     {
         foreach ($files as $file) {
-            $fileRelativePath = substr($file->getRealPath(), strlen($inDir));
+            $fileRelativePath = '/' . $file->getRelativePathname();
+            $target = $outDir . $fileRelativePath;
             self::writeln('Copying file: ' . $fileRelativePath);
-            Util::mkdir(dirname($outDir . $fileRelativePath));
-            copy($file->getRealPath(), $outDir . $fileRelativePath);
+            Util::mkdir(dirname($target));
+            copy($file->getRealPath(), $target);
         }
     }
 }
