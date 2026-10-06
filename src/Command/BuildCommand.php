@@ -132,7 +132,7 @@ final class BuildCommand extends CommandBase
         $files->files()
             ->in($dir . '/content')
             ->notName('*' . $site->getExt());
-        $this->copyFilesToOutput($dir . '/output', $files);
+        $this->copyFilesToOutput($files, $dir . '/output');
 
         // Copy all assets.
         $assetsDir = $dir . '/assets';
@@ -140,7 +140,7 @@ final class BuildCommand extends CommandBase
             $assets = new Finder();
             $assets->files()
                 ->in($assetsDir);
-            $this->copyFilesToOutput($dir . '/output', $assets);
+            $this->copyFilesToOutput($assets, $dir . '/output');
         }
 
         // Report build details.
@@ -164,10 +164,10 @@ final class BuildCommand extends CommandBase
     }
 
     /**
-     * @param string $outDir Full filesystem path of the destination directory, with no trailing slash.
      * @param Finder $files The files to copy.
+     * @param string $outDir Full filesystem path of the destination directory, with no trailing slash.
      */
-    private function copyFilesToOutput(string $outDir, Finder $files): void
+    private function copyFilesToOutput(Finder $files, string $outDir): void
     {
         foreach ($files as $file) {
             $fileRelativePath = '/' . $file->getRelativePathname();
