@@ -172,15 +172,25 @@ final class Page
         if (isset($hyphenMatches[1])) {
             $hyphenCount = strlen($hyphenMatches[1]);
             // Find the next occurrence of the same number of hyphens starting a line.
-            $frontmatterClosePos = strpos($contents, "\n" . $hyphenMatches[1], $hyphenCount) + 1;
-            $frontmatterData = trim(substr($contents, $hyphenCount, $frontmatterClosePos - $hyphenCount));
-            try {
-                $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
-            } catch (Throwable $throwable) {
-                CommandBase::writeln(
-                    'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage(),
-                );
+            $frontmatterClosePos = strpos($contents, "\n" . $hyphenMatches[1], $hyphenCount);
+            if ($frontmatterClosePos === false) {
+                // No closing hyphens found.
+                CommandBase::writeln('No frontmatter close found in ' . $this->getId());
                 $parsedMetadata = $defaultMetadata;
+                $hyphenCount = 0;
+                $frontmatterClosePos = 0;
+            } else {
+                // Add one to the closing hyphens' position, to account for their initial newline.
+                $frontmatterClosePos++;
+                $frontmatterData = trim(substr($contents, $hyphenCount, $frontmatterClosePos - $hyphenCount));
+                try {
+                    $parsedMetadata = Yaml::parse($frontmatterData, Yaml::PARSE_DATETIME);
+                } catch (Throwable $throwable) {
+                    CommandBase::writeln(
+                        'Error reading metadata from ' . $this->getId() . "\n> " . $throwable->getMessage(),
+                    );
+                    $parsedMetadata = $defaultMetadata;
+                }
             }
             $metadata = array_merge($defaultMetadata, $parsedMetadata ?? []);
             $body = substr($contents, $frontmatterClosePos + $hyphenCount);

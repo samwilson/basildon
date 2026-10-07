@@ -178,6 +178,12 @@ final class PageTest extends TestCase
                 ['template' => 'index', 'title' => 'One---Two'],
                 '',
             ],
+            'Opening but no closing frontmatter hyphens' => [
+                "---\ntemplate: index\ntitle: Lorem\n\nThis is the body?",
+                ['template' => 'index'],
+                // Whole thing becomes the body.
+                "---\ntemplate: index\ntitle: Lorem\n\nThis is the body?",
+            ],
         ];
     }
 }

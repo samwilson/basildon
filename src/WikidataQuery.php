@@ -40,10 +40,10 @@ final class WikidataQuery
         $query = urlencode($this->query);
         $url = 'https://' . $this->queryService . '/bigdata/namespace/wdq/sparql?format=json&query=' . $query;
         $response = $this->client->request('GET', $url);
-        $json = json_decode($response->getBody()->getContents() ?? '', true);
+        $json = json_decode($response->getBody()->getContents(), true);
         $out = [];
         foreach ($json['results']['bindings'] ?? [] as $data) {
-            $out[] = array_map(static fn ($datum) => $datum['value'], $data);
+            $out[] = array_map(static fn (array $datum): string => $datum['value'], $data);
         }
 
         return $out;
