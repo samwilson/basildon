@@ -38,7 +38,7 @@ abstract class CommandBase extends Command
     protected function getSite(InputInterface $input): ?Site
     {
         $dir = realpath($input->getArgument('dir'));
-        if (!$dir || !is_dir($dir)) {
+        if ($dir === false || !is_dir($dir)) {
             if (self::$io instanceof SymfonyStyle) {
                 self::$io->error('Directory not found: ' . $input->getArgument('dir'));
             }

@@ -153,11 +153,15 @@ final class BuildCommand extends CommandBase
         $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
         $outputSizeCmd->run();
         $outputSize = $outputSizeCmd->getOutput();
+        $outputEnd = strpos($outputSize, "\t");
+        if ($outputEnd !== false) {
+            $outputSize = substr($outputSize, 0, $outputEnd);
+        }
         self::$io->success([
             'Site output to ' . $outDir,
             'Memory usage: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MiB',
             'Total time: ' . $this->getTimeElapsed($timeStart),
-            'Output size: ' . substr($outputSize, 0, strpos($outputSize, "\t")),
+            'Output size: ' . $outputSize,
         ]);
 
         return Command::SUCCESS;

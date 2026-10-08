@@ -133,7 +133,7 @@ final class PageTest extends TestCase
     }
 
     /**
-     * @return mixed[][]
+     * @return array<array{string,array<string>,string}>
      */
     public static function provideWriting(): array
     {

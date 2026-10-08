@@ -126,7 +126,7 @@ final class Page
     /**
      * Get a file's metadata.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function getMetadata(): array
     {
