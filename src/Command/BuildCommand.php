@@ -24,7 +24,6 @@ use function join;
 use function memory_get_peak_usage;
 use function microtime;
 use function round;
-use function strlen;
 use function strpos;
 use function substr;
 
@@ -133,7 +132,7 @@ final class BuildCommand extends CommandBase
         $files->files()
             ->in($dir . '/content')
             ->notName('*' . $site->getExt());
-        $this->copyFilesToOutput($dir . '/content', $dir . '/output', $files);
+        $this->copyFilesToOutput($files, $dir . '/output');
 
         // Copy all assets.
         $assetsDir = $dir . '/assets';
@@ -141,7 +140,7 @@ final class BuildCommand extends CommandBase
             $assets = new Finder();
             $assets->files()
                 ->in($assetsDir);
-            $this->copyFilesToOutput($assetsDir, $dir . '/output', $assets);
+            $this->copyFilesToOutput($assets, $dir . '/output');
         }
 
         // Report build details.
@@ -154,28 +153,32 @@ final class BuildCommand extends CommandBase
         $outputSizeCmd = new Process(['du', '-h', '-s', $outDir]);
         $outputSizeCmd->run();
         $outputSize = $outputSizeCmd->getOutput();
+        $outputEnd = strpos($outputSize, "\t");
+        if ($outputEnd !== false) {
+            $outputSize = substr($outputSize, 0, $outputEnd);
+        }
         self::$io->success([
             'Site output to ' . $outDir,
             'Memory usage: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MiB',
             'Total time: ' . $this->getTimeElapsed($timeStart),
-            'Output size: ' . substr($outputSize, 0, strpos($outputSize, "\t")),
+            'Output size: ' . $outputSize,
         ]);
 
         return Command::SUCCESS;
     }
 
     /**
-     * @param string $inDir Full filesystem path of the source directory, with no trailing slash.
-     * @param string $outDir Full filesystem path of the destination directory, with no trailing slash.
      * @param Finder $files The files to copy.
+     * @param string $outDir Full filesystem path of the destination directory, with no trailing slash.
      */
-    private function copyFilesToOutput(string $inDir, string $outDir, Finder $files): void
+    private function copyFilesToOutput(Finder $files, string $outDir): void
     {
         foreach ($files as $file) {
-            $fileRelativePath = substr($file->getRealPath(), strlen($inDir));
+            $fileRelativePath = '/' . $file->getRelativePathname();
+            $target = $outDir . $fileRelativePath;
             self::writeln('Copying file: ' . $fileRelativePath);
-            Util::mkdir(dirname($outDir . $fileRelativePath));
-            copy($file->getRealPath(), $outDir . $fileRelativePath);
+            Util::mkdir(dirname($target));
+            copy($file->getRealPath(), $target);
         }
     }
 }

@@ -133,7 +133,7 @@ final class PageTest extends TestCase
     }
 
     /**
-     * @return mixed[][]
+     * @return array<array{string,array<string>,string}>
      */
     public static function provideWriting(): array
     {
@@ -177,6 +177,12 @@ final class PageTest extends TestCase
                 "---\ntemplate: index\ntitle: One---Two\n---\n",
                 ['template' => 'index', 'title' => 'One---Two'],
                 '',
+            ],
+            'Opening but no closing frontmatter hyphens' => [
+                "---\ntemplate: index\ntitle: Lorem\n\nThis is the body?",
+                ['template' => 'index'],
+                // Whole thing becomes the body.
+                "---\ntemplate: index\ntitle: Lorem\n\nThis is the body?",
             ],
         ];
     }

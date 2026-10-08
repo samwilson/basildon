@@ -63,7 +63,7 @@ final class Database
         $keys = array_values(array_unique(array_filter(array_map('strtolower', $keys))));
         $this->keys = $keys;
 
-        return $this->keys ?? [];
+        return $this->keys;
     }
 
     public function processSite(Site $site): void
@@ -100,11 +100,11 @@ final class Database
     }
 
     /**
-     * @param string[] $params
+     * @param mixed[] $params
      */
     public function query(string $sql, array $params = []): PDOStatement
     {
-        if (is_array($params) && count($params) > 0) {
+        if (count($params) > 0) {
             $stmt = self::$pdo->prepare($sql);
             foreach ($params as $placeholder => $value) {
                 if (is_bool($value)) {
