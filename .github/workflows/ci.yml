@@ -42,6 +42,10 @@ jobs:
         composer test
         ./bin/basildon build docs/
 
+    - name: Psalm
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.php == '8.4' }}
+      run: vendor/bin/psalm --php-version=8.5
+
     - name: Docker build
       uses: docker/build-push-action@v6
       if: ${{ matrix.os == 'ubuntu-latest' && matrix.php == '8.4' }}

@@ -3,6 +3,7 @@
     "description": "A static site generator.",
     "license": "GPL-3.0-or-later",
     "require": {
+        "php": ">=8.2.4",
         "ext-json": "*",
         "ext-pdo": "*",
         "ext-simplexml": "*",
@@ -69,8 +70,7 @@
             "phpcs -s",
             "@putenv XDEBUG_MODE=coverage",
             "phpunit --display-all-issues",
-            "phan --allow-polyfill-parser",
-            "psalm"
+            "phan --allow-polyfill-parser"
         ]
     }
 }
