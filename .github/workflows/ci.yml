@@ -44,7 +44,7 @@ jobs:
 
     - name: Psalm
       if: ${{ matrix.os == 'ubuntu-latest' && matrix.php == '8.4' }}
-      run: vendor/bin/psalm --php-version=8.5
+      run: vendor/bin/psalm
 
     - name: Docker build
       uses: docker/build-push-action@v6
