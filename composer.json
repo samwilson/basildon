@@ -14,7 +14,7 @@
         "psr/simple-cache": "^3.0",
         "samwilson/commonmark-latex": "^1",
         "samwilson/commonmark-shortcodes": "^1",
-        "samwilson/phpflickr": "^5",
+        "samwilson/phpflickr": "^6",
         "simplepie/simplepie": "^1.8",
         "symfony/cache": "^6.0",
         "symfony/console": "^6 || ^7 || ^8",

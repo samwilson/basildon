@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14a54892b50fc3e75b2cdc0bd5360d65",
+    "content-hash": "444922e3a063efc3dd8c53b4e8a5504f",
     "packages": [
         {
             "name": "addwiki/addwiki",
@@ -2486,16 +2486,16 @@
         },
         {
             "name": "samwilson/phpflickr",
-            "version": "5.1.0",
+            "version": "6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/samwilson/phpflickr.git",
-                "reference": "4f98fde0182c4be065ff1bb477d821f36350a74e"
+                "reference": "30cde17a8f98a10325e1abc1dd3f345ae14cb341"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samwilson/phpflickr/zipball/4f98fde0182c4be065ff1bb477d821f36350a74e",
-                "reference": "4f98fde0182c4be065ff1bb477d821f36350a74e",
+                "url": "https://api.github.com/repos/samwilson/phpflickr/zipball/30cde17a8f98a10325e1abc1dd3f345ae14cb341",
+                "reference": "30cde17a8f98a10325e1abc1dd3f345ae14cb341",
                 "shasum": ""
             },
             "require": {
@@ -2504,7 +2504,7 @@
                 "ext-json": "*",
                 "ext-libxml": "*",
                 "ext-simplexml": "*",
-                "php": "^7.3 || ^8.0",
+                "php": "^8.2",
                 "psr/cache": "^1.0|^2.0|^3.0"
             },
             "require-dev": {
@@ -2513,8 +2513,8 @@
                 "php-parallel-lint/php-parallel-lint": "^1.3",
                 "phpunit/phpunit": "^9.5",
                 "squizlabs/php_codesniffer": "^3.0",
-                "symfony/cache": "^5.4",
-                "symfony/var-dumper": "^5.4"
+                "symfony/cache": "^5.4|^6.4|^7.0",
+                "symfony/var-dumper": "^5.4|^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -2529,9 +2529,9 @@
             "description": "A PHP wrapper for the Flickr API, including Oauth.",
             "support": {
                 "issues": "https://github.com/samwilson/phpflickr/issues",
-                "source": "https://github.com/samwilson/phpflickr/tree/5.1.0"
+                "source": "https://github.com/samwilson/phpflickr/tree/6.0.2"
             },
-            "time": "2023-04-26T07:52:17+00:00"
+            "time": "2025-12-15T02:10:04+00:00"
         },
         {
             "name": "serialization/serialization",
@@ -9012,7 +9012,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -9022,9 +9022,9 @@
         "ext-simplexml": "*",
         "ext-sqlite3": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.2.4"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
