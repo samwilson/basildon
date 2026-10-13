@@ -61,7 +61,7 @@ final class Util
     public static function xmlToArray(string $xml): array
     {
         $json = json_encode((array) new SimpleXMLElement($xml));
-        if (!$json) {
+        if ($json === false) {
             throw new Exception('Unable to encode JSON based on XML: ' . substr($xml, 0, 300));
         }
         // Change the '@attributes' key to have an underscore, for easier use in Twig.

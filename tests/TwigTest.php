@@ -41,7 +41,7 @@ final class TwigTest extends TestCase
     }
 
     /**
-     * @return string[][]
+     * @return array<array{string, ?string, string}>
      */
     public static function provideEscape(): array
     {
@@ -129,7 +129,7 @@ final class TwigTest extends TestCase
     }
 
     /**
-     * @return mixed[][]
+     * @return array<array{DateTimeInterface|string,DateTimeZone|string,string}>
      */
     public static function provideDateCreate(): array
     {

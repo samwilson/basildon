@@ -58,7 +58,7 @@ final class Site
      */
     public function getPages(): array
     {
-        if ($this->pages) {
+        if ($this->pages !== null) {
             return $this->pages;
         }
         $finder = new Finder();
@@ -138,8 +138,8 @@ final class Site
      */
     public function getExt(): string
     {
-        $ext = $this->getConfig()->ext ?? false;
-        if (!$ext) {
+        $ext = $this->getConfig()->ext ?? null;
+        if ($ext === null || $ext === '') {
             return '.md';
         }
 

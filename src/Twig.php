@@ -56,6 +56,7 @@ use function explode;
 use function file_exists;
 use function filesize;
 use function fopen;
+use function is_array;
 use function is_file;
 use function json_decode;
 use function md5;
@@ -142,7 +143,7 @@ final class Twig extends AbstractExtension
 
     public function filterMarkdownToHtml(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
-        if (!$input) {
+        if ($input === null || $input === '') {
             return '';
         }
         $environment = $this->getCommonMarkEnvironment('html', $headingOffset, $pageId);
@@ -154,7 +155,7 @@ final class Twig extends AbstractExtension
 
     public function filterMarkdownToHtmlInline(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
-        if (!$input) {
+        if ($input === null || $input === '') {
             return '';
         }
         $environment = $this->getCommonMarkEnvironment('html', $headingOffset, $pageId);
@@ -166,7 +167,7 @@ final class Twig extends AbstractExtension
 
     public function filterMarkdownToLatex(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
-        if (!$input) {
+        if ($input === null || $input === '') {
             return '';
         }
         $environment = $this->getCommonMarkEnvironment('tex', $headingOffset, $pageId);
@@ -204,7 +205,7 @@ final class Twig extends AbstractExtension
 
     public function filterMarkdownToLatexInline(?string $input, int $headingOffset = 0, ?string $pageId = null): string
     {
-        if (!$input) {
+        if ($input === null || $input === '') {
             return '';
         }
         $environment = $this->getCommonMarkEnvironment('tex', $headingOffset, $pageId);
@@ -224,8 +225,11 @@ final class Twig extends AbstractExtension
         string|DateTimeInterface $dateTime,
         string|DateTimeZone $timezone = 'Z',
     ): DateTime {
+        if ($timezone === '') {
+            $timezone = 'Z';
+        }
         if (!$timezone instanceof DateTimeZone) {
-            $timezone = new DateTimeZone((string) $timezone);
+            $timezone = new DateTimeZone($timezone);
         }
         if ($dateTime instanceof DateTimeImmutable) {
             $dateTime = DateTime::createFromImmutable($dateTime);
@@ -256,7 +260,7 @@ final class Twig extends AbstractExtension
         $cacheItem = $cache->getItem($hash);
         if (!$cacheItem->isHit()) {
             $typeResponse = $this->site->getHttpClient()->head($url)->getHeader('Content-Type')[0] ?? null;
-            if ($typeResponse) {
+            if ($typeResponse !== null) {
                 $extension = (new MimeTypes())->getExtensions($typeResponse)[0] ?? null;
             }
             if (!isset($extension)) {
@@ -278,7 +282,11 @@ final class Twig extends AbstractExtension
             $outputFilepathTmp = $outputFilepath . '.part';
             try {
                 $this->site->getHttpClient()->get($url, [RequestOptions::SINK => fopen($outputFilepathTmp, 'w+')]);
-                if (!file_exists($outputFilepathTmp) || !filesize($outputFilepathTmp)) {
+                if (
+                    !file_exists($outputFilepathTmp)
+                    || filesize($outputFilepathTmp) === false
+                    || filesize($outputFilepathTmp) === 0
+                ) {
                     throw new Exception('File not downloaded');
                 }
                 // Rename the temporary file into place.
@@ -383,7 +391,7 @@ final class Twig extends AbstractExtension
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function functionFlickr(string $photoId): array
     {
@@ -429,7 +437,8 @@ final class Twig extends AbstractExtension
     public function functionCommons(string $filename, ?int $pageNum = null, ?int $width = 960): array
     {
         $cacheKeyVersion = 2;
-        $cacheKey = md5("commons - $filename - $pageNum - $width - $cacheKeyVersion");
+        $urlWidth = $width > 0 ? $width : 960;
+        $cacheKey = md5("commons - $filename - $pageNum - $urlWidth - $cacheKeyVersion");
         if (isset(self::$data['commons'][$cacheKey])) {
             return self::$data['commons'][$cacheKey];
         }
@@ -439,7 +448,6 @@ final class Twig extends AbstractExtension
             return $cacheItem->get();
         }
         $api = $this->site->getWikimediaApi('https://commons.wikimedia.org/w/api.php');
-        $urlWidth = $width ?: 960;
         $params = [
             'prop' => 'imageinfo',
             'iiprop' => 'url',
@@ -447,7 +455,7 @@ final class Twig extends AbstractExtension
             'titles' => 'File:' . $filename,
             'redirects' => true,
         ];
-        if ($pageNum) {
+        if ($pageNum !== null) {
             $params['iiurlparam'] = "page$pageNum-{$urlWidth}px";
         }
         $fileInfoResponse = $api->request(ActionRequest::simpleGet('query', $params));
@@ -482,7 +490,7 @@ final class Twig extends AbstractExtension
      */
     public function functionGetJson(?string $url): array
     {
-        if (!$url) {
+        if ($url === null || $url === '') {
             return [];
         }
         $json = json_decode($this->getJsonOrXml('json', $url), true);
@@ -498,7 +506,7 @@ final class Twig extends AbstractExtension
      */
     public function functionGetXml(?string $url): array
     {
-        if (!$url) {
+        if ($url === null || $url === '') {
             return [];
         }
 
@@ -512,6 +520,9 @@ final class Twig extends AbstractExtension
      */
     public function functionGetFeeds(string|array $feedUrls): ?array
     {
+        if (!is_array($feedUrls)) {
+            $feedUrls = [$feedUrls];
+        }
         $simplePies = [];
         foreach ($feedUrls as $feedUrl) {
             $simplePie = new SimplePie();
@@ -639,7 +650,7 @@ final class Twig extends AbstractExtension
                 $shortcodeTemplate,
                 $format,
                 $page,
-            ) {
+            ): string {
                 return $shortcodeTemplate->renderSimple($format, $page, ['shortcode' => $shortcode]);
             };
         }

@@ -24,7 +24,7 @@ final class BuildCommandTest extends TestCase
     }
 
     /**
-     * @return array<array<int,string>>
+     * @return array<array{int,string}>
      */
     public static function provideTimeElapsed(): array
     {
